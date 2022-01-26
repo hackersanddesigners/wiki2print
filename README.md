@@ -18,10 +18,18 @@ On the server, there are some other interwoven running processes including media
 ## Installation
 
 ### Requirements
-- A server running Debian 10+ (or other similar distro) 
+- A server running Debian (or other similar distro) 
 - PHP version 7.1+ 
 - Python3 (or at least configurable in a virtual enviroment)
 - Apache2 or Nginx (we are using nginx)
+
+Make sure you have write, read and execute persmissions at the server's web-accessible directories.
+
+Start by cloning this repository into a web-accessible directory of your liking.
+```sh
+git clone https://github.com/hackersanddesigners.nl/wiki2print.git /var/www/wiki2print 
+# your path could be different, we chose this one, remember it for later
+```
 
 Please follow the individual installation instructions for each of the [Wiki](wiki) and the [Preview](preview) parts of this project in their respective sub-directories and return to this section for their overlaps.
 
