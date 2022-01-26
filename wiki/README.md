@@ -2,7 +2,10 @@
 
 This document will take you through most of the installation steps for Mediawiki as well as highlight some of the context-specific configurations and extra hacks that makes mediawiki work for our wiki-to-print workflow.
 
-**Important note**: This is not the location to install mediawiki. This sub-directory is mainly empty save for some reference files. This is because it is recommended to install and configure mediawiki directly on your server, rather than including it in your development/versioning workflow.
+**Important note**: This is not the location to install mediawiki. This sub-directory is mainly empty save for some reference files. This is because it is recommended to install and configure mediawiki directly on your server, rather than including it in your development/versioning workflow. For instance, our `.gitignore` file looks like this:
+```sh
+wiki/mediawiki
+```
 
 # Installation
 
@@ -22,7 +25,7 @@ There are [several ways of installing mediawiki](https://www.mediawiki.org/wiki/
 
 Navigate to this folder in your working directory:
 ```sh
-cd /var/www/wiki2print/
+cd /var/www/wiki2print/wiki
 ```
 Download the [latest stable version of mediawiki](https://www.mediawiki.org/wiki/Download):
 ```sh
