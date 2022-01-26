@@ -63,7 +63,7 @@ $wgSMTP = [
   'port'     => 465,
   'auth'     => true,
   'username' => 'karl@hackersanddesigners.nl', // user of the email account
-  'password' => 'flick-granular-spiritual'     // pass of the email account
+  'password' => '******************'           // # must be an actual password :)
 ];
 
 $wgEnotifUserTalk      = true; # UPO
@@ -76,7 +76,7 @@ $wgDBtype     = "mysql";
 $wgDBserver   = "localhost";
 $wgDBname     = "makingmatters";
 $wgDBuser     = "mm-wiki";
-$wgDBpassword = "mijnfuurtje";
+$wgDBpassword = "***********"; # must be an actual password :)
 
 # MySQL specific settings
 $wgDBprefix = "";

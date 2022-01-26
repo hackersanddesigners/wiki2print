@@ -46,3 +46,13 @@ ls /var/www/wiki2print/wiki
 LocalSettings.example.php
 README.md
 mediawiki
+```
+Please note the nested structure here: `mediawiki` is inside our own `wiki` but is excluded from our git workflow (using our top level `.gitignore` file).
+
+### Creating a database
+
+[From the mediawiki installation manual](https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki#Create_a_database): "If you already have a database server and know the root password for it, the MediaWiki installation script can create a new database for you... If you don't know the root password, for example if you are on a hosted server, you will have to create a new database now."
+
+We already have a MariaDB database server installed and went ahead with the installation script. Note that this isn't the only mediawiki installed on our server, so we took care to name the databases differently.
+
+### Web installer
