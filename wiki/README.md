@@ -55,4 +55,14 @@ Please note the nested structure here: `mediawiki` is inside our own `wiki` but 
 
 We already have a MariaDB database server installed and went ahead with the installation script. Note that this isn't the only mediawiki installed on our server, so we took care to name the databases differently.
 
-### Web installer
+### Web Installation
+
+Before heading over to the Web Installation script, make sure you can access the files you just put on the server through a web-browser.
+
+### User creation
+
+### Namespaces
+
+### Theme
+
+### Extra buttons!
