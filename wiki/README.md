@@ -111,26 +111,26 @@ Email and Skin settings: We leave these with their default values for now as we 
 
 We enabled the following options for the rest of the settings:
 ```
-- CiteThisPage
-- Interwiki
-- Nuke
-- Renameuser
-- ReplaceText
-- CodeEditor            (important)
-- VisualEditor          (important)
-- WikiEditor            (important)
-- CategoryTree
-- Cite                  (important if your publications use citations)
-- SyntaxHighlight_GeSHi (important)
-- TemplateData
-- PdfHandler             
-- PageImages            (important if you want images)
-- Enable file uploads   (important if you want images)
++ CiteThisPage
++ Interwiki
++ Nuke
++ Renameuser
++ ReplaceText
++ CodeEditor            (important)
++ VisualEditor          (important)
++ WikiEditor            (important)
++ CategoryTree
++ Cite                  (important if your publications use citations)
++ SyntaxHighlight_GeSHi (important)
++ TemplateData
++ PdfHandler             
++ PageImages            (important if you want images)
++ Enable file uploads   (important if you want images)
 ```
 
 Click 'continue' and wait for the installation to finish. After this you will be prompted to download the LocalSettings.php file. Do so and then re-upload it to the following directory on your server:
 ```
-/var/www/wiki2print/wiki/mediawiki
+/var/www/wiki2print/wiki/mediawiki/
 ```
 
 You will then be able to access your wiki from:
@@ -138,11 +138,11 @@ You will then be able to access your wiki from:
 YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Main_Page
 ```
 
-In the following sections we work with this file rigorously and have attached [our own cofiguration as an example](LocalSettings.example.php).
+In the following sections we work with the LocalSettings.php file rigorously and have attached [our own cofiguration as an example](LocalSettings.example.php).
 
 
 
-### User creation
+### Email and User creation
 
 ### Namespaces
 
