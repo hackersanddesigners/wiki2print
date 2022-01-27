@@ -13,7 +13,7 @@ Essentially there are two sides of this project:
 1. [Wiki](wiki): Here, an active instance of Mediawiki facilitates the co-creation and management of publications under two associated namespaces: "Publishing" for content (written in wikitext) and "PublishingCSS" for styles (written in CSS).  
 2. [Preview](preview): Here, a web-interface previews publications created in the wiki in HTML translated through Jinja templates, as well as PDF, translated through PagedJS. This interface also allows a closer inspection of the publications' CSS styles.
 
-On the server, there are some other interwoven running processes including mediawiki's resepective MariaDB database, a python script serving an API to handle requests for creating and updating files, and several python helper scripts mediating the translations of languages across interfaces, converting images to appropriate formats, and aiding the creation of miscelleneous styles.
+On the server, there are some other interwoven running processes including a MariaDB database, a python script serving an API to handle requests for creating and updating files, and several python helper scripts mediating the translations of languages across interfaces, converting images to appropriate formats, and aiding in the creation of miscelleneous styles.
 
 ## Installation
 
@@ -34,6 +34,13 @@ git clone https://github.com/hackersanddesigners.nl/wiki2print.git /var/www/wiki
 Please follow the individual installation instructions for each of the [Wiki](wiki) and the [Preview](preview) parts of this project in their respective sub-directories and return to this section for their overlaps.
 
 ### Configurations
+
+After setting up both sides of the project, we configured nginx to handle URLs in this way:
+```sh
+/      =>  localhost:5522                 # web interface
+/wiki  =>  /var/www/wiki2print/mediawiki  # wiki interface
+```
+See [example nignx configuration](wiki2print.nginx)
 
 #### Nginx
 #### Namespacing

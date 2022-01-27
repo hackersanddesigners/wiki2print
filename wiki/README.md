@@ -2,10 +2,11 @@
 
 This document will take you through most of the installation steps for Mediawiki as well as highlight some of the context-specific configurations and extra hacks that makes mediawiki work for our wiki-to-print workflow.
 
-**Important note**: This is not the location to install mediawiki. This sub-directory is mainly empty save for some reference files. This is because it is recommended to install and configure mediawiki directly on your server, rather than including it in your development/versioning workflow. For instance, our `.gitignore` file looks like this:
+**Important note**: This sub-directory is mainly empty save for some reference files. This is because it is recommended to install and configure mediawiki directly on your server, rather than including it in your development/versioning workflow. For instance, our `.gitignore` file looks like this:
 ```sh
 wiki/mediawiki
 ```
+A folder dedicated to mediawiki installation files will be created directly on the server and excluded from our git workflow.
 
 # Installation
 
@@ -21,6 +22,8 @@ There are [several ways of installing mediawiki](https://www.mediawiki.org/wiki/
 | MariaDB      | 10.3.31 |
 | Nginx        |  1.14.2 |
 
+Make sure you have already cloned this repository into a web-accessible folder on your remote server.
+
 ## Download
 
 Navigate to this folder in your working directory:
@@ -31,7 +34,7 @@ Download the [latest stable version of mediawiki](https://www.mediawiki.org/wiki
 ```sh
 wget https://releases.wikimedia.org/mediawiki/1.37/mediawiki-1.37.1.tar.gz
 ```
-Extract the  mediawiki files into the directory w 
+Extract the  mediawiki files.
 ```sh
 tar -xf mediawiki-*.tar.gz 
 ```
@@ -58,6 +61,8 @@ We already have a MariaDB database server installed and went ahead with the inst
 ### Web Installation
 
 Before heading over to the Web Installation script, make sure you can access the files you just put on the server through a web-browser.
+
+We have attached an [NGINX example configuration](/wiki2print.nginx.example) in the root of this workinng directory. Please refer to [this section](/README.md#nginx) for details on this configuration.
 
 ### User creation
 

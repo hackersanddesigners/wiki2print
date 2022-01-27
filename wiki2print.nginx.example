@@ -1,0 +1,62 @@
+server {
+    server_name wiki2print.hackersanddesigners.nl;
+    root /var/www/wiki2print;
+
+    index index.php index.html index.htm index.nginx-debian.html;
+
+    client_max_body_size 5m;
+    client_body_timeout 60;
+
+    location / {
+        try_files $uri $uri/ =404;
+   }
+
+    location /wiki {
+        alias /var/www/wiki2print/wiki/mediawiki;
+        index index.php index.html;
+            if (-f $request_filename) {
+                break;
+            }
+           rewrite ^/(.*)$ /wiki/index.php?title=$1&$args;
+    }
+
+    location ~ /wiki/(.+)\.php(/|$) {
+        set $script $uri;
+            if ($uri ~ "/wiki/(.+\.php)(/|$)") {
+                set $script $1;
+        }
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        include fastcgi_params;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        fastcgi_param  SCRIPT_FILENAME /var/www/wiki2print/wiki/mediawiki/$script;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+#    listen 443 ssl; # managed by Certbot
+#    ssl_certificate /etc/letsencrypt/live/stats.hackersanddesigners.nl/fullchain.pem; # managed by Certbot
+#    ssl_certificate_key /etc/letsencrypt/live/stats.hackersanddesigners.nl/privkey.pem; # managed by Certbot
+#    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+#    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+#server {
+   # if ($host = wiki.hackersanddesigners.nl) {
+   #     return 301 https://$host$request_uri;
+   # } # managed by Certbot
+
+
+  #  server_name wiki.hackersanddesigners.nl;
+  #  listen 80;
+  #  return 404; # managed by Certbot
+
+
+#}
