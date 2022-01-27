@@ -13,7 +13,7 @@ A folder dedicated to mediawiki installation files will be created directly on t
 There are [several ways of installing mediawiki](https://www.mediawiki.org/wiki/Manual:Installation_guide#Main-installation-guide), and this is the way that worked for our environment. We followed [these steps](https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki) and will highlight them here.
 
 ## Requirements
-*(software and os versions are as we had them at the time of installation)*
+*(software and OS versions are as we had them at the time of installation)*
 | Software     | Version |
 |--------------|:-------:|
 | Debian Linux |   6.3.0 |
@@ -53,7 +53,7 @@ mediawiki
 ```
 Please note the nested structure here: `mediawiki` is inside our own `wiki` but is excluded from our git workflow (using our top level `.gitignore` file).
 
-### Creating a database
+## Creating a database
 
 [From the mediawiki installation manual](https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki#Create_a_database): "If you already have a database server and know the root password for it, the MediaWiki installation script can create a new database for you... If you don't know the root password, for example if you are on a hosted server, you will have to create a new database now."
 
@@ -72,7 +72,7 @@ GRANT ALL PRIVILEGES ON wiki2printDB.* TO 'wiki2printUSER'@'localhost' WITH GRAN
 quit
 ```
 
-### Web Installation
+## Web Installation
 
 Before heading over to the Web Installation script, make sure you can access the files you just put on the server through a web-browser. We have attached an [NGINX example configuration](/wiki2print.nginx.example) in the root of this workinng directory. Please refer to [this section](/README.md#nginx) for details on this configuration.
 
@@ -83,7 +83,7 @@ YOUR-WIKI2PDF-DDMAIN/wiki/mw-config/index.php
 
 We will not go through every step of the installation since most of it is self-explanatory and [well-documented](https://www.mediawiki.org/wiki/Manual:Config_script). We highlight the parts relevant to this project.
 
-#### Database Settings
+### Database Settings
 
 For the database settings we used the following (based on the database we just created):
 ```
@@ -95,11 +95,11 @@ Database username : wiki2printUSER
 Database password : <YOUR-MYSQL-DATABASE-wiki2printUSER-PASSWORD>
 ```
 
-#### Wiki Name and Admin Account
+### Wiki Name and Admin Account
 
 Proceed with naming your wiki and creating your first administrator-user. On this page, make sure to choose 'Ask me more questions' at the bottom.
 
-#### User Rights Profile, License, Email and Skins
+### User Rights Profile, License, Email and Skins
 
 We chose for the 'Authorized editors only' user rights profile, but this is based on personal preference. Note: choosing 'Private wiki' will make it more difficult to connect this wiki to other interfaces of the project.
 
@@ -138,7 +138,7 @@ YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Main_Page
 
 In the following sections we work with the LocalSettings.php file rigorously and have attached [our own cofiguration as an example](LocalSettings.example.php).
 
-### Email and User creation (optional)
+## Email and User creation (optional)
 
 It is reccomended to set-up an out-bound email address for your wiki, especially if you plan on using settings and extensions that require user authentication or email confirmation.
 
@@ -253,7 +253,7 @@ Your user and other bureacrats can now vist the following link and **remove/merg
 YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Special:UserMerge
 ```
 
-### Namespaces
+## Namespaces
 
 [Namespaces](https://www.mediawiki.org/wiki/Help:Namespaces) are mediawiki's way of thematically organizing pages into functional groups. There are default namespaces such as User (2), User Talk (3), File (6), File Talk (7), Help (12) and Help Talk (13).
 
@@ -302,8 +302,35 @@ $wgVisualEditorAvailableNamespaces = [
 ];
 ```
 
-### Theme
+From here on a publication can be created or accessed with the following URLs.
+```
+Content Page -> LINK-TO-WIKI2PRINT/wiki/index.php?title=Publishing:PUBLICATION_NAME
+Styles Page  -> LINK-TO-WIKI2PRINT/wiki/index.php?title=PublishingCSS:PUBLICATION_NAME
+```
 
-### Extra buttons!
+## User Interface Sugar 
+
+At this point the wiki part of the wiki2print workflow is ready, so the rest of these configurations are optional.
+
+### Skins 
+
+We went for the mediawiki [Citizen](https://www.mediawiki.org/wiki/Skin:Citizen) skin:
+```sh
+cd /var/www/wiki2print/wiki/mediawiki/skinss
+wget https://github.com/StarCitizenTools/mediawiki-skins-Citizen/archive/main.zip
+unzip main.zip
+mv mediawiki-skins-Citizen-main Citizen
+```
+And LocalSettings.php
+```php
+# Custom skin
+
+wfLoadSkin( 'Citizen' );
+$wgDefaultSkin = "citizen";
+```
+
+### Extra Buttons
+
+
 
 ### Main Page
