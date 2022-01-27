@@ -8,7 +8,7 @@ wiki/mediawiki
 ```
 A folder dedicated to mediawiki installation files will be created directly on the server and excluded from our git workflow.
 
-{:toc}
+ * TOC {:toc}
 
 # Installation
 
