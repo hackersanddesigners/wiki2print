@@ -1,5 +1,9 @@
 # H&D Wiki-to-Print Publishing Workflow
 
+## To-do
+- update nginnx section and example file after final config
+- update localstettings exampel file after final config
+
 ## Introduction
 This H&D's take on the wiki-to-print workflow initially developed by the people at ConstantVZW, OSP, varia and titipi.
 
@@ -35,14 +39,17 @@ Please follow the individual installation instructions for each of the [Wiki](wi
 
 ### Configurations
 
+#### Nginx
+
 After setting up both sides of the project, we configured nginx to handle URLs in this way:
 ```sh
 /      =>  localhost:5522                 # web interface
 /wiki  =>  /var/www/wiki2print/mediawiki  # wiki interface
 ```
-See [example nignx configuration](wiki2print.nginx)
+See [example nignx configuration](wiki2print.nginx).
 
-#### Nginx
+It's recommended to generate an SSL certificate for this project as user-logins are part of it. We used [Certbot](https://certbot.eff.org) for this.
+
 #### Namespacing
 
 ## Usage
