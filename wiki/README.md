@@ -13,7 +13,7 @@ A folder dedicated to mediawiki installation files will be created directly on t
 There are [several ways of installing mediawiki](https://www.mediawiki.org/wiki/Manual:Installation_guide#Main-installation-guide), and this is the way that worked for our environment. We followed [these steps](https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki) and will highlight them here.
 
 ## Requirements
-*(software and os versions are as we had them on the installation date)*
+*(software and os versions are as we had them at the time of installation)*
 | Software     | Version |
 |--------------|:-------:|
 | Debian Linux |   6.3.0 |
