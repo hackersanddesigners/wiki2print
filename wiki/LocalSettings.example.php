@@ -176,10 +176,6 @@ wfLoadExtension( 'SyntaxHighlight_GeSHi' );
 wfLoadExtension( 'VisualEditor' );
 wfLoadExtension( 'WikiEditor' );
 
-$wgVisualEditorAvailableNamespaces = [
-  'Publishing' => true
-];
-
 # End of automatically generated settings.
 # Add more configuration options below.
 
@@ -208,5 +204,9 @@ define("NS_PublishingCSS", 3001);
 $wgExtraNamespaces[NS_PublishingCSS] = "PublishingCSS";
 $wgNamespacesWithSubpages[NS_PublishingCSS] = true;
 $wgNamespaceContentModels[NS_PublishingCSS] = CONTENT_MODEL_CSS;
+
+$wgVisualEditorAvailableNamespaces = [
+  'Publishing' => true
+];
 
 wfLoadExtension( 'SubPageList3' );

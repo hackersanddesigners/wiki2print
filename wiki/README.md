@@ -140,12 +140,121 @@ YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Main_Page
 
 In the following sections we work with the LocalSettings.php file rigorously and have attached [our own cofiguration as an example](LocalSettings.example.php).
 
+### Email and User creation (optional)
 
+It is reccomended to set-up an out-bound email address for your wiki, especially if you plan on using settings and extensions that require user authentication or email confirmation.
 
-### Email and User creation
+During our web-installation we opted for a 'Authorized editors only' user rights profile. This means that the wiki can be viewed publicly, but only authorized users can edit it. So from here, we can choose to manually create users, but since several people will be involved in co-producing and editing publications on our wiki, and multiple accounts would be created at different moments in time we decided to go for a gated public sign-up system whereby anyone can request an account, and a group of users, "Bureaucrats", have the permission to confirm or reject these requests.
+
+Before moving forward, we need to set up an email address that is dedicated to this wiki (or a pre-existing one is fine), and configure it to send emails from our wiki. 
+
+Navigate to your LocalSettings.php file (that you placed at the root of your mediawiki installation):
+```
+cd /var/www/wiki2print/wiki/mediawiki
+nano LocalSettings.php
+```
+and configure your email address with the necessary options and `SMTP` server information (that you can get from you email provider):
+```php
+$wgEnableEmail      = true;
+$wgEnableUserEmail  = true;
+
+$wgEmergencyContact = "karl@hackersanddesigners.nl"; ## use your own email address
+$wgPasswordSender   = "karl@hackersanddesigners.nl"; ## use your own email address
+$wgNoReplyAddress   = "karl@hackersanddesigners.nl"; ## use your own email address
+
+$wgSMTP = [
+  'host'     => 'ssl://smtp.migadu.com',       ## hostname of the email server
+  'IDHost'   => 'smtp.migadu.com',             ## these options could all
+  'port'     => 465,                           ## be different for you
+  'auth'     => true,                          ## especially these ones: 
+  'username' => 'karl@hackersanddesigners.nl', ## use your own email account
+  'password' => '***************************'  ## must the actual password :)
+];
+
+$wgEnotifUserTalk      = true; 
+$wgEnotifWatchlist     = true; 
+$wgEmailAuthentication = true;
+$wgEmailConfirmToEdit  = true;
+```
+To test that the sender email has been successfully set-up, go to the wiki interface, login with the admin account you just created, navigate to your preferences, and click "Confirm your email address". If you receive a confirmation email for your account, your sender email was successfully set-up. If you face errors, mediawiki has some [extensive documentation on this](https://www.mediawiki.org/wiki/Manual:$wgSMTP).
+
+If up to here everything went well, we continue with creating our gated public sign-up system with installing the wiki extension [ConfirmAccount](https://www.mediawiki.org/wiki/Extension:ConfirmAccount). From the extension's documentation:
+
+Download the extension and extract the files in a directory called `ConfirmAccount` in your `extensions` folder.
+```sh
+cd /var/www/wiki2print/wiki/mediawiki/extensions
+wget https://extdist.wmflabs.org/dist/extensions/ConfirmAccount-REL1_37-13f8827.tar.gz
+tar -xzf ConfirmAccount-REL1_37-13f8827.tar.gz -C .
+rm ConfirmAccount-REL1_37-13f8827.tar.gz  # optionally delete the tarball
+```
+Then, navigate back to your LocalSettings.php file and edit it to set the account creation settings to the following, if they are not like this already:
+```php
+$wgGroupPermissions['*']['createaccount'] = false; 
+$wgGroupPermissions['*']['edit'] = false;
+```
+then, at the end of the file, load and configure the extension:
+```php
+# End of automatically generated settings.
+# Add more configuration options below.
+
+# ConfirmAccount: requiring the approval of new accounts by a bureaucrat
+wfLoadExtension( 'ConfirmAccount' );
+
+$wgMakeUserPageFromBio            = false;
+$wgConfirmAccountRequestFormItems = [
+	'UserName'        => [ 'enabled' => true ],
+	'Biography'       => [ 'enabled' => false, 'minWords' => 50 ],
+ 	'AreasOfInterest' => [ 'enabled' => false ],
+ 	'CV'              => [ 'enabled' => false ],
+ 	'Notes'           => [ 'enabled' => true ],
+ 	'Links'           => [ 'enabled' => false ],
+	'TermsOfService'  => [ 'enabled' => true ],
+];
+$wgGroupPermissions['bureaucrat']['confirmaccount-notify'] = true; 
+```
+Finally, run mediawiki's update script which will automatically create the necessary database tables that this extension needs:
+```sh
+cd /var/www/wiki2print/wiki/mediawiki/maintenance
+php update.php
+```
+To test that this script works, logout of your admin user and you will see a link to 'Request account'. Navigate to the link and attempt to create a test account. You should recieve an email at the test account's email address confirming that you have a pending request for an account. 
+
+Log back in as your admin user, and navigate to:
+```
+YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Special:ConfirmAccounts
+```
+You will see 1 pending request from your test user. You can accept, hold, reject or mark this request as spam. 
+**Note**: By default, only users in the 'Bureaucrats' user group (such as yourself), will be able to access this special page to manage account requests. This can be configured for more groups in the extensio's settings but it will suffice for us.
+
+Let's look at how to manage users and user rights. You can navigate to this link to **list users and groups**:
+```
+YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Special:ListUsers
+```
+And as a bureaucrat, you can navigate to this link to **manage user rights**:
+```
+YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Special:UserRights
+```
+Here, you can move users in and out of user rights groups. It would be good at this point to have your collaborators create accounts and put a select few of them in the 'bureaucrats' group. From here on they can also manage account requests and user rights.
+
+While we are here, let's handle deleting unwanted users (like our test user(s)). We will install the extension [UserMerge](https://www.mediawiki.org/wiki/Extension:UserMerge). Download and extract the extenstion into the extension folder:
+```sh
+cd /var/www/wiki2print/wiki/mediawiki/extensions
+wget https://extdist.wmflabs.org/dist/extensions/UserMerge-REL1_37-614e434.tar.gz
+tar -xzf UserMerge-REL1_37-614e434.tar.gz -C .
+rm UserMerge-REL1_37-614e434.tar.gz # optionally delete the tarball
+```
+And load and configure it into your LocalSettings.php
+```php
+# UserMerge: merging ('deleting') users
+
+wfLoadExtension( 'UserMerge' );
+$wgGroupPermissions['bureaucrat']['usermerge'] = true;
+```
 
 ### Namespaces
 
 ### Theme
 
 ### Extra buttons!
+
+### Main Page
