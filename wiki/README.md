@@ -57,7 +57,7 @@ Please note the nested structure here: `mediawiki` is inside our own `wiki` but 
 
 [From the mediawiki installation manual](https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki#Create_a_database): "If you already have a database server and know the root password for it, the MediaWiki installation script can create a new database for you... If you don't know the root password, for example if you are on a hosted server, you will have to create a new database now."
 
-We already have a MariaDB database server installed; however, the web-installer won't have access to our database's root user, so we manually create a database and enter the information into the web-insataller later. Note that this isn't the only mediawiki installed on our server, so we took care to name the databases differently.
+We already have a MariaDB database server installed; however, the web-installer won't have access to our database's root user, so we manually create a database and enter the information into the web-installer later. Note that this isn't the only mediawiki installed on our server, so we took care to name the databases differently.
 
 First login to mysql as root:
 ```sh
@@ -74,11 +74,9 @@ quit
 
 ### Web Installation
 
-Before heading over to the Web Installation script, make sure you can access the files you just put on the server through a web-browser.
+Before heading over to the Web Installation script, make sure you can access the files you just put on the server through a web-browser. We have attached an [NGINX example configuration](/wiki2print.nginx.example) in the root of this workinng directory. Please refer to [this section](/README.md#nginx) for details on this configuration.
 
-We have attached an [NGINX example configuration](/wiki2print.nginx.example) in the root of this workinng directory. Please refer to [this section](/README.md#nginx) for details on this configuration.
-
-You should be able to access the web-installer from:
+You should be able to access the web-installer on a browser from:
 ```
 YOUR-WIKI2PDF-DDMAIN/wiki/mw-config/index.php
 ```
@@ -109,7 +107,7 @@ We chose for the 'Creative Commons Attribution-NonCommercial-ShareAlike' license
 
 Email and Skin settings: We leave these with their default values for now as we return to them later for more rigorous configuration.
 
-We enabled the following options for the rest of the settings:
+We enabled the following extensions and options for the rest of the settings:
 ```
 + CiteThisPage
 + Interwiki
@@ -168,7 +166,7 @@ $wgSMTP = [
   'port'     => 465,                           ## be different for you
   'auth'     => true,                          ## especially these ones: 
   'username' => 'karl@hackersanddesigners.nl', ## use your own email account
-  'password' => '***************************'  ## must the actual password :)
+  'password' => '***************************'  ## must be the actual password :)
 ];
 
 $wgEnotifUserTalk      = true; 
@@ -224,7 +222,7 @@ Log back in as your admin user and navigate to this link to **manage account req
 YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Special:ConfirmAccounts
 ```
 You will see 1 pending request from your test user. You can accept, hold, reject or mark this request as spam. 
-**Note**: By default, only users in the 'Bureaucrats' user group (such as yourself), will be able to access this special page to manage account requests. This can be configured for more groups in the extensio's settings but it will suffice for us.
+**Note**: By default, only users in the 'Bureaucrats' user group (such as yourself), will be able to access this special page to manage account requests. This can be configured for more groups in the extension's settings but it will suffice for us.
 
 Let's look at how to manage users and user rights. You can navigate to this link to **list users and groups**:
 ```
@@ -250,13 +248,59 @@ And load and configure it into your LocalSettings.php
 wfLoadExtension( 'UserMerge' );
 $wgGroupPermissions['bureaucrat']['usermerge'] = true;
 ```
-Bureacrats can now vist the following link and **remove/merge users**:
+Your user and other bureacrats can now vist the following link and **remove/merge users**:
 ```
 YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Special:UserMerge
 ```
 
-
 ### Namespaces
+
+[Namespaces](https://www.mediawiki.org/wiki/Help:Namespaces) are mediawiki's way of thematically organizing pages into functional groups. There are default namespaces such as User (2), User Talk (3), File (6), File Talk (7), Help (12) and Help Talk (13).
+
+Namespaces are given a string as a name (eg. User) and an integer as an index (eg. 2). Namespaces also often come with an *associated Talk namespace*. For the Subject namespace User, the associated Talk namespace is User Talk. Generally, the -Talk counterpart of a Subject namespace is dedicated to discussions around the subject of the page.
+
+The main difference between the two types of associated namespaces is that the Talk namespaces provide the ability to create [Subpages](https://www.mediawiki.org/wiki/Help:Subpages) by default (for topics in a discussion for example), which is not the default behaviour of Subject namespaces. 
+
+Where this becomes interesting for us is that when visiting a page, for instance a user's profile page, mediawiki will always present a tab in the interface, alongside the Subject page, that links directly to the associated Talk page.
+
+![](namespaces.png)
+
+In the above example (as with most wikis), the page header presents two tabs, one for the *Subject page* and another for the associated *Talk page*. These tabs link to the following URLs:
+```
+User page   -> LINK-TO-WIKI2PRINT/wiki/index.php?title=User:Karl
+Discussion  -> LINK-TO-WIKI2PRINT/wiki/index.php?title=User_Talk:Karl
+```
+Notice the pattern in the numeric encoding of the namespace indeces. The Subject namespaces all have even integers and their associated Talk namespaces all have odd integers, with the latter index adding 1 to the former's index. I don't know why.
+
+For our own wiki, we will create a [custom namespace](https://www.mediawiki.org/wiki/Manual:Using_custom_namespaces) to house all our publications' contents and an associated namespaces to house all our publications' styles: 
+
+- Our subject namespace will be **Publishing** and our talk namespace will be **PublishingCSS**.  
+- Every publication contents are represented by a single page in the Publishing namespace.
+- Every publication's CSS styles is represented by a single page in the PublishingCSS namespace. 
+  - Here, we appropriate the Talk namespace for CSS styles that are co-written in the wiki and used in the HTML and PDF renders of our publications.
+- A single page is small for a whole publication, so alongside medawiki's [transclusion](https://www.mediawiki.org/wiki/Transclusion) possibilities, we configure both namespaces to allow for [Subpages](https://www.mediawiki.org/wiki/Help:Subpages).
+  - This allows for the co-writing, nesting, and weaving of contents, CSS classes and style declarations in a very 'native' way.
+
+In LocalSettings.php we add the following lines:
+```php
+# Custom publishing namespaces
+
+define("NS_Publishing", 3000); 
+define("NS_PublishingCSS", 3001); 
+$wgExtraNamespaces[NS_Publishing] = "Publishing";
+$wgExtraNamespaces[NS_PublishingCSS] = "PublishingCSS";
+$wgNamespacesWithSubpages[NS_Publishing] = true;
+$wgNamespacesWithSubpages[NS_PublishingCSS] = true;
+
+# We change the content model of the CSS namespace from the default WIKITEXT.
+# The forces the CodeEditor to replace the VisualEditor for better legibility.
+$wgNamespaceContentModels[NS_PublishingCSS] = CONTENT_MODEL_CSS;
+
+# We need to force the VisualEditor to exist in our Publishing namespace.
+$wgVisualEditorAvailableNamespaces = [
+  'Publishing' => true
+];
+```
 
 ### Theme
 
