@@ -219,7 +219,7 @@ php update.php
 ```
 To test that this script works, logout of your admin user and you will see a link to 'Request account'. Navigate to the link and attempt to create a test account. You should recieve an email at the test account's email address confirming that you have a pending request for an account. 
 
-Log back in as your admin user, and navigate to:
+Log back in as your admin user and navigate to this link to **manage account requests**:
 ```
 YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Special:ConfirmAccounts
 ```
@@ -250,6 +250,11 @@ And load and configure it into your LocalSettings.php
 wfLoadExtension( 'UserMerge' );
 $wgGroupPermissions['bureaucrat']['usermerge'] = true;
 ```
+Bureacrats can now vist the following link and **remove/merge users**:
+```
+YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Special:UserMerge
+```
+
 
 ### Namespaces
 
