@@ -88,7 +88,7 @@ For the database settings we used the following (based on the database we just c
 Database type     : MariaDB, MySQL, or compatible
 Database host     : localhost
 Database name     : wiki2printDB
-Database prefix   : <blank>
+Database prefix   : 
 Database username : wiki2printUSER
 Database password : <YOUR-MYSQL-DATABASE-wiki2printUSER-PASSWORD>
 ```
@@ -329,6 +329,17 @@ $wgDefaultSkin = "citizen";
 
 ### Extra Buttons
 
+Although the Citizen skin is really pretty it hides the 'Discussion' tab in a context menu, and it becomes a bit more difficult to switch between the subject and talk namespaces of a page. So we will write to custom JS and CSS to bring back the button.
 
+Mediawiki provides the ability to [inject custom JS and CSS](https://www.mediawiki.org/wiki/Manual:Interface/JavaScript) into the webpage that can be written by any bureucrat user. The links to these files are as follows:
+```
+Common.js  -> YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Mediawiki:Common.js
+Common.css -> YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=Mediawiki:Common.css
+```
+The scripts create and style buttons that give editors access to the different namespaces of a page at appropriate places. We have attached our own Common.js and Common.css files here for reference:
+- [Common.js](Common.js)
+- [Common.css](Common.css)  
+
+To test that they are working visit/create a page in the Publishing namespace; you should see a pink button in the header bar that takes you to the associated page in the PublishingCSS namespace.
 
 ### Main Page

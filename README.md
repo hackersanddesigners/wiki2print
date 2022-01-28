@@ -3,6 +3,7 @@
 ## To-do
 - update nginnx section and example file after final config
 - update localstettings exampel file after final config
+- update the commo.jss and commn.css files after the final config
 
 ## Introduction
 This H&D's take on the wiki-to-print workflow initially developed by the people at ConstantVZW, OSP, varia and titipi.

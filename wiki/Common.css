@@ -1,0 +1,20 @@
+/* CSS placed here will be applied to all skins */
+
+#p-views #ca-css,
+#p-views #ca-content {
+	order: 100;
+}
+
+#p-views #ca-css > a,
+#p-views #ca-content > a {
+    /*background-color: var(--color-primary);*/
+    background-color: #ff10c3;
+    color: #fff;
+}
+
+#p-views #ca-css > a::after,
+#p-views #ca-content > a::after { 
+	margin-right: 0;
+	width: 0;
+	opacity: 0;
+}
