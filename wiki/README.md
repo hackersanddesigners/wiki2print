@@ -343,3 +343,10 @@ The scripts create and style buttons that give editors access to the different n
 To test that they are working visit/create a page in the Publishing namespace; you should see a pink button in the header bar that takes you to the associated page in the PublishingCSS namespace.
 
 ### Main Page
+
+And lastly, for the sake of the sanity of your publication makers and co-conspirators, it's reccomended to write some documentation on how the wiki works. We've decided to put this in the Main Page of our wiki.
+
+To do this, you can create a new page titled "Welcome" or whatever, and point your main page to it by editing the text on this page to read "Welcome":
+```
+YOUR-WIKI2PDF-DDMAIN/wiki/index.php?title=MediaWiki:Mainpage
+```
