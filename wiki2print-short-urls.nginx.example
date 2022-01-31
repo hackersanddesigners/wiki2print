@@ -1,0 +1,107 @@
+server {
+    server_name wiki2print.hackersanddesigners.nl;
+    root /var/www/wiki2print;
+
+    index index.php index.html index.htm index.nginx-debian.html;
+
+    client_max_body_size 5m;
+    client_body_timeout 60;
+
+        # [...]
+
+	# Location for wiki's entry points
+	location ~ ^/wiki/mediawiki/(index|load|api|thumb|opensearch_desc|rest|img_auth)\.php$ {
+	        include fastcgi_params;
+        	fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+        	fastcgi_param SCRIPT_FILENAME $request_filename;
+
+	}
+	
+	# Images
+	location /wiki/mediawiki/images {
+		# Separate location for images/ so .php execution won't apply
+	}
+	location /wiki/mediawiki/images/deleted {
+		# Deny access to deleted images folder
+		deny all;
+	}
+	# MediaWiki assets (usually images)
+	location ~ ^/wiki/mediawiki/resources/(assets|lib|src) {
+		try_files $uri 404;
+		add_header Cache-Control "public";
+		expires 7d;
+	}
+	# Assets, scripts and styles from skins and extensions
+	location ~ ^/wiki/mediawiki/(skins|extensions)/.+\.(css|js|gif|jpg|jpeg|png|svg|wasm)$ {
+		try_files $uri 404;
+		add_header Cache-Control "public";
+		expires 7d;
+	}
+	# Favicon
+	location = /favicon.ico {
+		alias /wiki/mediawiki/images/6/64/Favicon.ico;
+		add_header Cache-Control "public";
+		expires 7d;
+	}
+
+	# License and credits files
+	location ~ ^/wiki/mediawiki/(COPYING|CREDITS)$ {
+		default_type text/plain;
+	}
+	
+	## Uncomment the following code if you wish to use the installer/updater
+	## installer/updater
+	#location /w/mw-config/ {
+	#	# Do this inside of a location so it can be negated
+	#	location ~ \.php$ {
+	#		include /etc/nginx/fastcgi_params;
+	#		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	#		fastcgi_pass 127.0.0.1:9000; # or whatever port your PHP-FPM listens on
+	#	}
+	#}
+	
+	# Handling for Mediawiki REST API, see [[mw:API:REST_API]]
+	location /wiki/mediawiki/rest.php/ {
+		try_files $uri $uri/ /wiki/mediawiki/rest.php?$query_string;
+	}
+
+	## Uncomment the following code for handling image authentication
+	## Also add "deny all;" in the location for /w/images above
+	#location /w/img_auth.php/ {
+	#	try_files $uri $uri/ /w/img_auth.php?$query_string;
+	#}
+
+	# Handling for the article path (pretty URLs)
+	location /wiki/ {
+		rewrite ^/wiki/(?<pagename>.*)$ /wiki/mediawiki/index.php;
+	}
+
+#    listen 443 ssl; # managed by Certbot
+#    ssl_certificate /etc/letsencrypt/live/stats.hackersanddesigners.nl/fullchain.pem; # managed by Certbot
+#    ssl_certificate_key /etc/letsencrypt/live/stats.hackersanddesigners.nl/privkey.pem; # managed by Certbot
+#    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+#    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/wiki2print.hackersanddesigners.nl/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/wiki2print.hackersanddesigners.nl/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+    if ($host = wiki2print.hackersanddesigners.nl) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name wiki2print.hackersanddesigners.nl;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}
