@@ -1,0 +1,25 @@
+{
+  "project_name": "Making Matters Lexicon",
+  "port": 5522,
+  "dir_path": ".",
+  "wiki": {
+    "base_url": "https://wiki2print.hackersanddesigners.nl/wiki/mediawiki",
+    "subject_ns":  { "name": "Publishing", "id": 3000 },
+    "styles_ns": { "name": "PublishingCSS", "id": 3001 }
+  },
+  "pagename": "Making_Matters_Lexicon",
+  "stylesheet": "print.css",
+  "custom_pagedjs_template": "custom.html",
+  "replacements": [
+    {
+      "type": "replace",
+      "search": "<a href=\"#X,_y,_z_(4_filmstills)\"",
+      "replace": "<a href=\"#x,_y,_z_(4_filmstills)\""
+    },
+    {
+      "type": "regex",
+      "search": "<h3><span class=\"mw-headline\" id=\"References.*?\">References</span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\"></span></span></h3><ul>",
+      "replace": "<h3 class=\"references\"><span class=\"mw-headline\" id=\"References\">References</span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\"></span></span></h3><ul class=\"references\">"
+    }
+  ]
+}

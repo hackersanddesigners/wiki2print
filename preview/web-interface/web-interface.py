@@ -4,15 +4,16 @@ import os
 from update import *
 from api import *
 
+import sys
+sys.path.insert(0, '..')
+from config import config as conf
 
-# ---
-
-PROJECT_NAME   = 'Wiki2Print'
-PORTNUMBER     = 5522
-
-WIKI           = 'https://wiki2print.hackersanddesigners.nl/wiki/mediawiki' # remove tail slash '/'
-SUBJECT_NS     = { 'name': 'Publishing', 'id': 3000 }
-STYLES_NS      = { 'name': 'PublishingCSS', 'id': 3001 }
+# CONFIG VARIABLES
+PROJECT_NAME   = conf['project_name']
+PORTNUMBER     = conf['port']
+WIKI           = conf['wiki']['base_url']
+SUBJECT_NS     = conf['wiki']['subject_ns']
+STYLES_NS      = conf['wiki']['styles_ns']
 
 # ---
 
@@ -55,13 +56,17 @@ def inspect(pagename):
 
 @APP.route('/pagedjs/<string:pagename>', methods=['GET', 'POST'])
 def pagedjs(pagename):
+	template = conf.get('custom_pagedjs_template')
+	if template == None:
+		template = 'pagedjs.html'
+	
 	publication = get_publication(
 		pagename, 
 		SUBJECT_NS['name'],
 		WIKI
 	)
 	return flask.render_template(
-    'pagedjs.html', 
+    template, 
     publication = publication
   )
 

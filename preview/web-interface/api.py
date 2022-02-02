@@ -334,6 +334,7 @@ def save(html, pagename):
 		html = string (HTML)
 		pagename = string
 	"""
+	print("saving " + pagename)
 	if __name__ == "__main__":
 		# command-line
 
@@ -362,7 +363,7 @@ def save(html, pagename):
 	else:
 		# Flask application 
 
-		with open(f'{ STATIC_FOLDER_PATH }/Unfolded.html', 'w') as out:
+		with open(f'{ STATIC_FOLDER_PATH }/{ pagename }.html', 'w') as out:
 			out.write(html) # save the html to a file (without <head>)
 
 # ---
