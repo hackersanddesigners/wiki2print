@@ -9,13 +9,13 @@
 		position: fixed;
 		width: calc(100% - 2em);
 		margin: 1em;
-		text-align: right;
 		left: 0;
 		top: 0;
 		z-index: 999;
 	}
 	div#nav a#home,
-	div#nav a#notes{
+	div#nav a#notes,
+	div#nav a#update {
 		float: left;
 		padding: 0.25em 0.125em;
 	}
@@ -34,6 +34,16 @@
 	@keyframes fade {
 		0%,100% { opacity: 0 }
 		50% { opacity: 1 }
+	}
+	table {
+		border-collapse: collapse;
+	}
+	table tr td {
+		border: 1px solid darkgreen;
+		padding: 0 0.5em;
+	}
+	table tr td:first-of-type {
+		min-width: 20em;
 	}
 	iframe{
 		width: 90vw;

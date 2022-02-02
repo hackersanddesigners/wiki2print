@@ -4,16 +4,35 @@
 <div id="index">
 	<br>
 	<h1>{{ title }}</h1>
-	<em>publications in namespace: {{ namespace }}</em>
-	<ul>
-		<li {% for page in allpages %}>
-			<span>{{ page.title }}</span>
-			<span class="pagelinks">
-				<a href="{{ '/wiki/'+ namespace + ':' + page.slug }}">wiki</a>
-				<a href="{{ '/inspect/'+ page.slug }}">inspect</a>
-				<a href="{{ '/pagedjs/'+ page.slug }}">pdf</a>
-			</span>
-		</li {% endfor %}>
-	</ul>
+	<p>	publications in namespace <em>{{ namespace }}</em>:</p>
+	<table>
+		<tr {% for page in allpages %}>
+			<td>{{ page.title }}</td>
+			<td>
+				<a 
+					title="Edit in MediaWiki"
+					href="{{ '/wiki/'+ namespace + ':' + page.slug }}"
+				>
+					wiki
+				</a>
+			</td>
+			<td>
+				<a 
+					title="Inspect HTML & CSS"
+					href="{{ '/inspect/'+ page.slug }}"
+				>
+					inspect
+				</a>
+			</td>
+			<td>
+				<a 
+					title="View PDF with PagedJS"
+					href="{{ '/pagedjs/'+ page.slug }}"
+				>
+					pdf
+				</a>
+			</td>
+		</tr {% endfor %}>
+	</table>
 </div>
 {% endblock %}

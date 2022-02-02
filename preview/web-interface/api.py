@@ -15,7 +15,8 @@ TEMPLATES_DIR = None
 # $ mogrify -quality 5% -adaptive-resize 25% -remap pattern:gray50 * )
 fast = False
 
-def API_request(url, pagename):
+# handle API request and return JSON
+def do_API_request(url):
 	"""
 		url = API request url (string)
 		data =  { 'query': 
@@ -29,17 +30,55 @@ def API_request(url, pagename):
 					}  
 				}
 	"""
+	print('Loading from wiki: ', url)
 	response = urllib.request.urlopen(url).read()
 	data = json.loads(response)
+	return data
 
-	# Save response as JSON to be able to inspect API call
+# Save response as JSON to be able to inspect API call
+def save_JSON_file(data, pagename):
 	json_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.json'
 	print('Saving JSON:', json_file)
 	with open(json_file, 'w') as out:
-		out.write(json.dumps(data, indent=4))
+		out.write( json.dumps(data, indent = 2) )
 		out.close()
-
 	return data
+
+# Loads former response as JSON from disk
+def load_JSON_file(pagename):
+	json_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.json'
+	if os.path.exists(json_file):
+		print('Loading JSON:', json_file)
+		with open(json_file, 'r') as out:
+			data = json.load(out)
+			out.close()
+		return data
+
+# makes API call to update index
+def create_index(wiki, namespace):
+	url  = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ namespace["id"] }'
+	data = do_API_request(url)
+	data = data['query']['allpages']
+	for page in data:
+		page['title'] = page['title'].replace(namespace['name'] + ':' , '')
+		page['slug']  = page['title'].replace(' ' , '_')
+	save_JSON_file(data, 'index')
+	return data
+
+# get index of publications in namespace
+def get_index(wiki, namespace):
+	"""
+	  wiki = string
+		namespace = object
+	"""
+	data = load_JSON_file('index') or create_index(wiki, namespace)
+	
+	# if not data:
+		# data = create_index(wiki, namespace)
+
+	print(json.dumps(data, indent = 2))
+	return data
+
 
 def download_media(html, images, wiki):
 	"""
@@ -192,20 +231,6 @@ def fast_loader(html):
 
 	return html
 
-def parse_index(wiki, namespace):
-	"""
-		namespace = string
-		html = string (HTML)
-	"""
-	parse = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ namespace["id"] }'
-	data = API_request(parse, 'index')
-	allpages = data['query']['allpages']
-	for page in allpages:
-		page['title'] = page['title'].replace(namespace['name'] + ':' , '')
-		page['slug']  = page['title'].replace(' ' , '_')
-
-	print(json.dumps(allpages, indent=4))
-	return allpages
 
 
 def parse_page(pagename, wiki):

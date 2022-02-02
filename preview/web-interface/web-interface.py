@@ -32,14 +32,23 @@ APP = flask.Flask(__name__)
 
 @APP.route('/', methods=['GET'])
 def index():
-	allpages = parse_index(WIKI, SUBJECT_NS)
-
+	data = get_index(WIKI, SUBJECT_NS)
 	return flask.render_template(
     'index.html', 
     title = PROJECT_NAME,
 		wiki  = WIKI,
-    page  = PAGENAME,
-		allpages = allpages,
+		allpages = data,
+		namespace = SUBJECT_NS['name']
+  )
+
+@APP.route('/update/', methods=['GET', 'POST'])
+def update():
+	data = create_index(WIKI, SUBJECT_NS)
+	return flask.render_template(
+    'index.html', 
+    title = PROJECT_NAME,
+		wiki  = WIKI,
+		allpages = data,
 		namespace = SUBJECT_NS['name']
   )
 
@@ -75,24 +84,24 @@ def notes():
   return flask.render_template('notes.html')
 
 
-@APP.route('/update/', methods=['GET', 'POST'])
-def update():
-	publication = update_material_now(
-    PAGENAME, 
-    WIKI
-  ) 
-  # download the latest version of the page
-	save(
-    publication, 
-    PROJECT_NAME
-  ) 
-  # save the html to file (without <head>) to file
-	return flask.render_template(
-    'index.html', 
-    title = PROJECT_NAME,
-		wiki  = WIKI,
-    page  = PAGENAME
-  )
+# @APP.route('/update/', methods=['GET', 'POST'])
+# def update():
+# 	publication = update_material_now(
+#     PAGENAME, 
+#     WIKI
+#   ) 
+#   # download the latest version of the page
+# 	save(
+#     publication, 
+#     PROJECT_NAME
+#   ) 
+#   # save the html to file (without <head>) to file
+# 	return flask.render_template(
+#     'index.html', 
+#     title = PROJECT_NAME,
+# 		wiki  = WIKI,
+#     page  = PAGENAME
+#   )
 
 
 @APP.route('/pagedjs/', methods=['GET', 'POST'])
