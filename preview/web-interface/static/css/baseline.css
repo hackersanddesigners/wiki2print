@@ -1,0 +1,19 @@
+/* This baseline.css stylesheet is derived from: https://gist.github.com/julientaq/08d636a7a2b5f2824025256de0fca467 */
+/* Thanks a lot to julientaq for publishing it! */
+
+:root {
+	--baseline: 18px;
+	--baseline-color: blue;
+}
+
+/* grid baseline */
+.pagedjs_page {
+	/* background: 
+		repeating-linear-gradient( 
+			white 0, 
+			white calc(var(--baseline) - 1px), var(--baseline-color) var(--baseline));
+	background-size: cover;
+	background-repeat: repeat-y; */
+	/* start of the first baseline: half of the line-height: 9px */
+	/* background-position-y: 9px; */
+}

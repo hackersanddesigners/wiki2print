@@ -1,0 +1,68 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div id="index">
+	<br>
+	<br>
+	<h1>
+		{{ title }}
+		<br>Shared Book/PDF rendering environment
+	</h1>
+	<ul>
+		<li>
+			<strong>pdf</strong>: Preview the Book/PDF
+			<br>(opens a file)
+			<br>----- using <a href="https://www.pagedjs.org/">Paged.js</a> to render <a href="{{ url_for('static', filename=page+'.html')}}">{{ page }}.html</a> in Book/PDF format
+			<br>----- using <a href="https://git.vvvvvvaria.org/mb/volumetric-regimes-book/src/branch/master/web-interface/templates/flask/pagedjs.html">this template</a>
+			<br>----- to stay in sync: we're using <strong>Chromium</strong> to render the PDF
+		</li>
+		<li>
+			<strong>inspect</strong>: Dive into the HTML version of the Book/PDF
+			<br>(opens a file)
+			<br>----- using <a href="{{ url_for('static', filename=page+'.html') }}">{{ page }}.html</a> 
+			<br>----- using <a href="https://git.vvvvvvaria.org/mb/volumetric-regimes-book/src/branch/master/web-interface/templates/flask/inspect.html">this template</a>
+		</li>
+		<li>
+			<strong>stylesheet</strong>: Change the lay-out
+			<br>(downloads a pad)
+			<br>----- saved to file as <a href="{{ url_for('static', filename='css/volumetric-regimes.css')}}">volumetric-regimes.css</a>
+			<br>----- using <a href="https://git.vvvvvvaria.org/varia/etherpump">Etherpump</a> to save the pad as file 
+		</li>
+		<li>
+            <strong>update</strong>: Update the materials 
+			<br>(downloads a wiki page)
+			<br>----- from the <a href="{{ wiki + '/index.php?title=' + page }}" target="new">{{ page }} wiki page</a>
+            <br>----- saved to file as <a href="{{ url_for('static', filename=page+'.html')}}">{{ page }}.html</a>
+            <br>----- saved to file as <a href="{{ url_for('static', filename=page+'.json')}}">{{ page }}.json</a> (to inspect the MediaWiki API call)
+            <br>----- using <a href="https://git.vvvvvvaria.org/mb/volumetric-regimes-book/src/branch/master/web-interface/update.py">update.py</a>
+        </li>
+
+	</ul>
+
+	<div>
+	<h2>Meanwhile ...</h2>
+	<ul>
+		<li>
+			This web-interface is based on other interfaces-in-process, using <a href="https://git.vvvvvvaria.org/mb/pad2pdf">Flask to make collaborative workflows</a>
+		</li>
+		<li>
+			<a href="https://constantvzw.org/wefts/webpublications.en.html">https://constantvzw.org/wefts/webpublications.en.html</a>
+		</li>
+		<li>
+			<strong>notes</strong> was added, to include the organisational dynamics into the Book/PDF making
+		</li>
+		<li>
+			A shared environment that can be operated as a <a href="https://git.vvvvvvaria.org/mb/volumetric-regimes-book/src/branch/master/command-line">command line tool</a> and <a href="https://git.vvvvvvaria.org/mb/volumetric-regimes-book/src/branch/master/web-interface">web-interface</a>, to allow for bridging different situations of viability (related to a shared server, personal hardware, ...). 
+		</li>
+		<li>
+			Collaborative editorial space for Book/PDF making using Etherpads and web2print (close to <a href="http://osp.kitchen/tools/ethertoff/">Ethertoff</a> <> <a href="https://networksofonesown.constantvzw.org">Etherbox</a> <> <a href="https://git.xpub.nl/XPUB/jupyterpi">JupyterPi</a>)
+		</li>
+	</ul>
+	<br>
+	<br>
+	<small>Just in case: <a href="https://git.vvvvvvaria.org/mb/volumetric-regimes-book">https://git.vvvvvvaria.org/mb/volumetric-regimes-book</a> + <a href="https://possiblebodies.constantvzw.org/book/">https://possiblebodies.constantvzw.org/book/</a></small>
+	<br>
+	<br>
+	</div>
+</div>
+{% endblock %}

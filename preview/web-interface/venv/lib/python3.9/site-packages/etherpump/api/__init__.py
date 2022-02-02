@@ -1,0 +1,15 @@
+from etherpump.commands.creatediffhtml import main as creatediffhtml  # noqa
+from etherpump.commands.deletepad import main as deletepad  # noqa
+from etherpump.commands.dumpcsv import main as dumpcsv  # noqa
+from etherpump.commands.gethtml import main as gethtml  # noqa
+from etherpump.commands.gettext import main as gettext  # noqa
+from etherpump.commands.index import main as index  # noqa
+from etherpump.commands.init import main as init  # noqa
+from etherpump.commands.list import main as list  # noqa
+from etherpump.commands.listauthors import main as listauthors  # noqa
+from etherpump.commands.publication import main as publication  # noqa
+from etherpump.commands.pull import main as pull  # noqa
+from etherpump.commands.revisionscount import main as revisionscount  # noqa
+from etherpump.commands.sethtml import main as sethtml  # noqa
+from etherpump.commands.settext import main as settext  # noqa
+from etherpump.commands.showmeta import main as showmeta  # noqa

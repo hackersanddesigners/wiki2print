@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="{{language}}">
+<head>
+	<meta charset="utf-8" />
+	<title>{{title}}</title>
+	<link rel="stylesheet" type="text/css" href="{%block css %}styles.css{%endblock%}">
+	<link rel="alternate" type="application/rss+xml" href="recentchanges.rss">
+	{% block scripts %}
+	<script src="jquery-latest.js"></script>
+	<script src="jquery.tablesorter.min.js"></script>
+	{% endblock scripts %}
+</head>
+<body>
+{% block namefilter %}
+<div id="namefilter">
+<input type="text" id="namefilterinput" value="" placeholder="name filter" autofocus >
+<button id="newpadbutton">go/start pad</button>
+</div>
+<script>
+var newpadbutton = document.getElementById("newpadbutton");
+newpadbutton.addEventListener("click", function (e) {
+	var elt = document.getElementById("namefilterinput"),
+		newpadname = elt.value,
+		padbase = document.querySelector("td.versions a").href;
+	newpadname = newpadname.replace(/^\s*/g, "");
+	newpadname = newpadname.replace(/\s*$/g, "");
+	elt.value = newpadname;
+	padbase = padbase.replace(/\/[^/]+$/, "");
+	if (!newpadname) { alert("type the pad name, then click 'go'")}
+	else {
+		var newpadhref = padbase + "/" + encodeURIComponent(newpadname);
+		// console.log("goto", newpadhref);
+		window.location = newpadhref;
+	};
+	e.preventDefault();
+})
+var namefilter = (function (opts) {
+	var timeout_id = null,
+		filter_value = '',
+		delay = (opts && opts.delay) || 1000;
+	function update() {
+		// console.log("update", filter_value);
+		var pat = new RegExp(filter_value, "i");
+		$("tbody tr").each(function () {
+			var n = $(".name", this).text();
+			// console.log("n", n);
+			if (filter_value == "" || n.match(pat) !== null) {
+				$(this).show();
+			} else {
+				$(this).hide();
+			}
+		})
+	}
+	var ret = function (val) {
+		filter_value = val;
+		if (timeout_id !== null) {
+			window.clearTimeout(timeout_id);
+			timeout_id = null;
+		}
+		timeout_id = window.setTimeout(update, delay)
+	}
+	return ret;
+})();
+
+$("#namefilterinput").bind("keyup", function (e) { namefilter($(this).val()); })
+
+$(document).ready(function() 
+    { 
+        $("table.listing").tablesorter({sortList: [[2,1]]}); 
+    } 
+); 
+
+</script>
+{% endblock %}
+
+<table class="listing tablesorter">
+<thead>
+<tr>
+	<th>name</th>
+	<th>versions</th>
+	<th>last edited</th>
+	<th>revisions</th>
+	<th>authors</th>
+</tr>
+</thead>
+<tbody>
+{% for pad in pads %}
+<tr>
+	<td class="name">
+		<a href="{{pad.link}}">{{ pad.padid }}</a>
+	</td>
+	<td class="versions"> 
+		{% for v in pad.versions %}<a href="{{v.url}}">{{v.type}}</a> {% endfor %}
+	</td>
+	<td class="lastedited">{{ pad.lastedited_iso|datetimeformat }}</td>
+	<td class="revisions">{{ pad.revisions }}</td>
+	<td class="authors">{{ pad.author_ids|length }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% block info %}<p class="info">Last update {{timestamp}}.</p>{% endblock %}
+<div id="footer"></div>
+</body>
+</html>

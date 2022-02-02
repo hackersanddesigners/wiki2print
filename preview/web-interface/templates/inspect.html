@@ -1,0 +1,9 @@
+{% extends "base.html" %} 
+
+{% block head %}
+<link href="{{ url_for('static', filename='css/print.css')}}" rel="stylesheet" type="text/css" media="screen">
+{% endblock %}
+
+{% block content %}
+{{ publication | safe }}
+{% endblock %}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+td {
+	vertical-align: top;
+}
+table ul {
+	margin: 0;
+	padding-left: 0;
+	list-style: none;
+}
+#content {
+	position: absolute;
+	left:0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+	background: gray;
+}
+iframe {
+	position: absolute;
+	left: 0; top: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+	margin: 0;
+	padding: 0;
+	background: white;
+}
+#overlay {
+	position: absolute;
+	z-index: 10;
+	right: 20px;
+	top: 40px;
+	width: auto;
+	height: auto;
+	overflow: hidden;
+	background: black;
+	color: white;
+	padding: 10px;
+	font-size: 10px;
+	font-family: monospace;
+}
+#overlay a {
+	color: white;
+	text-decoration: none;
+}
+#overlay a:hover {
+	background: gray;
+	color: black;
+}
+a.active {
+	background: white !important;
+	color: black !important;
+}
+td.key {
+	font-style: italic;
+}
+#overlay.open {}
+#overlay .closedcontent { display: block; }
+#overlay.open .closedcontent { display: none; }
+#overlay .opencontent { display: none; }
+#overlay.open .opencontent { display: block; }
+</style>
+</head>
+<body>
+<div id="content">
+	<iframe src="{{padid}}.html" id="frame" name="frame"></iframe>
+	<div id="overlay">
+		<div class="closedcontent">
+			versions
+		</div>
+		<table class="opencontent">
+			<tr><td class="key">padid</td><td>{{padid}}</td></tr>
+			<tr><td class="key">lastedited</td><td>{{lastedited_iso}}</td></tr>
+			<tr><td class="key">revisions</td><td>{{revisions}}</td></tr>
+			<tr>
+				<td class="key">versions</td>
+				<td>
+					<ul>
+						<li><a href="{{padurl}}" target="frame">Etherpad (editable)</a><li>
+						<li><a href="{{padid}}.html" target="frame">HTML</a></li>
+						<li><a href="{{padid}}.txt" target="frame">plain text</a></li>
+						<li><a href="{{padid}}.diff.html" target="frame">HTML with authorship colors</a></li>
+						<li><a href="{{padid}}.meta.json" target="frame">Meta data (JSON)</a></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+<script>
+(function () {
+	var frame = document.getElementById("frame"),
+		overlay = document.getElementById("overlay");
+	frame.addEventListener("load", function () {
+		var loaded_href = frame.contentDocument.location.href,
+			links = document.querySelectorAll("#overlay a");
+		// console.log("load", loaded_href);
+		for (var i=0, len=links.length; i<len; i++) {
+			var linkhref = links[i].href;
+			// console.log("*", linkhref);
+			if (linkhref == loaded_href) {
+				links[i].classList.add("active");
+			} else {				
+				links[i].classList.remove("active");
+			}
+		}
+	});
+	overlay.addEventListener("mouseenter", function () {
+		overlay.classList.add("open");
+	}, false);
+	overlay.addEventListener("mouseleave", function () {
+		overlay.classList.remove("open");
+	}, false);
+
+})()
+</script>
+</body>
+</html>

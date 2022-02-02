@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset="utf-8" />
+	<title>{{ title }}</title>
+	{% block head %}
+    	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css')}}">
+	{% endblock %}
+</head>
+<body>
+	{% block nav %}
+	{% endblock %}
+	<div id="wrapper">
+		{% block content %}
+		{% endblock %}
+	</div>	
+</body>
+{% block footer %}
+<script>
+window.addEventListener('load', function () {
+
+	// Insert the nav buttons, after the page is loaded
+	
+	const nav = document.createElement('div');
+	nav.id = 'nav';
+	nav.innerHTML = `
+		<a id="home" href="/">
+			<button>/</button>
+		</a> 
+		<a id="notes" href="/notes/">
+			<button>notes</button>
+		</a> 
+		<a id="pdf" href="/pagedjs/">
+			<button>pdf</button>
+		</a> 
+		<a id="inspect" href="/inspect/">
+			<button>inspect</button>
+		</a> 
+		<a id="stylesheet" href="/stylesheet/">
+			<button>stylesheet</button>
+		</a>
+			: 
+		<input type="text" name="pad" value="https://etherpad.karls.computer/p/test-project.css"> 
+		<a id="update" href="/update/" onclick="loading()">
+			<button>update</button>
+		</a>
+		<div id="loading">
+			loading
+		</div>`;
+	document.body.insertBefore(nav, document.body.firstChild)
+})
+function loading(){
+	const loading = document.getElementById("loading");
+	loading.style.display = 'block';
+}
+</script>
+{% endblock %}
+</html>

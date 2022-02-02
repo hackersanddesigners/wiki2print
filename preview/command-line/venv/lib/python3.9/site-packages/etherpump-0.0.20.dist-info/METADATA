@@ -1,0 +1,319 @@
+Metadata-Version: 2.1
+Name: etherpump
+Version: 0.0.20
+Summary: Pumping text from etherpads into publications
+Home-page: https://git.vvvvvvaria.org/varia/etherpump
+License: GPLv3
+Keywords: etherpad,etherdump,etherpump
+Author: Varia, Center for Everyday Technology
+Maintainer: Varia, Center for Everyday Technology
+Maintainer-email: info@varia.zone
+Requires-Python: >=3.6,<4.0
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Dist: asks (>=2.4.10,<3.0.0)
+Requires-Dist: html5lib (>=1.1,<2.0)
+Requires-Dist: jinja2 (>=2.11.2,<3.0.0)
+Requires-Dist: pypandoc (>=1.5,<2.0)
+Requires-Dist: python-dateutil (>=2.8.1,<3.0.0)
+Requires-Dist: requests (>=2.24.0,<3.0.0)
+Requires-Dist: trio (>=0.17.0,<0.18.0)
+Project-URL: Repository, https://git.vvvvvvaria.org/varia/etherpump
+Description-Content-Type: text/markdown
+
+# etherpump
+
+[![PyPI version](https://badge.fury.io/py/etherpump.svg)](https://badge.fury.io/py/etherpump)
+[![GPL license](https://img.shields.io/badge/license-GPL-brightgreen.svg)](https://git.vvvvvvaria.org/varia/etherpump/src/branch/master/LICENSE.txt)
+
+_Pumping text from etherpads into publications_
+
+A command-line utility that extends the multi writing and publishing functionalities of the [etherpad](http://etherpad.org/) by exporting the pads in multiple formats.
+
+## Many pads, many networks
+
+_Etherpump_ is a friendly fork of [_etherdump_](https://gitlab.constantvzw.org/aa/etherdump), a command line tool written by [Michael Murtaugh](http://automatist.org/) that converts etherpad pages to files. This fork is made out of curiosities in the tool, a wish to study it and shared sparks of enthusiasm to use it in different situations within Varia.
+
+Etherpump is a stretched version of etherdump. It is a playground in which we would like to add features to the initial tool that diffuse actions of _dumping_ into _pumping_. So most of all, etherpump is a work-in-progress, exploring potential uses of etherpads to edit, structure and publish various types of content.
+
+Added features are:
+
+- opt-in publishing with the `__PUBLISH__` magic word
+- the `publication` command, that listens to custom magic words such as `__RELEARN__`
+
+See the [Change log / notes ](#change-log--notes) section for further changes.
+
+Etherpump is a tool that is used from the command line. It pumps all pads of one etherpad installation to a folder, saving them as different text files, such as plain text and HTML. It also creates an index file, that allows one to easily navigate through the list of pads. Etherpump follows a document-driven idea of publishing, which means that it converts pads as database entries into pads as files. This seems to be a redundant act of copying, but is actually an important in-between step that allows for many different publishing projects and experiments.
+
+We started to get to know etherpump through various editions of Relearn and/or the worksessions organized by Constant. Collaborative writing on an etherpad has been an important ingredient for these situations. The habit of using pads branched into the day-to-day practice of Varia, where we use etherpads for all sorts of things, ranging from organising remote-meetings with 10+ people, to writing and designing PDF documents collaboratively.
+
+After installing etherpump on the Varia server, we collectively decided to not want to publish pads by default. Discussions in the group around the use of etherpads, privacy and ideas of what publishing means, led to a need to have etherpump only start the indexing work after it recognizes a `__PUBLISH__` marker on a pad. We decided to work on a `__PUBLISH__ vs. __NOPUBLISH__` branch of etherdump, which we now fork into **etherpump**.
+
+# Change log / notes
+
+**December 2020**
+
+Added the `--magicwords` flag. Parsing and indexing of magic words is now
+supported. See [etherpump.vvvvvvaria.org](https://etherpump.vvvvvvaria.org) for
+more. This is still a work in progress.
+
+Change `--connection` default setting to 50 to avoid overpowering modestly
+powered servers.
+
+**November 2020**
+
+Releasing Etherpump 0.0.18!
+
+Handled a bug that saved the same HTML content in multiple files. Disclaimer: resolved in a hacky way.
+
+---
+
+**October 2020**
+
+Use the more friendly packaging tool [Poetry](https://python-poetry.org/) for publishing.
+
+Further performance tweaks, informative logging and miscellaneous bug fixing.
+
+Decolonize our Git praxis and use the `main` branch.
+
+---
+
+**January 2020**
+
+Added experimental [trio](trio.readthedocs.io) and
+[asks](https://asks.readthedocs.io/en/latest/index.html) support for the `pull`
+command which enables pads to be processed concurrently. The default
+`--connection` option is set to 20 which may overpower the target server. If in
+doubt, set this to a lower number (like 5). This functionality is experimental,
+be cautious and please report bugs!
+
+Removed fancy progress bars for pulling because concurrent processing makes
+that hard to track. For now, we simply output whichever padid we're finished
+with.
+
+---
+
+**October 2019**
+
+Improve `etherpump --help` handling to make it easier for new users.
+
+Added the `python-dateutil` and `pypandoc` dependencies
+
+Added a fancy progress bar with `tqdm` for long running `etherpump pull --all` calls
+
+Started with the [experimental library API](#library-api-example).
+
+---
+
+**September 2019**
+
+Forking _etherpump_ into _etherpump_.
+
+<https://git.vvvvvvaria.org/varia/etherpump>
+
+Migrating the source code to Python 3.
+
+Integrate PyPi publishing with setuptools.
+
+---
+
+**May - September 2019**
+
+etherpump is used to produce the _Ruminating Relearn_ section of the Network Of One's Own 2 (NOOO2) publication.
+
+A new command is added to make a web publication, based on the custom magic word `__RELEARN__`.
+
+---
+
+**June 2019**
+
+Multiple conversations around etherpump emerged during Relearn Curved in Varia, Rotterdam.
+
+Including the idea of executable pads (_etherhooks_), custom magic words, a federated snippet protocol (_etherstekje_) and more.
+
+<https://varia.zone/relearn-2019.html>
+
+---
+
+**April 2019**
+
+Installation of etherpump on the Varia server.
+
+<https://etherpump.vvvvvvaria.org/>
+
+---
+
+**March 2019**
+
+The `__PUBLISH__ vs. __NOPUBLISH__` was added to the etherpump repository by _decentral1se_.
+
+<https://gitlab.constantvzw.org/aa/etherpump/issues/3>
+
+---
+
+Originally designed for use at: [Constant](http://etherdump.constantvzw.org/).
+
+More notes can be found in the [git repository of etherdump](https://gitlab.constantvzw.org/aa/etherdump).
+
+# Install etherpump
+
+`$ pip install etherpump`
+
+Etherpump only supports Python >= 3.6.
+
+## Command-line example
+
+```
+$ mkdir mydump
+$ cd myddump
+$ etherpump init
+```
+
+The program then interactively asks some questions:
+
+> Please type the URL of the etherpad (e.g. https://pad.vvvvvvaria.org):
+>
+> https://pad.vvvvvvaria.org/
+
+The APIKEY is the contents of the file APIKEY.txt in the etherpad folder.
+
+> Please paste the APIKEY:
+>
+> xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+The settings are placed in a file called `.etherpump/settings.json` and are used (by default) by future commands.
+
+## Common Workflows
+
+### Text+Meta performance wrangling
+
+If you have a lot of pads, you might want to try the following to speed things
+up. This example is something we do at Varia. Firstly, you download all the
+pads text + metadata as the only formats. This is likely what you want when
+you're trying to work directly with the text. You can do that like so:
+
+```bash
+$ etherpump pull --text --meta --publish-opt-in
+```
+
+The key here is to get the `--meta` so that etherpump is able to read quickly
+skip it on the following run if there are no new revisions. So, in practice,
+you get a slower first run and faster following runs as more pads are skipped
+from actually doing a file system write to save the contents which we already
+have.
+
+## Library API Example
+
+Etherpump can be used as a library.
+
+All commands can be imported and run programmatically.
+
+```python
+>>> from etherpump.api import pull
+>>> pull(['--text', '--meta', '--publish-opt-in'])
+```
+
+There is also a Magic Word interface. It supports the following API:
+
+> magic_word(word, fresh)
+
+- **word**: The magic word to match pad text against (e.g. `__PUB_CLUB__`)
+- **fresh** (default: `True`): Whether or not run a `etherpump pull` each time
+
+Here is an example:
+
+```python
+from etherpump.api import magic_word
+
+@magic_word("__PUB_CLUB__", fresh=False)
+def pub_club_texts(pads):
+    for name in pads:
+        print(pads[name]["txt"])
+
+
+pub_club_texts()
+```
+
+`pads` is a dictionary which contains pad names as keys and pad text as values.
+Normally, the `fresh=False` is useful when you're hacking away and want to read
+pad contents from the local file system and not over the network each time.
+
+## Subcommands
+
+To see all available subcommands, run:
+
+`$ etherpump --help`
+
+For help on each individual subcommand, run:
+
+`$ etherpump revisionscount --help`
+
+## Publishing
+
+Please use ["semver"](https://semver.org/) conventions for versions.
+
+Here are the steps to follow (e.g. for a `0.1.3` release):
+
+- Change the version number in the `etherpump/__init__.py` `__VERSION__` to `0.1.3`
+- Change the version number in the `pyproject.toml` `version` field to `0.1.3`
+- `git add . && git commit -m "Publish new 0.1.3 version" && git tag 0.1.3 && git push --tags`
+- Run `poetry publish --build`
+
+You should have a [PyPi](https://pypi.org/) account and be added as an owner/maintainer on the [etherpump package](https://pypi.org/project/etherpump/).
+
+## Testing
+
+It can be quite handy to run a very temporary local Etherpad instance to test against. This is possible with [Docker](https://docs.docker.com/get-docker/).
+
+```bash
+$ docker run -d --name etherpad -p 9001:9001 etherpad/etherpad
+$ docker exec -ti etherpad cat APIKEY.txt;echo
+```
+
+Then you can `etherpump init` to that local Etherpad for experimentation and testing. You use `http://localhost:9001` as the pad URL.
+
+Later on, you can remove the Etherpad with:
+
+```bash
+$ docker rm -f --volumes etherpad
+```
+
+## Maintenance utilities
+
+Tools to help things stay tidy over time.
+
+```bash
+$ make
+```
+
+Please see the following links for further reading:
+
+- [flake8](http://flake8.pycqa.org)
+- [isort](https://isort.readthedocs.io)
+- [black](https://black.readthedocs.io)
+
+### Server Systers Situation
+
+```
+$ sudo -su systers
+$ cd /var/www/etherpump
+$ sh cron.sh
+```
+
+Served from `/etc/nginx/sites-enabled/etherpump.vvvvvvaria.conf`.
+
+## Keeping track of Etherpad-lite
+
+- [Etherpad-lite API documentation](https://etherpad.org/doc/v1.7.5/)
+- [Etherpad-lite releases](https://github.com/ether/etherpad-lite/releases)
+
+# License
+
+GNU AFFERO GENERAL PUBLIC LICENSE, Version 3.
+
+See [LICENSE](./LICENSE).
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="{{language}}">
+<!-- __RELEARN__ -->
+<head>
+        <meta charset="utf-8" />
+        <title>{{title}}</title>
+        <link rel="stylesheet" type="text/css" href="{%block css %}publication.assets/publication.css{%endblock%}">
+        <link rel="stylesheet" type="text/css" href="publication.assets/normalise.css">
+        <link rel="alternate" type="application/rss+xml" href="recentchanges.rss">
+</head>
+<body>
+<h1>{{ title }}</h1>
+
+<div id="toc">
+    <p>Table of Contents</p>
+    <ol>
+    {% for pad in pads %}
+    <li class="name">
+        <a href="#{{ pad.padid }}">{{ pad.padid }}</a>
+    </li>
+    {% endfor %}
+    </ol>
+</div>
+
+<img id="coverimg" src="publication.assets/rumination.svg">
+
+{% for pad in pads %}
+<hr>
+<div id="{{ pad.padid }}" data-padid="{{ pad.padid }}" class="pad">
+
+    <small class="lastedited">Last edited: {{ pad.lastedited_iso|datetimeformat }}</small><br>
+    <small class="revisions">Revisions: {{ pad.revisions }}</small><br>
+    <small class="padname"><a href="{{ pad.link }}">{{ pad.pathbase }}</a></small><br>
+    <!-- <small class="authors">Authors: {{ pad.author_ids|length }}</small><br> -->
+    <div class="padcontent">{{ pad.text }}</div>
+</div>
+{% endfor %}
+
+{% block info %}<hr><small class="info">Last update {{timestamp}}.</small>{% endblock %}
+<div id="footer"></div>
+</body>
+</html>
