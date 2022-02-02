@@ -9,6 +9,16 @@ STATIC_FOLDER_PATH = './static' # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static' # without trailing slash
 TEMPLATES_DIR = None
 
+# def subject_page(pagename):
+# 	return SUBJECT_NS['name'] + ':' + pagename
+
+# def style_page(pagename):
+# 	return STYLES_NS['name'] + ':' + pagename
+
+
+
+
+
 # This uses a low quality copy of all the images 
 # (using a folder with the name "images-small",
 # which stores a copy of all the images generated with:
@@ -72,12 +82,75 @@ def get_index(wiki, namespace):
 		namespace = object
 	"""
 	data = load_JSON_file('index') or create_index(wiki, namespace)
-	
-	# if not data:
-		# data = create_index(wiki, namespace)
-
 	print(json.dumps(data, indent = 2))
 	return data
+
+def save_HTML_file(publication, pagename):
+	html_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.html'
+	print('Saving HTML file from disk')
+	with open(html_file, 'w') as out:
+		out.write(publication)
+		out.close()
+	return publication
+
+def load_HTML_file(pagename):
+	html_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.html'
+	if os.path.exists(html_file):
+		print('Loading HTML file from disk')
+		with open(html_file, 'r') as out:
+			publication = out.read()
+			out.close()
+		return publication
+
+def create_publication(pagename, namespace, wiki):
+	"""
+		pagename = string
+		html = string (HTML)
+	"""
+	url  = f'{ wiki }/api.php?action=parse&page={ namespace }:{ pagename }&pst=True&format=json'
+	data = do_API_request(url)
+	save_JSON_file(data, pagename)
+	
+	print(json.dumps(data, indent = 2))
+
+	if 'parse' in data:
+		html = data['parse']['text']['*']
+		images = data['parse']['images']
+		html = download_media(html, images, wiki)
+		html = clean_up(html)
+		html = add_item_inventory_links(html)
+		html = tweaking(html)
+		html = fast_loader(html)
+	else: 
+		html = None
+
+	save_HTML_file(html, pagename)
+	return html
+
+
+def get_publication(pagename, namespace, wiki):
+	"""
+		pagename = string
+		namespace = object
+	  wiki = string
+	"""
+	publication = load_HTML_file(pagename) or create_publication(
+		pagename, 
+		namespace,
+		wiki
+	)
+	return publication
+
+
+
+
+
+
+
+
+
+
+
 
 
 def download_media(html, images, wiki):
@@ -233,13 +306,15 @@ def fast_loader(html):
 
 
 
-def parse_page(pagename, wiki):
+def parse_page(pagename, namespace, wiki):
 	"""
 		pagename = string
 		html = string (HTML)
 	"""
-	parse = f'{ wiki }/api.php?action=parse&page={ pagename }&pst=True&format=json'
-	data = API_request(parse, pagename)
+	parse = f'{ wiki }/api.php?action=parse&page={ namespace }:{ pagename }&pst=True&format=json'
+	data = do_API_request(parse)
+	print(data)
+	save_JSON_file(data, pagename)
 	# print(json.dumps(data, indent=4))
 	if 'parse' in data:
 		html = data['parse']['text']['*']
@@ -290,21 +365,12 @@ def save(html, pagename):
 		with open(f'{ STATIC_FOLDER_PATH }/Unfolded.html', 'w') as out:
 			out.write(html) # save the html to a file (without <head>)
 
-def update_material_now(pagename, wiki):
-	"""
-		pagename = string
-		publication_unfolded = string (HTML)
-	"""
-	publication_unfolded = parse_page(pagename, wiki)
-
-	return publication_unfolded
-
 # ---
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-	wiki = 'https://volumetricregimes.xyz' # remove tail slash '/'
-	pagename = 'Unfolded'
+	# wiki = 'https://volumetricregimes.xyz' # remove tail slash '/'
+	# pagename = 'Unfolded'
 	
-	publication_unfolded = update_material_now(pagename, wiki) # download the latest version of the page
-	save(publication_unfolded, pagename) # save the page to file
+	# publication_unfolded = update_material_now(pagename, wiki) # download the latest version of the page
+	# save(publication_unfolded, pagename) # save the page to file

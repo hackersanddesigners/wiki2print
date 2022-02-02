@@ -24,21 +24,11 @@ window.addEventListener('load', function () {
 	const nav = document.createElement('div');
 	nav.id = 'nav';
 	nav.innerHTML = `
-		<a id="home" href="/">
-			<button>/</button>
-		</a> 
-		<a id="update" href="/update">
-			<button>update index</button>
-		</a> 
-		<div id="loading">
-			loading
-		</div>`;
+		<a id="home" href="/"><button>/</button></a> 
+		<a id="update" href="/update"><button>update index</button></a> 
+	`;
 	document.body.insertBefore(nav, document.body.firstChild)
 })
-function loading(){
-	const loading = document.getElementById("loading");
-	loading.style.display = 'block';
-}
 </script>
 {% endblock %}
 </html>
