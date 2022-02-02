@@ -1,5 +1,5 @@
 wiki/mediawiki
 .DS_Store
 static/*
-!/static/css
-!/static/js
+!static/css
+!static/js
