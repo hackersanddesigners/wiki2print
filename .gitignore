@@ -3,3 +3,4 @@ wiki/mediawiki
 static/*
 !static/css
 !static/js
+__pycache__
