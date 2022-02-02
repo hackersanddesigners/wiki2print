@@ -192,6 +192,22 @@ def fast_loader(html):
 
 	return html
 
+def parse_index(wiki, namespace):
+	"""
+		namespace = string
+		html = string (HTML)
+	"""
+	parse = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ namespace["id"] }'
+	data = API_request(parse, 'index')
+	allpages = data['query']['allpages']
+	for page in allpages:
+		page['title'] = page['title'].replace(namespace['name'] + ':' , '')
+		page['slug']  = page['title'].replace(' ' , '_')
+
+	print(json.dumps(allpages, indent=4))
+	return allpages
+
+
 def parse_page(pagename, wiki):
 	"""
 		pagename = string

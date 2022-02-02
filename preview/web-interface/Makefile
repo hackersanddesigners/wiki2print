@@ -4,5 +4,5 @@ run:
 	python3 web-interface.py
 
 update:
-	git pull
+	# git pull
 	supervisorctl restart volumetric-regimes

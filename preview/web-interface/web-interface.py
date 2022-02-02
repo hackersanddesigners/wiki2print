@@ -2,17 +2,27 @@ import flask
 import urllib, json
 import os
 from update import *
+from api import *
 
 
 # ---
 
-PROJECT_NAME   = 'hello'
+PROJECT_NAME   = 'Wiki2Print'
 PORTNUMBER     = 5522
+
 DIR_PATH       = '.' # without trailing slash
 WIKI           = 'https://wiki2print.hackersanddesigners.nl/wiki/mediawiki' # remove tail slash '/'
-PAGENAME       = 'Publishing:Making_Matters_Lexicon'
-STYLESHEET_PAD = 'test-project.css'
-STYLESHEET     = 'print.css'
+SUBJECT_NS     = { 'name': 'Publishing', 'id': 3000 }
+STYLES_NS      = { 'name': 'PublishingCSS', 'id': 3001 }
+
+PAGENAME       = 'Making_Matters_Lexicon'
+
+SUBJECT_PAGE   = SUBJECT_NS['name'] + ':' + PAGENAME
+SUBJECT_PAGE   = STYLES_NS['name']  + ':' + PAGENAME
+
+# STYLESHEET_PAD = 'test-project.css'
+# STYLESHEET     = 'print.css'
+
 PROJ_HTML_PATH = f'{ DIR_PATH }/static/{ PAGENAME }.html'
 
 # ---
@@ -20,6 +30,18 @@ PROJ_HTML_PATH = f'{ DIR_PATH }/static/{ PAGENAME }.html'
 # Create the application.
 APP = flask.Flask(__name__)
 
+@APP.route('/', methods=['GET'])
+def index():
+	allpages = parse_index(WIKI, SUBJECT_NS)
+
+	return flask.render_template(
+    'index.html', 
+    title = PROJECT_NAME,
+		wiki  = WIKI,
+    page  = PAGENAME,
+		allpages = allpages,
+		namespace = SUBJECT_NS['name']
+  )
 
 def dlCSS():
 	# download the stylesheet pad
@@ -27,25 +49,25 @@ def dlCSS():
 	os.system(f'{ DIR_PATH }/venv/bin/etherpump gettext { STYLESHEET_PAD } > { DIR_PATH }/static/css/{ STYLESHEET }')
 
 
-@APP.route('/', methods=['GET'])
-def pad():
-	if not os.path.exists(PROJ_HTML_PATH):
-		dlCSS() 
-		pulication = update_material_now(
-			PAGENAME, 
-			WIKI
-		) 
-    # download the latest version of the page
-		with open(PROJ_HTML_PATH, 'w') as out:
-			out.write(pulication) # save the html (without <head>) to file
-	else:
-		pulication = open(PROJ_HTML_PATH, 'r').read()
-	return flask.render_template(
-    'index.html', 
-    title = PROJECT_NAME,
-		wiki  = WIKI,
-    page  = PAGENAME
-  )
+# @APP.route('/', methods=['GET'])
+# def pad():
+# 	if not os.path.exists(PROJ_HTML_PATH):
+# 		dlCSS() 
+# 		pulication = update_material_now(
+# 			PAGENAME, 
+# 			WIKI
+# 		) 
+#     # download the latest version of the page
+# 		with open(PROJ_HTML_PATH, 'w') as out:
+# 			out.write(pulication) # save the html (without <head>) to file
+# 	else:
+# 		pulication = open(PROJ_HTML_PATH, 'r').read()
+# 	return flask.render_template(
+#     'index.html', 
+#     title = PROJECT_NAME,
+# 		wiki  = WIKI,
+#     page  = PAGENAME
+#   )
 
 
 @APP.route('/notes/', methods=['GET'])
