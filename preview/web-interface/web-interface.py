@@ -15,39 +15,29 @@ WIKI           = conf['wiki']['base_url']
 SUBJECT_NS     = conf['wiki']['subject_ns']
 STYLES_NS      = conf['wiki']['styles_ns']
 
-# ---
-
-# Create the application.
 APP = flask.Flask(__name__)
 
 @APP.route('/', methods=['GET'])
 def index():
-	data = get_index(WIKI, SUBJECT_NS)
+	data = get_index(
+		WIKI, 
+		SUBJECT_NS
+	)
 	return flask.render_template(
     'index.html', 
     title     = PROJECT_NAME,
     wiki      = WIKI,
-    allpages  = data,
-    namespace = SUBJECT_NS['name']
-  )
-
-@APP.route('/update/', methods=['GET', 'POST'])
-def update():
-	data = create_index(WIKI, SUBJECT_NS)
-	return flask.render_template(
-    'index.html', 
-    title     = PROJECT_NAME,
-    wiki      = WIKI,
-    allpages  = data,
-    namespace = SUBJECT_NS['name']
+    namespace = SUBJECT_NS['name'],
+    allpages  = data
   )
 
 @APP.route('/inspect/<string:pagename>', methods=['GET', 'POST'])
 def inspect(pagename):
 	publication = get_publication(
-		pagename, 
-		SUBJECT_NS['name'],
-		WIKI
+		WIKI,
+		SUBJECT_NS,
+		STYLES_NS,
+		pagename
 	)
 	return flask.render_template(
 		'inspect.html', 
@@ -61,14 +51,31 @@ def pagedjs(pagename):
 		template = 'pagedjs.html'
 	
 	publication = get_publication(
-		pagename, 
-		SUBJECT_NS['name'],
-		WIKI
+		WIKI,
+		SUBJECT_NS,
+		STYLES_NS,
+		pagename
 	)
 	return flask.render_template(
     template, 
     publication = publication
   )
+
+@APP.route('/update/<string:pagename>', methods=['GET', 'POST'])
+def update(pagename):
+	if pagename == 'index':
+		create_index(
+			WIKI,
+			SUBJECT_NS
+		)
+	else:
+		create_publication(
+			WIKI,
+			SUBJECT_NS,
+			STYLES_NS,
+			pagename 
+		)
+	return flask.redirect(flask.url_for('index'))
 
 if __name__ == '__main__':
 	APP.debug=True

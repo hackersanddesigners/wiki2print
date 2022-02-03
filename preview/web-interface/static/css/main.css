@@ -38,12 +38,24 @@
 	table {
 		border-collapse: collapse;
 	}
+	table tr th {
+		font-weight: normal;
+	}
+	table tr th,
 	table tr td {
 		border: 1px solid darkgreen;
 		padding: 0 0.5em;
 	}
+	table tr th:first-of-type {
+		text-align: left;
+	}
 	table tr td:first-of-type {
 		min-width: 20em;
+	}
+	table tr td span.updated {
+		font-family: monospace;
+		font-size: 0.9em;
+		
 	}
 	iframe{
 		width: 90vw;

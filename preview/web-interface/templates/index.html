@@ -6,6 +6,17 @@
 	<h1>{{ title }}</h1>
 	<p>	publications in namespace <em>{{ namespace }}</em>:</p>
 	<table>
+		<tr>
+			<th>
+				title
+			</th>
+			<th colspan="4">
+				actions
+			</th>
+			<th>
+				last updated
+			</th>
+		</th>
 		<tr {% for page in allpages %}>
 			<td>{{ page.title }}</td>
 			<td>
@@ -31,6 +42,19 @@
 				>
 					pdf
 				</a>
+			</td>
+			<td>
+				<a 
+					title="Update publication"
+					href="{{ '/update/'+ page.slug }}"
+				>
+					update
+				</a>
+			</td>
+			<td>
+				<span class="updated">
+					{{ page.updated }}
+				</span>
 			</td>
 		</tr {% endfor %}>
 	</table>

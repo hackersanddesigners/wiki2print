@@ -3,7 +3,7 @@ import os
 import re
 import json
 import jinja2
-
+import datetime
 
 STATIC_FOLDER_PATH = './static' # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static' # without trailing slash
@@ -15,17 +15,7 @@ TEMPLATES_DIR = None
 # def style_page(pagename):
 # 	return STYLES_NS['name'] + ':' + pagename
 
-
-
-
-
-# This uses a low quality copy of all the images 
-# (using a folder with the name "images-small",
-# which stores a copy of all the images generated with:
-# $ mogrify -quality 5% -adaptive-resize 25% -remap pattern:gray50 * )
-fast = False
-
-# handle API request and return JSON
+# do API request and return JSON
 def do_API_request(url):
 	"""
 		url = API request url (string)
@@ -45,8 +35,8 @@ def do_API_request(url):
 	data = json.loads(response)
 	return data
 
-# Save response as JSON to be able to inspect API call
-def save_JSON_file(data, pagename):
+# Save response as JSON file to disk
+def save_JSON_file(pagename, data):
 	json_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.json'
 	print('Saving JSON:', json_file)
 	with open(json_file, 'w') as out:
@@ -54,7 +44,7 @@ def save_JSON_file(data, pagename):
 		out.close()
 	return data
 
-# Loads former response as JSON from disk
+# Load former response as JSON from disk
 def load_JSON_file(pagename):
 	json_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.json'
 	if os.path.exists(json_file):
@@ -64,54 +54,92 @@ def load_JSON_file(pagename):
 			out.close()
 		return data
 
-# makes API call to update index
-def create_index(wiki, namespace):
-	url  = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ namespace["id"] }'
-	data = do_API_request(url)
-	data = data['query']['allpages']
-	for page in data:
-		page['title'] = page['title'].replace(namespace['name'] + ':' , '')
-		page['slug']  = page['title'].replace(' ' , '_')
-	save_JSON_file(data, 'index')
-	return data
-
-# get index of publications in namespace
-def get_index(wiki, namespace):
-	"""
-	  wiki = string
-		namespace = object
-	"""
-	data = load_JSON_file('index') or create_index(wiki, namespace)
-	print(json.dumps(data, indent = 2))
-	return data
-
-def save_HTML_file(publication, pagename):
+# Save generated HTML file to disk
+def save_HTML_file(pagename, html):
 	html_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.html'
-	print('Saving HTML file from disk')
+	print('Saving HTML file to disk:', html_file)
 	with open(html_file, 'w') as out:
-		out.write(publication)
+		out.write(html)
 		out.close()
-	return publication
+	return html
 
+# Load former HTML file from disk
 def load_HTML_file(pagename):
 	html_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.html'
 	if os.path.exists(html_file):
-		print('Loading HTML file from disk')
+		print('Loading HTML file from disk:', html_file)
 		with open(html_file, 'r') as out:
-			publication = out.read()
+			html = out.read()
 			out.close()
-		return publication
+		return html
 
-def create_publication(pagename, namespace, wiki):
-	"""
-		pagename = string
-		html = string (HTML)
-	"""
-	url  = f'{ wiki }/api.php?action=parse&page={ namespace }:{ pagename }&pst=True&format=json'
+# Save generated CSS file to disk
+def save_CSS_file(pagename, css):
+	css_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.css'
+	print('Saving CSS file to disk:', css_file)
+	with open(css_file, 'w') as out:
+		out.write(css)
+		out.close()
+	return css
+
+# Load former CSS file from disk
+def load_CSS_file(pagename):
+	css_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.css'
+	if os.path.exists(css_file):
+		print('Loading CSS file from disk:', css_file)
+		with open(css_file, 'r') as out:
+			css = out.read()
+			out.close()
+		return css
+
+# makes API call to create/update index 
+def create_index(wiki, subject_ns):
+	url  = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ subject_ns["id"] }'
 	data = do_API_request(url)
-	save_JSON_file(data, pagename)
+	data = data['query']['allpages']
+	for page in data:
+		page['title'] = page['title'].replace(subject_ns['name'] + ':' , '')
+		page['slug'] = page['title'].replace(' ' , '_')
+		pageJSON = load_JSON_file(page['slug'])
+		page['updated'] = pageJSON and pageJSON['updated'] or '--'
+	save_JSON_file('index', data)
+	return data
+
+# get index of publications in namespace
+def get_index(wiki, subject_ns):
+	"""
+	  wiki = string
+		subject_ns = object
+	"""
+	data = load_JSON_file('index') or create_index(
+		wiki,
+		subject_ns	
+	)
+	return data
+
+def update_publication_date(wiki, subject_ns, pagename, updated):
+	index = get_index(wiki, subject_ns)
+	for page in index:
+		if page['slug'] == pagename:
+			page['updated'] = updated
+	save_JSON_file('index', index)
+
+# makes API call to create/update a publication 
+def create_publication(wiki, subject_ns, styles_ns, pagename):
+	url = f'{ wiki }/api.php?action=parse&page={ subject_ns["name"] }:{ pagename }&pst=True&format=json'
+	data = do_API_request(url)
+	now = str(datetime.datetime.now())
+	data['updated'] = now
+	save_JSON_file(pagename, data)
 	
-	print(json.dumps(data, indent = 2))
+	update_publication_date(
+		wiki,
+		subject_ns, 
+		pagename, 
+		now
+	)
+
+	print(json.dumps(data, indent=4))
 
 	if 'parse' in data:
 		html = data['parse']['text']['*']
@@ -124,20 +152,22 @@ def create_publication(pagename, namespace, wiki):
 	else: 
 		html = None
 
-	save_HTML_file(html, pagename)
+	save_HTML_file(pagename, html)
 	return html
 
-
-def get_publication(pagename, namespace, wiki):
+# get publication in namespace
+def get_publication(wiki, subject_ns, styles_ns, pagename):
 	"""
-		pagename = string
-		namespace = object
 	  wiki = string
+		subject_ns = object
+		styles_ns = object
+		pagename = string
 	"""
 	publication = load_HTML_file(pagename) or create_publication(
-		pagename, 
-		namespace,
-		wiki
+		wiki,
+		subject_ns,
+		styles_ns,
+		pagename
 	)
 	return publication
 
@@ -149,9 +179,11 @@ def get_publication(pagename, namespace, wiki):
 
 
 
-
-
-
+# This uses a low quality copy of all the images 
+# (using a folder with the name "images-small",
+# which stores a copy of all the images generated with:
+# $ mogrify -quality 5% -adaptive-resize 25% -remap pattern:gray50 * )
+fast = False
 
 def download_media(html, images, wiki):
 	"""
@@ -305,29 +337,6 @@ def fast_loader(html):
 	return html
 
 
-
-def parse_page(pagename, namespace, wiki):
-	"""
-		pagename = string
-		html = string (HTML)
-	"""
-	parse = f'{ wiki }/api.php?action=parse&page={ namespace }:{ pagename }&pst=True&format=json'
-	data = do_API_request(parse)
-	print(data)
-	save_JSON_file(data, pagename)
-	# print(json.dumps(data, indent=4))
-	if 'parse' in data:
-		html = data['parse']['text']['*']
-		images = data['parse']['images']
-		html = download_media(html, images, wiki)
-		html = clean_up(html)
-		html = add_item_inventory_links(html)
-		html = tweaking(html)
-		html = fast_loader(html)
-	else: 
-		html = None
-
-	return html
 
 def save(html, pagename):
 	"""
