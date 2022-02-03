@@ -41,7 +41,8 @@ def inspect(pagename):
 	)
 	return flask.render_template(
 		'inspect.html', 
-		publication = publication
+		publication = publication,
+		title = pagename
 	)
 
 @APP.route('/pagedjs/<string:pagename>', methods=['GET', 'POST'])
@@ -57,8 +58,9 @@ def pagedjs(pagename):
 		pagename
 	)
 	return flask.render_template(
-    template, 
-    publication = publication
+    'pagedjs.html', 
+    publication = publication,
+		title = pagename
   )
 
 @APP.route('/update/<string:pagename>', methods=['GET', 'POST'])

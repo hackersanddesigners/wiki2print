@@ -139,8 +139,6 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		now
 	)
 
-	print(json.dumps(data, indent=4))
-
 	if 'parse' in data:
 		html = data['parse']['text']['*']
 		images = data['parse']['images']
@@ -153,6 +151,16 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		html = None
 
 	save_HTML_file(pagename, html)
+
+	css_url = f'{ wiki }/api.php?action=parse&page={ styles_ns["name"] }:{ pagename }&prop=wikitext&pst=True&format=json'
+	css_data = do_API_request(css_url)
+	if 'parse' in css_data:
+		print(json.dumps(css_data, indent=4))
+		css = css_data['parse']['wikitext']['*']
+		save_CSS_file(pagename, css)
+
+
+
 	return html
 
 # get publication in namespace
