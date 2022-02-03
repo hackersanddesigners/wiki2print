@@ -25,10 +25,11 @@ def index():
 	)
 	return flask.render_template(
     'index.html', 
-    title     = PROJECT_NAME,
-    wiki      = WIKI,
-    namespace = SUBJECT_NS['name'],
-    allpages  = data
+    title      = PROJECT_NAME,
+    wiki       = WIKI,
+    subject_ns = SUBJECT_NS,
+    styles_ns  = STYLES_NS,
+    allpages   = data,
   )
 
 @APP.route('/inspect/<string:pagename>', methods=['GET', 'POST'])

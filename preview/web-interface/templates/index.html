@@ -4,7 +4,7 @@
 <div id="index">
 	<br>
 	<h1>{{ title }}</h1>
-	<p>	publications in namespace <em>{{ namespace }}</em>:</p>
+	<p>Publications are in namespaces <em>{{ subject_ns["name"] }}</em> and <em>{{ styles_ns["name"] }}</em>.</p>
 	<table>
 		<tr>
 			<th>
@@ -22,7 +22,7 @@
 			<td>
 				<a 
 					title="Edit in MediaWiki"
-					href="{{ '/wiki/'+ namespace + ':' + page.slug }}"
+					href="{{ '/wiki/'+ subject_ns['name'] + ':' + page.slug }}"
 				>
 					wiki
 				</a>
@@ -58,5 +58,4 @@
 			</td>
 		</tr {% endfor %}>
 	</table>
-</div>
 {% endblock %}
