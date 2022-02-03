@@ -184,6 +184,8 @@ def get_publication(wiki, subject_ns, styles_ns, pagename):
 
 
 
+
+
 # This uses a low quality copy of all the images 
 # (using a folder with the name "images-small",
 # which stores a copy of all the images generated with:

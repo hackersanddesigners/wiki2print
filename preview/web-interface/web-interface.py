@@ -49,15 +49,14 @@ def inspect(pagename):
 	)
 
 @APP.route('/pagedjs/<string:pagename>', methods=['GET', 'POST'])
-def pagedjs(pagename):
-	template = conf.get('custom_pagedjs_template') or 'pagedjs.html'
-	
+def pagedjs(pagename):	
 	publication = get_publication(
 		WIKI,
 		SUBJECT_NS,
 		STYLES_NS,
 		pagename
 	)
+	template = conf.get('custom_pagedjs_template') or 'pagedjs.html'
 	return flask.render_template(
     template, 
 		title = pagename,
