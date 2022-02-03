@@ -17,7 +17,7 @@
 				last updated
 			</th>
 		</th>
-		<tr {% for page in allpages %}>
+		<tr {% for page in pages %}>
 			<td>{{ page.title }}</td>
 			<td>
 				<a 
@@ -58,4 +58,15 @@
 			</td>
 		</tr {% endfor %}>
 	</table>
+	<br><br>
+	<p>Index was last updated on 
+		<span class="updated">{{ updated }}</span>
+		<a 
+			id="update" 
+			href="/update/index"
+			title="Update index of publications"
+		>
+			update
+		<a> 
+	</p>
 {% endblock %}

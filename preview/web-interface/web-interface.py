@@ -6,10 +6,7 @@ sys.path.insert(0, '..')
 from config import config as conf
 
 # CONFIG VARIABLES
-<<<<<<< HEAD
-=======
 
->>>>>>> 64a2360 (trtied to integrate heerkos changes)
 PROJECT_NAME   = conf['project_name']
 PORTNUMBER     = conf['port']
 WIKI           = conf['wiki']['base_url']
@@ -20,7 +17,7 @@ APP = flask.Flask(__name__)
 
 @APP.route('/', methods=['GET'])
 def index():
-	data = get_index(
+	index = get_index(
 		WIKI, 
 		SUBJECT_NS
 	)
@@ -30,7 +27,8 @@ def index():
     wiki       = WIKI,
     subject_ns = SUBJECT_NS,
     styles_ns  = STYLES_NS,
-    allpages   = data,
+    pages      = index['pages'],
+    updated    = index['updated'],
   )
 
 @APP.route('/inspect/<string:pagename>', methods=['GET', 'POST'])

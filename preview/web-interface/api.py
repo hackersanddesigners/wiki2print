@@ -90,14 +90,19 @@ def load_CSS_file(pagename):
 def create_index(wiki, subject_ns):
 	url  = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ subject_ns["id"] }'
 	data = do_API_request(url)
-	data = data['query']['allpages']
-	for page in data:
+	pages = data['query']['allpages']
+	for page in pages:
 		page['title'] = page['title'].replace(subject_ns['name'] + ':' , '')
 		page['slug'] = page['title'].replace(' ' , '_')
 		pageJSON = load_JSON_file(page['slug'])
 		page['updated'] = pageJSON and pageJSON['updated'] or '--'
-	save_JSON_file('index', data)
-	return data
+	updated =  str(datetime.datetime.now())
+	index = {
+		'pages': pages,
+		'updated': updated
+	}
+	save_JSON_file('index', index)
+	return index
 
 # get index of publications in namespace
 def get_index(wiki, subject_ns):
@@ -152,8 +157,6 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		print(json.dumps(css_data, indent=4))
 		css = css_data['parse']['wikitext']['*']
 		save_CSS_file(pagename, css)
-
-
 
 	return html
 
