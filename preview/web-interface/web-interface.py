@@ -1,3 +1,4 @@
+from cgitb import html
 import flask
 import urllib, json
 import os
@@ -42,8 +43,9 @@ def inspect(pagename):
 	)
 	return flask.render_template(
 		'inspect.html', 
-		publication = publication,
-		title = pagename
+		title = pagename,
+		html = publication['html'],
+		css = publication['css']
 	)
 
 @APP.route('/pagedjs/<string:pagename>', methods=['GET', 'POST'])
@@ -60,8 +62,8 @@ def pagedjs(pagename):
 	)
 	return flask.render_template(
     'pagedjs.html', 
-    publication = publication,
-		title = pagename
+		title = pagename,
+		html = publication['html'],
   )
 
 @APP.route('/update/<string:pagename>', methods=['GET', 'POST'])

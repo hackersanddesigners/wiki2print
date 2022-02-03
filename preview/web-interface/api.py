@@ -171,12 +171,15 @@ def get_publication(wiki, subject_ns, styles_ns, pagename):
 		styles_ns = object
 		pagename = string
 	"""
-	publication = load_HTML_file(pagename) or create_publication(
-		wiki,
-		subject_ns,
-		styles_ns,
-		pagename
-	)
+	publication = {
+		'html': load_HTML_file(pagename) or create_publication(
+			wiki,
+			subject_ns,
+			styles_ns,
+			pagename
+		),
+		'css': load_CSS_file(pagename)
+	}
 	return publication
 
 
