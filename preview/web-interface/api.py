@@ -9,12 +9,6 @@ STATIC_FOLDER_PATH = './static' # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static' # without trailing slash
 TEMPLATES_DIR = None
 
-# def subject_page(pagename):
-# 	return SUBJECT_NS['name'] + ':' + pagename
-
-# def style_page(pagename):
-# 	return STYLES_NS['name'] + ':' + pagename
-
 # do API request and return JSON
 def do_API_request(url):
 	"""

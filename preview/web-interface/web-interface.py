@@ -1,8 +1,4 @@
-from cgitb import html
 import flask
-import urllib, json
-import os
-from update import *
 from api import *
 
 import sys
@@ -10,6 +6,10 @@ sys.path.insert(0, '..')
 from config import config as conf
 
 # CONFIG VARIABLES
+<<<<<<< HEAD
+=======
+
+>>>>>>> 64a2360 (trtied to integrate heerkos changes)
 PROJECT_NAME   = conf['project_name']
 PORTNUMBER     = conf['port']
 WIKI           = conf['wiki']['base_url']
@@ -50,9 +50,7 @@ def inspect(pagename):
 
 @APP.route('/pagedjs/<string:pagename>', methods=['GET', 'POST'])
 def pagedjs(pagename):
-	template = conf.get('custom_pagedjs_template')
-	if template == None:
-		template = 'pagedjs.html'
+	template = conf.get('custom_pagedjs_template') or 'pagedjs.html'
 	
 	publication = get_publication(
 		WIKI,
@@ -61,7 +59,7 @@ def pagedjs(pagename):
 		pagename
 	)
 	return flask.render_template(
-    'pagedjs.html', 
+    template, 
 		title = pagename,
 		html = publication['html'],
   )
