@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
   {
     "pageid": 10,
@@ -7,3 +8,17 @@
     "updated": "2022-02-03 01:30:33.716926"
   }
 ]
+=======
+{
+  "pages": [
+    {
+      "pageid": 10,
+      "ns": 3000,
+      "title": "Making Matters Lexicon",
+      "slug": "Making_Matters_Lexicon",
+      "updated": "2022-02-03 11:33:18.188980"
+    }
+  ],
+  "updated": "2022-02-03 11:16:29.913654"
+}
+>>>>>>> f2e2f6c (fixed update function)

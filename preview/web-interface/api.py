@@ -119,7 +119,7 @@ def get_index(wiki, subject_ns):
 
 def update_publication_date(wiki, subject_ns, pagename, updated):
 	index = get_index(wiki, subject_ns)
-	for page in index:
+	for page in index['pages']:
 		if page['slug'] == pagename:
 			page['updated'] = updated
 	save_JSON_file('index', index)
