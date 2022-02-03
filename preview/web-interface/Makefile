@@ -5,4 +5,4 @@ run:
 
 update:
 	# git pull
-	supervisorctl restart volumetric-regimes
+	supervisorctl restart wiki2print
