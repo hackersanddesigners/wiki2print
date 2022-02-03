@@ -214,27 +214,31 @@ def download_media(html, images, wiki):
 
 			# first we search for the full filename of the image
 			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
-			response = urllib.request.urlopen(url).read()
-			data = json.loads(response)
+			data = do_API_request(url)
+
+			# print(json.dumps(data, indent=2))
+
+			if data['query']['allimages']:
 
 			# we select the first search result
 			# (assuming that this is the image we are looking for)
-			image = data['query']['allimages'][0] 
+				image = data['query']['allimages'][0] 
 
-			# then we download the image
-			image_url = image['url']
-			image_filename = image['name']
-			print('Downloading:', image_filename)
-			image_response = urllib.request.urlopen(image_url).read()
+				if image:
+					# then we download the image
+					image_url = image['url']
+					image_filename = image['name']
+					print('Downloading:', image_filename)
+					image_response = urllib.request.urlopen(image_url).read()
 
-			# and we save it as a file
-			image_path = f'{ STATIC_FOLDER_PATH }/images/{ image_filename }'
-			out = open(image_path, 'wb') 
-			out.write(image_response)
-			out.close()
+					# and we save it as a file
+					image_path = f'{ STATIC_FOLDER_PATH }/images/{ image_filename }'
+					out = open(image_path, 'wb') 
+					out.write(image_response)
+					out.close()
 
-			import time
-			time.sleep(3) # do not overload the server
+					import time
+					time.sleep(3) # do not overload the server
 
 		# replace src link
 		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
