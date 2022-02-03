@@ -52,7 +52,7 @@
 	table tr td:first-of-type {
 		min-width: 20em;
 	}
-	table tr td span.updated {
+	span.updated {
 		font-family: monospace;
 		font-size: 0.9em;
 		
