@@ -4,6 +4,7 @@ import re
 import json
 import jinja2
 import datetime
+from bs4 import BeautifulSoup
 
 STATIC_FOLDER_PATH = './static' # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static' # without trailing slash
@@ -137,7 +138,7 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		pagename, 
 		now
 	)
-
+	
 	if 'parse' in data:
 		html = data['parse']['text']['*']
 		images = data['parse']['images']
@@ -146,6 +147,7 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		html = add_item_inventory_links(html)
 		html = tweaking(html)
 		html = fast_loader(html)
+		html = inlineCiteRefs(html)
 	else: 
 		html = None
 
@@ -158,6 +160,33 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		css = css_data['parse']['wikitext']['*']
 		save_CSS_file(pagename, css)
 
+	return html
+
+# inline citation references in the html for pagedjs
+# Turns: <sup class="reference" id="cite_ref-1"><a href="#cite_note-1">[1]</a></sup>
+# into: <span class="note">The cite text</span>
+def inlineCiteRefs(html):
+	soup = BeautifulSoup(html, 'html.parser')
+	refs = soup.find_all("sup", class_="reference")
+	for ref in refs:
+		href = ref.a['href']
+		res = re.findall('[0-9]+', href)
+		if(res):
+			cite = soup.find_all(id="cite_note-"+res[0])
+			text = cite[0].find_all(class_="reference-text")
+			str = ""
+			for s in text[0].stripped_strings:
+				str += s
+			tag = soup.new_tag("span", attrs={"class":"footnote"})
+			# content = NavigableString(s)
+			tag.append(s)
+			ref.replace_with(tag)
+	#remove the  reference from the bottom of the document
+	soup.find_all(class_="references")[0].decompose()
+	html = soup.prettify()
+  
+	# print("REFS")
+	# print(refs)
 	return html
 
 # get publication in namespace
