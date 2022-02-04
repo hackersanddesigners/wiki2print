@@ -9,7 +9,6 @@
   },
   "pagename": "Making_Matters_Lexicon",
   "stylesheet": "print.css",
-  "custom_pagedjs_template": "custom.html",
   "replacements": [
     {
       "type": "replace",

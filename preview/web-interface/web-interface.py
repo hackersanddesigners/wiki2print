@@ -54,7 +54,9 @@ def pagedjs(pagename):
 		STYLES_NS,
 		pagename
 	)
-	template = conf.get('custom_pagedjs_template') or 'pagedjs.html'
+	# template = conf.get('custom_pagedjs_template') or 'pagedjs.html'
+	template = customTemplate(pagename) or 'pagedjs.html'
+	print( "using template: ", template)
 	return flask.render_template(
     template, 
 		title = pagename,

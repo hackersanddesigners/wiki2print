@@ -108,7 +108,7 @@ def create_index(wiki, subject_ns):
 # get index of publications in namespace
 def get_index(wiki, subject_ns):
 	"""
-	  wiki = string
+		wiki = string
 		subject_ns = object
 	"""
 	data = load_JSON_file('index') or create_index(
@@ -184,7 +184,7 @@ def inlineCiteRefs(html):
 	#remove the  reference from the bottom of the document
 	soup.find_all(class_="references")[0].decompose()
 	html = soup.prettify()
-  
+	
 	# print("REFS")
 	# print(refs)
 	return html
@@ -192,7 +192,7 @@ def inlineCiteRefs(html):
 # get publication in namespace
 def get_publication(wiki, subject_ns, styles_ns, pagename):
 	"""
-	  wiki = string
+		wiki = string
 		subject_ns = object
 		styles_ns = object
 		pagename = string
@@ -209,7 +209,12 @@ def get_publication(wiki, subject_ns, styles_ns, pagename):
 	return publication
 
 
-
+def customTemplate(name):
+	path = "custom/%s.html" % name
+	if os.path.isfile(os.path.join(os.path.dirname(__file__), "templates/", path)):
+		return path 
+	else:
+		return None
 
 
 
