@@ -6,8 +6,9 @@
 <!-- <link href="{{ url_for('static', filename='css/pagedjs.css')}}" rel="stylesheet" type="text/css" media="screen" /> -->
 <!-- <link href="{{ url_for('static', filename='css/print.css')}}" rel="stylesheet" type="text/css" media="print" /> -->
 <!-- <link href="{{ url_for('static', filename='css/baseline.css')}}" rel="stylesheet" type="text/css" media="print" /> -->
+
 <link href="{{ url_for('static', filename='css/preview.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ url_for('static', filename='css/custom.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ url_for('static', filename='custom/css/'+title+'.css')}}" rel="stylesheet" type="text/css" />
 
 <script>
 	this.ready = new Promise(function ($) {
@@ -29,45 +30,53 @@
 		}
 
 		afterPageLayout(pageFragment, page) {
-			console.log(pageFragment, page, this.chunker, this.polisher, this.caller );
+			// console.log(pageFragment, page, this.chunker, this.polisher, this.caller );
 			pageFragment.style.position = "relative";
-			console.log(this.chunker.total);
+			console.log(this.chunker.pages);
+			console.log(page)
+			// this.renderSketch(page)
+		}
+
+		
+	}
+
+
+	function renderSketch(page, num, total){
+			console.log("before",page)
 			let isRight = page.element.classList.contains("pagedjs_right_page");
 
 			const s = (sketch) => {
 				let canvas;
 				sketch.setup = () => {
-					canvas = sketch.createCanvas(200, 200);
-					canvas.parent(pageFragment);
+					console.log("setup", page)
+					canvas = sketch.createCanvas(page.element.offsetWidth, page.element.offsetHeight);
+					canvas.parent(page.element);
 					canvas.position(0, 0);
 					canvas.style("z-index", "-1");
-					sketch.resizeCanvas(
-						pageFragment.offsetWidth,
-						pageFragment.offsetHeight
-					);
 					sketch.background(220);
+					sketch.drawPageBorder();
+				};
+
+				sketch.drawPageBorder = () => {
 					sketch.fill(255, 128, 0);
 					sketch.noStroke();
 					if (isRight) {
-						sketch.rect( sketch.width - 10, 0, 10, sketch.random(0, sketch.height) );
+						let h = sketch.map(num, 0, total, 0, sketch.height);
+						sketch.rect( sketch.width - 10, 0, 10, h );
 					} else {
-						sketch.rect(0, 0, 10, sketch.random(50, 150));
+						sketch.rect( 0, 0, 10, sketch.map(num, 0, total, 0, sketch.height) );
 					}
-				};
+					// Alternatively, convert the sketch to on image and set it as background of the page
+					// let dataurl = canvas.canvas.toDataURL('image/png');
+					// canvas.parent().style.backgroundImage = dataurl;
+					// canvas.style.display = "none";
+				}
 
-				// sketch.draw = () => {
-				//   sketch.background(220);
-				//   sketch.fill(255, 0, 0);
-				//   sketch.rect(x, y, 50 + sketch.random(0,50), 50);
-
-				// };
+				// sketch.draw = () => {};
 			};
 
 			let myp5 = new p5(s); 
-			
 		}
-	}
-
 	// ready.then(async function () {
 	// 	let main = document.querySelector("#main");
 	// 	let polisher, chunker;
@@ -93,8 +102,11 @@
 
       paged.preview(flowText.content).then((flow) => {
         let t1 = performance.now();
-
         console.log("Rendering " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
+				for(const i in flow.pages){
+					let page = flow.pages[i]
+					this.renderSketch(page, parseInt(i)+1, flow.pages.length)
+				}
       });
 
       let resizer = () => {
@@ -119,7 +131,7 @@
 
     });
 </script>
-
+{{pagename}}
 {% endblock %} {% block content %}
 <template id="source"> {{ html | safe }} </template>
 {% endblock %}

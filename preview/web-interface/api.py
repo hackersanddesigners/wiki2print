@@ -164,7 +164,7 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 
 # inline citation references in the html for pagedjs
 # Turns: <sup class="reference" id="cite_ref-1"><a href="#cite_note-1">[1]</a></sup>
-# into: <span class="note">The cite text</span>
+# into: <span class="footnote">The cite text</span>
 def inlineCiteRefs(html):
 	soup = BeautifulSoup(html, 'html.parser')
 	refs = soup.find_all("sup", class_="reference")
@@ -184,9 +184,6 @@ def inlineCiteRefs(html):
 	#remove the  reference from the bottom of the document
 	soup.find_all(class_="references")[0].decompose()
 	html = soup.prettify()
-	
-	# print("REFS")
-	# print(refs)
 	return html
 
 # get publication in namespace
@@ -218,11 +215,6 @@ def customTemplate(name):
 
 
 
-
-
-
-
-
 # This uses a low quality copy of all the images 
 # (using a folder with the name "images-small",
 # which stores a copy of all the images generated with:
@@ -237,11 +229,11 @@ def download_media(html, images, wiki):
 	# check if 'images/' already exists
 	if not os.path.exists(f'{ STATIC_FOLDER_PATH }/images'):
 		os.makedirs(f'{ STATIC_FOLDER_PATH }/images')
-
+	
 	# download media files
 	for filename in images:
 		filename = filename.replace(' ', '_') # safe filenames
-
+		
 		# check if the image is already downloaded
 		# if not, then download the file
 		if not os.path.isfile(f'{ STATIC_FOLDER_PATH }/images/{ filename }'):
@@ -276,12 +268,13 @@ def download_media(html, images, wiki):
 
 		# replace src link
 		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
-		matches = re.findall(rf'src="/images/.*?px-{ filename }"', html) # for debugging
+		matches = re.findall(rf'src="/wiki/mediawiki/images/.*?px-{ filename }"', html) # for debugging
 		if matches:
-			html = re.sub(rf'src="/images/.*?px-{ filename }"', f'src="{ image_path }"', html)
+			html = re.sub(rf'src="/wiki/mediawiki/images/.*?px-{ filename }"', f'src="{ image_path }"', html)
 		else:
-			matches = re.findall(rf'src="/images/.*?{ filename }"', html) # for debugging
-			html = re.sub(rf'src="/images/.*?{ filename }"', f'src="{ image_path }"', html) 
+			matches = re.findall(rf'src="/wiki/mediawiki/images/.*?{ filename }"', html) # for debugging
+			print(matches, filename, html)
+			html = re.sub(rf'src="/wiki/mediawiki/images/.*?{ filename }"', f'src="{ image_path }"', html) 
 		# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
 
 	return html
