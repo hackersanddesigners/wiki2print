@@ -6,8 +6,10 @@
 <link href="{{ url_for('static', filename='css/pagedjs.css')}}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ url_for('static', filename='css/print.css')}}" rel="stylesheet" type="text/css" media="print">
 <link href="{{ url_for('static', filename='css/baseline.css')}}" rel="stylesheet" type="text/css" media="print">
+<link href="{{ url_for('static', filename=title + '.css') }}" rel="stylesheet" type="text/css" media="screen">
 <script src="{{ url_for('static', filename='js/p5.js')}}"></script>
 <script src="{{ url_for('static', filename='js/variable-geometry-cover.js')}}"></script>
+
 {% endblock %}
 
 {% block content %}
