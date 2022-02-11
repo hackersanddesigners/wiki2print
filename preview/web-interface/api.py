@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.error
 import os
 import re
 import json
@@ -26,66 +27,38 @@ def do_API_request(url):
 				}
 	"""
 	print('Loading from wiki: ', url)
-	response = urllib.request.urlopen(url).read()
-	data = json.loads(response)
-	return data
-
-# Save response as JSON file to disk
-def save_JSON_file(pagename, data):
-	json_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.json'
-	print('Saving JSON:', json_file)
-	with open(json_file, 'w') as out:
-		out.write( json.dumps(data, indent = 2) )
-		out.close()
-	return data
-
-# Load former response as JSON from disk
-def load_JSON_file(pagename):
-	json_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.json'
-	if os.path.exists(json_file):
-		print('Loading JSON:', json_file)
-		with open(json_file, 'r') as out:
-			data = json.load(out)
-			out.close()
+	response = urllib.request.urlopen(url)
+	response_type = response.getheader('Content-Type')
+	if response.status == 200 and "json" in response_type:
+		contents = response.read()
+		data = json.loads(contents)
 		return data
 
-# Save generated HTML file to disk
-def save_HTML_file(pagename, html):
-	html_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.html'
-	print('Saving HTML file to disk:', html_file)
-	with open(html_file, 'w') as out:
-		out.write(html)
+
+# Save file to disk
+def save_file(pagename, ext, data):
+	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
+	print(f'Saving { ext }:', path)
+	with open(path, 'w') as out:
+		if ext == 'json':
+			out.write( json.dumps(data, indent = 2) )
+		else:
+			out.write(data)
 		out.close()
-	return html
+	return data
 
-# Load former HTML file from disk
-def load_HTML_file(pagename):
-	html_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.html'
-	if os.path.exists(html_file):
-		print('Loading HTML file from disk:', html_file)
-		with open(html_file, 'r') as out:
-			html = out.read()
+# Load file from disk
+def load_file(pagename, ext):
+	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
+	if os.path.exists(path):
+		print(f'Loading { ext }:', path)
+		with open(path, 'r') as out:
+			if ext == 'json':
+				data = json.load(out)
+			else:
+				data = out.read()
 			out.close()
-		return html
-
-# Save generated CSS file to disk
-def save_CSS_file(pagename, css):
-	css_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.css'
-	print('Saving CSS file to disk:', css_file)
-	with open(css_file, 'w') as out:
-		out.write(css)
-		out.close()
-	return css
-
-# Load former CSS file from disk
-def load_CSS_file(pagename):
-	css_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.css'
-	if os.path.exists(css_file):
-		print('Loading CSS file from disk:', css_file)
-		with open(css_file, 'r') as out:
-			css = out.read()
-			out.close()
-		return css
+		return data
 
 # makes API call to create/update index 
 def create_index(wiki, subject_ns):
@@ -95,14 +68,14 @@ def create_index(wiki, subject_ns):
 	for page in pages:
 		page['title'] = page['title'].replace(subject_ns['name'] + ':' , '')
 		page['slug'] = page['title'].replace(' ' , '_')
-		pageJSON = load_JSON_file(page['slug'])
+		pageJSON = load_file(page['slug'], 'json')
 		page['updated'] = pageJSON and pageJSON['updated'] or '--'
 	updated =  str(datetime.datetime.now())
 	index = {
 		'pages': pages,
 		'updated': updated
 	}
-	save_JSON_file('index', index)
+	save_file('index', 'json', index)
 	return index
 
 # get index of publications in namespace
@@ -111,18 +84,18 @@ def get_index(wiki, subject_ns):
 		wiki = string
 		subject_ns = object
 	"""
-	data = load_JSON_file('index') or create_index(
+	return load_file('index', 'json') or create_index(
 		wiki,
 		subject_ns	
 	)
-	return data
+	# return data
 
 def update_publication_date(wiki, subject_ns, pagename, updated):
 	index = get_index(wiki, subject_ns)
 	for page in index['pages']:
 		if page['slug'] == pagename:
 			page['updated'] = updated
-	save_JSON_file('index', index)
+	save_file('index', 'json', index)
 
 # makes API call to create/update a publication 
 def create_publication(wiki, subject_ns, styles_ns, pagename):
@@ -130,7 +103,7 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 	data = do_API_request(url)
 	now = str(datetime.datetime.now())
 	data['updated'] = now
-	save_JSON_file(pagename, data)
+	save_file(pagename, 'json', data)
 	
 	update_publication_date(
 		wiki,
@@ -138,7 +111,7 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		pagename, 
 		now
 	)
-	
+
 	if 'parse' in data:
 		html = data['parse']['text']['*']
 		images = data['parse']['images']
@@ -147,18 +120,17 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		html = add_item_inventory_links(html)
 		html = tweaking(html)
 		html = fast_loader(html)
-		html = inlineCiteRefs(html)
 	else: 
 		html = None
 
-	save_HTML_file(pagename, html)
+	save_file(pagename, 'html', html)
 
 	css_url = f'{ wiki }/api.php?action=parse&page={ styles_ns["name"] }:{ pagename }&prop=wikitext&pst=True&format=json'
 	css_data = do_API_request(css_url)
-	if 'parse' in css_data:
+	if css_data and 'parse' in css_data:
 		print(json.dumps(css_data, indent=4))
 		css = css_data['parse']['wikitext']['*']
-		save_CSS_file(pagename, css)
+		save_file(pagename, 'css', css)
 
 	return html
 
@@ -195,13 +167,13 @@ def get_publication(wiki, subject_ns, styles_ns, pagename):
 		pagename = string
 	"""
 	publication = {
-		'html': load_HTML_file(pagename) or create_publication(
+		'html': load_file(pagename, 'html') or create_publication(
 			wiki,
 			subject_ns,
 			styles_ns,
 			pagename
 		),
-		'css': load_CSS_file(pagename)
+		'css': load_file(pagename, 'css')
 	}
 	return publication
 
@@ -239,12 +211,12 @@ def download_media(html, images, wiki):
 		if not os.path.isfile(f'{ STATIC_FOLDER_PATH }/images/{ filename }'):
 
 			# first we search for the full filename of the image
-			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
+			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&ext=json'
 			data = do_API_request(url)
 
 			# print(json.dumps(data, indent=2))
 
-			if data['query']['allimages']:
+			if data and data['query']['allimages']:
 
 			# we select the first search result
 			# (assuming that this is the image we are looking for)
@@ -266,16 +238,15 @@ def download_media(html, images, wiki):
 					import time
 					time.sleep(3) # do not overload the server
 
-		# replace src link
-		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
-		matches = re.findall(rf'src="/wiki/mediawiki/images/.*?px-{ filename }"', html) # for debugging
-		if matches:
-			html = re.sub(rf'src="/wiki/mediawiki/images/.*?px-{ filename }"', f'src="{ image_path }"', html)
-		else:
-			matches = re.findall(rf'src="/wiki/mediawiki/images/.*?{ filename }"', html) # for debugging
-			print(matches, filename, html)
-			html = re.sub(rf'src="/wiki/mediawiki/images/.*?{ filename }"', f'src="{ image_path }"', html) 
-		# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
+					# replace src link
+					image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
+					matches = re.findall(rf'src="/images/.*?px-{ filename }"', html) # for debugging
+					if matches:
+						html = re.sub(rf'src="/images/.*?px-{ filename }"', f'src="{ image_path }"', html)
+					else:
+						matches = re.findall(rf'src="/images/.*?{ filename }"', html) # for debugging
+						html = re.sub(rf'src="/images/.*?{ filename }"', f'src="{ image_path }"', html) 
+					# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
 
 	return html
 
@@ -378,43 +349,6 @@ def fast_loader(html):
 	return html
 
 
-
-def save(html, pagename):
-	"""
-		html = string (HTML)
-		pagename = string
-	"""
-	print("saving " + pagename)
-	if __name__ == "__main__":
-		# command-line
-
-		# save final page that will be used with PagedJS
-		template_file = open(f'{ STATIC_FOLDER_PATH }/{ TEMPLATES_DIR }/template.html').read()
-		template = jinja2.Template(template_file)
-		doc = template.render(publication_unfolded=html, title=pagename)
-		
-		html_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.html'
-		print('Saving HTML:', html_file)
-		with open(html_file, 'w') as out:
-			out.write(doc)
-			out.close()
-
-		# save extra html page for debugging (CLI only)
-		template_file = open(f'{ STATIC_FOLDER_PATH }/{ TEMPLATES_DIR }/template.inspect.html').read()
-		template = jinja2.Template(template_file)
-		doc = template.render(publication_unfolded=html, title=pagename)
-
-		html_file = f'{ STATIC_FOLDER_PATH }/{ pagename }.inspect.html'
-		print('Saving HTML:', html_file)
-		with open(html_file, 'w') as out:
-			out.write(doc)
-			out.close()
-
-	else:
-		# Flask application 
-
-		with open(f'{ STATIC_FOLDER_PATH }/{ pagename }.html', 'w') as out:
-			out.write(html) # save the html to a file (without <head>)
 
 # ---
 

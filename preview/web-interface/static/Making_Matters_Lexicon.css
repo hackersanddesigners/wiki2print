@@ -1,3 +1,20 @@
 p {
 	color: red;
 }
+sup.reference {
+	display: inline-block;
+	font-family: fantasy;
+	background: darkred;
+	color: yellow;
+	font-size: 1.5em;
+	animation: rotate 5s linear infinite;
+}
+sup.reference a {
+	color: yellow;
+	text-decoration: none;
+}
+
+@keyframes rotate {
+	from { transform: rotate(0deg); }	
+	to { transform: rotate(360deg); }
+}
