@@ -12,8 +12,6 @@ PUBLIC_STATIC_FOLDER_PATH = '/static' # without trailing slash
 TEMPLATES_DIR = None
 
 
-#test for git 
-
 # do API request and return JSON
 def do_API_request(url):
 	"""
