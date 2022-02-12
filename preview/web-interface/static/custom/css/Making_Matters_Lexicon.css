@@ -1,47 +1,78 @@
-@page {
-  size: 15cm 20cm; /*8.5in 11in;*/
-  margin: 20mm 25mm;
-  /* marks: crop; */
+/* 
+This document contains the general styling for the Making Matters book.
+Styles can be overwritten from the CSS view in the wiki 
+*/
 
-  @top-center {
-    vertical-align: bottom;
-    padding-bottom: 10mm;
-    content: string(booktitle);
+
+/* Fonts */
+@import "font-literata.css";
+@import "font-ortica.css";
+/* Paged and print specific styles are collected in paged.css */
+@import "paged.css";
+
+/* General styling */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  /* font-family: Authentic, sans-serif; */
+  font-family: Literata, serif;
+  font-weight: 200;
+  color: var(--color-main);
+}
+
+h1, h2 {
+	font-family: Ortica, serif;
+}
+
+/* 
+.container p,
+.container .note {
+    @include plumber(
+      $baseline: 0.065,
+      $font-size: 1,
+    );
   }
-}
-
-/* define what are the footnotes elements */
-
-.footnote {
-	float: footnote;
-}
-
-/* define the position of the footnote on the page (only bottom is possible for now) */
-
-@page {
-	@footnote {
-		float: bottom;
-	}
-}
-
-/* ::footnote-call {
-	content: counter(footnote, loweralpha);
-	color: red;
-	font-weight: 700;
-	font-size: 3em;
-	line-height: 0;
-}
-
-::footnote-marker {
-	content: counter(footnote, loweralpha) ". ";
-	color: red;
-	font-weight: 700;
-	font-size: 3em;
-	line-height: 0;
 } */
 
 
-.pagedjs_page {
-	background-color: transparent;
+
+h1,h2,h3,h4 {
+  font-family: Authentic, sans-serif;
+  font-weight: 200;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
+
+/* Generic css */
+
+.chapter {
+  break-before: right;
+}
+
+
+/* Show url of a tags */
+/* a::after {
+content: " (" attr(href) ")";
+} */
+
+h1 {
+  string-set: title content(text);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* 
+a[rel=author] {
+position: absolute;
+bottom: 0mm;
+color: white;
+text-decoration: none;
+}
+*/
