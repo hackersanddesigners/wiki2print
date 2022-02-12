@@ -240,17 +240,6 @@ def download_media(html, images, wiki):
 					import time
 					time.sleep(3) # do not overload the server
 
-<<<<<<< Updated upstream
-					# replace src link
-					image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
-					matches = re.findall(rf'src="/images/.*?px-{ filename }"', html) # for debugging
-					if matches:
-						html = re.sub(rf'src="/images/.*?px-{ filename }"', f'src="{ image_path }"', html)
-					else:
-						matches = re.findall(rf'src="/images/.*?{ filename }"', html) # for debugging
-						html = re.sub(rf'src="/images/.*?{ filename }"', f'src="{ image_path }"', html) 
-					# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
-=======
 		# replace src link
 		e_filename = re.escape( filename )
 		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ e_filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
@@ -262,7 +251,6 @@ def download_media(html, images, wiki):
 			print(matches, e_filename, html)
 			html = re.sub(rf'src="/wiki/mediawiki/images/.*?{ e_filename }"', f'src="{ image_path }"', html) 
 		# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
->>>>>>> Stashed changes
 
 	return html
 
