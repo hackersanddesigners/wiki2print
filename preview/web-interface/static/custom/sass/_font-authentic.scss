@@ -1,0 +1,23 @@
+/* Fonts */
+
+@font-face {
+  font-family: "Authentic";
+  src: url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-60.woff2") format("woff2"), url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-60.woff") format("woff");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Authentic";
+  src: url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-90.woff2") format("woff2"), url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-90.woff") format("woff");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "Authentic";
+  src: url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-130.woff2") format("woff2"), url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-130.woff") format("woff");
+  font-weight: 300;
+}
+
+.font-authentic {
+  font-family: Authentic, sans-serif;
+}

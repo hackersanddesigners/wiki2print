@@ -1,4 +1,7 @@
 p {
+	color: red !important;
+}
+.tocnumber {
 	color: red;
 }
 sup.reference {

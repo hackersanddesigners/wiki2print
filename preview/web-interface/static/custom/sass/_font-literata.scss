@@ -1,0 +1,10 @@
+
+@font-face {
+  font-family: "Literata";
+  src: url("../fonts/literata/Literata-Regular.woff2") format("woff2"), url("../fonts/literata/Literata-Regular.woff") format("woff");
+  font-weight: 200;
+}
+
+.font-literata {
+  font-family: Literata, sans-serif;
+}

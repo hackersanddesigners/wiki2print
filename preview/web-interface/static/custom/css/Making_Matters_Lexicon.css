@@ -2,14 +2,134 @@
 This document contains the general styling for the Making Matters book.
 Styles can be overwritten from the CSS view in the wiki 
 */
-
-
 /* Fonts */
-@import "font-literata.css";
-@import "font-ortica.css";
-/* Paged and print specific styles are collected in paged.css */
-@import "paged.css";
+@font-face {
+  font-family: "Literata";
+  src: url("../fonts/literata/Literata-Regular.woff2") format("woff2"), url("../fonts/literata/Literata-Regular.woff") format("woff");
+  font-weight: 200;
+}
+.font-literata {
+  font-family: Literata, sans-serif;
+}
 
+@font-face {
+  font-family: "Ortica";
+  src: url("../fonts/Ortica-Font/Ortica-Light.woff") format("woff");
+  font-weight: 300;
+}
+.font-ortica {
+  font-family: Ortica, serif;
+}
+
+/* Paged and print specific styles are collected in paged.css */
+/* Pagedjs/paged media specific styles */
+@page {
+  size: 110mm 200mm;
+  /*148mm 210mm;*/
+  margin-top: 20mm;
+  margin-right: 20mm;
+  margin-bottom: 25mm;
+  margin-left: 15mm;
+  /* bleed: 6mm;
+   marks: crop cross; */
+  @bottom-center {
+    /* // content: string(titleBefore) ". " string(title, first); */
+    content: string(title, first);
+  }
+  @top-left {
+    content: string(title);
+    text-transform: uppercase;
+  }
+  @footnote {
+    float: bottom;
+  }
+}
+@page :first {
+  color: white !important;
+  background-color: var(--color-main);
+  @top-left {
+    content: "";
+  }
+  @bottom-right-corner {
+    content: "";
+  }
+  a {
+    color: white;
+  }
+}
+@page :left {
+  @bottom-left-corner {
+    content: counter(page);
+  }
+}
+@page :right {
+  @bottom-right-corner {
+    content: counter(page);
+  }
+}
+.pagedjs_page {
+  background-color: transparent;
+}
+
+/* // .pagedjs_page {
+//   background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+//   background-size: auto 1rem;
+// } */
+.pagedjs_page_content {
+  /* // background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+  // background-size: auto 1rem; */
+  background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent calc(1rem - 1px), rgba(255, 0, 0, 0.1) calc(1rem - 1px), rgba(255, 0, 0, 0.1) 1rem);
+}
+
+.pagedjs_footnote_area {
+  font-size: 0.35rem;
+  line-height: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.09775rem;
+  padding-bottom: 0.40225rem;
+  margin-bottom: 0.5rem;
+}
+
+.pagedjs_margin-bottom-left-corner,
+.pagedjs_margin-bottom-right-corner {
+  font-size: 1.5rem;
+  font-family: Ortica, serif;
+}
+
+/* Setting variables */
+h1#title {
+  string-set: title content(text);
+}
+
+h2 {
+  counter-increment: countChapter;
+  string-set: titleBefore content(before), title content(text);
+}
+
+h2::before {
+  content: "Chapter " counter(countChapter, upper-roman) " : ";
+}
+
+/* 
+@page:left {
+  margin-right: 0mm;
+}
+
+@page:right {
+  margin-left: 0mm;
+}
+
+.note {
+  position: note(notes);
+  outline: 1px dotted red;
+}
+
+@page {
+  @note-area {
+    content: element(notes, all-once);
+  }
+}
+*/
 /* General styling */
 html {
   font-size: 62.5%;
@@ -23,7 +143,30 @@ body {
 }
 
 h1, h2 {
-	font-family: Ortica, serif;
+  font-family: Ortica, serif;
+}
+
+h1 {
+  page-break-before: left;
+}
+
+h2 {
+  page-break-before: right;
+}
+
+.pagedjs_pages p, .pagedjs_pages .note, .pagedjs_pages blockquote {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.315rem;
+  padding-bottom: 0.185rem;
+  margin-bottom: 1rem;
+}
+
+sup {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
 }
 
 /* 
@@ -35,10 +178,7 @@ h1, h2 {
     );
   }
 } */
-
-
-
-h1,h2,h3,h4 {
+h1, h2, h3, h4 {
   font-family: Authentic, sans-serif;
   font-weight: 200;
 }
@@ -49,17 +189,14 @@ a {
 }
 
 /* Generic css */
-
 .chapter {
   break-before: right;
 }
-
 
 /* Show url of a tags */
 /* a::after {
 content: " (" attr(href) ")";
 } */
-
 h1 {
   string-set: title content(text);
 }
@@ -76,3 +213,5 @@ color: white;
 text-decoration: none;
 }
 */
+
+/*# sourceMappingURL=Making_Matters_Lexicon.css.map */

@@ -30,10 +30,8 @@
 		}
 
 		afterPageLayout(pageFragment, page) {
-			// console.log(pageFragment, page, this.chunker, this.polisher, this.caller );
 			pageFragment.style.position = "relative";
 			console.log(this.chunker.pages);
-			console.log(page)
 			// this.renderSketch(page)
 		}
 
@@ -42,7 +40,7 @@
 
 
 	function renderSketch(page, num, total){
-			console.log("before",page)
+			console.log("before",page, num, total)
 			let isRight = page.element.classList.contains("pagedjs_right_page");
 
 			const s = (sketch) => {
