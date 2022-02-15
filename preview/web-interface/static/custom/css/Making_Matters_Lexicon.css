@@ -162,7 +162,21 @@ h2 {
   padding-bottom: 0.185rem;
   margin-bottom: 1rem;
 }
+.pagedjs_pages ul, .pagedjs_pages li {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin-top: -0.5rem;
+  padding-top: 0.315rem;
+  padding-bottom: 0.185rem;
+  margin-bottom: 0rem;
+}
 
+/* For placement op p5js sketch relative to the page */
+.pagedjs_page {
+  position: relative;
+}
+
+/* Prevent superscript from messing up the line-height */
 sup {
   vertical-align: top;
   position: relative;

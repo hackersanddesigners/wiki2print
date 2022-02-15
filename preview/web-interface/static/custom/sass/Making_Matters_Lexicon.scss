@@ -50,8 +50,23 @@ h2 {
       // $font-size: 1,
     );
   }
+	ul, li {
+		@include plumber(
+			$line-height: 3,
+			$leading-top: 0,
+			$leading-bottom: 0
+      // $baseline: 0.065,
+      // $font-size: 1,
+    )
+	}
 }
 
+/* For placement op p5js sketch relative to the page */
+.pagedjs_page {
+	position: relative;
+}
+
+/* Prevent superscript from messing up the line-height */
 sup { vertical-align: top; position: relative; top: -0.5em; }
 
 /* 

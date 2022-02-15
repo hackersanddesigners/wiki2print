@@ -25,44 +25,73 @@
 			this.caller = caller;
 		}
 
-		onAtPage(atPageNode) {
-			console.log(atPageNode);
-		}
+		// onAtPage(atPageNode) {
+		// 	console.log(atPageNode);
+		// }
 
-		afterPageLayout(pageFragment, page) {
-			pageFragment.style.position = "relative";
-			console.log(this.chunker.pages);
-			// this.renderSketch(page)
+		// afterPageLayout(pageFragment, page) {
+		// 	pageFragment.style.position = "relative";
+		// 	console.log(this.chunker.pages);
+		// 	// this.renderSketch(page)
+		// }
+
+		// onBreakToken(breakToken, overflow, rendered){
+		// 	console.log(breakToken, overflow, rendered);
+		// }
+
+
+		layoutNode(node) {
+			// console.log(node);
 		}
 
 		
 	}
 
 
-	function renderSketch(page, num, total){
-			console.log("before",page, num, total)
+	function renderSketch(page, num, total, numChapters, currChapter){
 			let isRight = page.element.classList.contains("pagedjs_right_page");
 
 			const s = (sketch) => {
 				let canvas;
 				sketch.setup = () => {
-					console.log("setup", page)
 					canvas = sketch.createCanvas(page.element.offsetWidth, page.element.offsetHeight);
 					canvas.parent(page.element);
 					canvas.position(0, 0);
 					canvas.style("z-index", "-1");
-					sketch.background(220);
+					// sketch.background(220);
 					sketch.drawPageBorder();
 				};
 
 				sketch.drawPageBorder = () => {
 					sketch.fill(255, 128, 0);
-					sketch.noStroke();
+					// sketch.noStroke();
+					let step = sketch.height / numChapters;
+					let left = 0;
 					if (isRight) {
-						let h = sketch.map(num, 0, total, 0, sketch.height);
-						sketch.rect( sketch.width - 10, 0, 10, h );
-					} else {
-						sketch.rect( 0, 0, 10, sketch.map(num, 0, total, 0, sketch.height) );
+						left = sketch.width;
+					} 
+					// sketch.rect( left, 0, 10, step * ( currChapter - 1 ) );
+					// sketch.rect( left, step * ( currChapter ), 10 , sketch.height );
+					sketch.strokeWeight(20);
+					sketch.stroke(255,128,0);	
+					let t1 = 0;
+					let b1 = step * ( currChapter - 1 );
+					let t2 = step * currChapter;
+					let b2 = sketch.height;
+					sketch.line(left, t1, left, b1 );
+					sketch.line(left, t2, left, b2 );
+				
+					for(let i = 0; i < 4; i++ ){
+						let l = left + i * 3;
+						if (isRight) {
+							l = left - i * 3;
+						}
+						let b = sketch.random(t1,b1);
+						let t = sketch.random(t1,b);
+						sketch.line(l, t, l, b );
+						b = sketch.random(t2,b2);
+						t = sketch.random(t2,b);
+						sketch.line(l, t, l, b );
 					}
 					// Alternatively, convert the sketch to on image and set it as background of the page
 					// let dataurl = canvas.canvas.toDataURL('image/png');
@@ -101,9 +130,19 @@
       paged.preview(flowText.content).then((flow) => {
         let t1 = performance.now();
         console.log("Rendering " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
+
+				let pages = document.querySelector(".pagedjs_pages");
+
+				let numChapters = document.querySelectorAll('h1 .mw-headline').length;
+				let currChapter = 0;
 				for(const i in flow.pages){
-					let page = flow.pages[i]
-					this.renderSketch(page, parseInt(i)+1, flow.pages.length)
+					let page = flow.pages[i];
+					console.log(page)
+					
+					let hasH1 = page.area.querySelector("h1")
+					console.log(hasH1)
+					if ( hasH1 ) currChapter++;
+					this.renderSketch(page, parseInt(i)+1, flow.pages.length,numChapters, currChapter)
 				}
       });
 
