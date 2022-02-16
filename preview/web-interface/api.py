@@ -11,7 +11,7 @@ STATIC_FOLDER_PATH = './static' # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static' # without trailing slash
 TEMPLATES_DIR = None
 
-# does git work
+# does the zulip=github webhook work?
 
 # do API request and return JSON
 def do_API_request(url):
