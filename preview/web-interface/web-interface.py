@@ -67,18 +67,12 @@ def pagedjs(pagename):
  
 @APP.route('/css/<string:pagename>.css', methods=['GET', 'POST'])
 def css(pagename):	
-	publication = get_publication(
-		WIKI,
-		SUBJECT_NS,
-		STYLES_NS,
-		pagename
-	)
-	templ = flask.render_template(
+	css = get_css(WIKI, STYLES_NS, pagename)
+	resp = flask.render_template(
 		"dynamic_css.css", 
-		title = pagename,
-		css = publication['css'],
+		css = css
 	)
-	return Response(templ, mimetype='text/css')
+	return Response(resp, mimetype='text/css')
 
 @APP.route('/update/<string:pagename>', methods=['GET', 'POST'])
 def update(pagename):
