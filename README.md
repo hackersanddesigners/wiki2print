@@ -1,14 +1,16 @@
 # H&D Wiki-to-Print Publishing Workflow
 
 ## To-do
-- update nginnx section and example file after final config
+- update nginx section and example files after final config
 - update localstettings exampel file after final config
-- update the commo.jss and commn.css files after the final config
+- update the common.js and commn.css files after the final config
+- figure out how venv works (@hrk?)
+- make config.js.example
 
 ## Introduction
 This H&D's take on the wiki-to-print workflow initially developed by the people at ConstantVZW, OSP, varia and titipi.
 
-This workflow is as follows
+In short, this workflow is as follows
 
 ```
 Mediawiki > HTML page > Jinja Template > PagedJS > PDF
@@ -40,34 +42,34 @@ Please follow the individual installation instructions for each of the [Wiki](wi
 
 ### Configurations
 
+Each of the two side of the project has it's own configuration files and respective parameters:
+1. [Wiki](wiki): The main configuration file is [LocalSettings.php](wiki/LocalSettings.example.php). Secondary files are [Common.js](wiki/Common.example.js) and [Common.css](wiki/Common.example.css).
+2. [Preview](preview): The only configuration file is [config.json](preview/config.json).
+
+The above links point to example configurations that are specific to each side of the project. Below are explanations of configurations that are shared between both.
+#### Namespacing
+
+In order for the preview side of the project to know where to look for publications in the wiki side of the project and how to handle custom configurations, we choose specific *Namespaces* for the mediawiki under which all publications exist. This is explained in detail in [this part of the documentation](wiki/README.md#namespaces). It's important that this is a custom namespace and that the preview configuration and wiki configuration both use the same ones. In this project, we use the namespace `Publishing` to house all our publications' contents and an associated namespace, `PublishingCSS` to house all our publications' styles.
 #### Nginx
 
-After setting up both sides of the project, we configured nginx to handle URLs in this way:
+After setting up both sides of the project, we configure nginx to handle URLs in this way:
 ```sh
-/      =>  localhost:5522                 # web interface
-/wiki  =>  /var/www/wiki2print/mediawiki  # wiki interface
+/        =>  localhost:5522                      # web index
+/wiki    =>  /var/www/wiki2print/wiki/mediawiki  # wiki interface
 ```
+Note: You will need to refer to this configuration during the process of installing the Mediawiki to get access to the web-installer.
+
 See [example nignx configuration](wiki2print.nginx).
 
 It's recommended to generate an SSL certificate for this project as user-logins are part of it. We used [Certbot](https://certbot.eff.org) for this.
 
-#### Namespacing
-
 ## Usage
+
+Please refer to the user documentation produced here: [docs](docs).
 
 ## License
 
 ## Authors
 
-
-
-
-#### old 
----
-# Volumetric Regimes (book)
-
-<https://possiblebodies.constantvzw.org/book/>
-
-<https://possiblebodies.constantvzw.org/book/index.php?title=Unfolded>
-
-`Mediawiki > Unfolded HTML page > Jinja template > CSS + Paged.js > PDF`
+Heerko, Karl, Anja & Juliette
+building from the work of xxxxx on xxxxx, xxxxx on xxxxx, xxxxx on xxxxx, xxxxx on xxxxx and xxxxx on xxxxx.
