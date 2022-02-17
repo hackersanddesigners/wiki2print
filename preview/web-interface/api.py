@@ -29,6 +29,7 @@ def do_API_request(url):
 	print('Loading from wiki: ', url)
 	response = urllib.request.urlopen(url)
 	response_type = response.getheader('Content-Type')
+	print(response_type, response.status)
 	if response.status == 200 and "json" in response_type:
 		contents = response.read()
 		data = json.loads(contents)
@@ -65,6 +66,7 @@ def create_index(wiki, subject_ns):
 	url  = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ subject_ns["id"] }'
 	data = do_API_request(url)
 	pages = data['query']['allpages']
+	pages = [ page for page in pages if '/' not in page['title'] ]
 	for page in pages:
 		page['title'] = page['title'].replace(subject_ns['name'] + ':' , '')
 		page['slug'] = page['title'].replace(' ' , '_')
@@ -211,10 +213,8 @@ def download_media(html, images, wiki):
 		if not os.path.isfile(f'{ STATIC_FOLDER_PATH }/images/{ filename }'):
 
 			# first we search for the full filename of the image
-			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&ext=json'
+			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
 			data = do_API_request(url)
-
-			# print(json.dumps(data, indent=2))
 
 			if data and data['query']['allimages']:
 
@@ -234,19 +234,22 @@ def download_media(html, images, wiki):
 					out = open(image_path, 'wb') 
 					out.write(image_response)
 					out.close()
+					print(image_path)
 
 					import time
 					time.sleep(3) # do not overload the server
 
 		# replace src link
-		e_filename = re.escape( filename )
+		# e_filename = re.escape( filename )  # i commented this out cus it didnt seem to do much..
+		e_filename = filename
 		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ e_filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
+		# print(image_path)
 		matches = re.findall(rf'src="/wiki/mediawiki/images/.*?px-{ e_filename }"', html) # for debugging
 		if matches:
 			html = re.sub(rf'src="/wiki/mediawiki/images/.*?px-{ e_filename }"', f'src="{ image_path }"', html)
 		else:
 			matches = re.findall(rf'src="/wiki/mediawiki/images/.*?{ e_filename }"', html) # for debugging
-			print(matches, e_filename, html)
+			# print(matches, e_filename, html)
 			html = re.sub(rf'src="/wiki/mediawiki/images/.*?{ e_filename }"', f'src="{ image_path }"', html) 
 		# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
 

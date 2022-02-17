@@ -55,7 +55,10 @@
 	span.updated {
 		font-family: monospace;
 		font-size: 0.9em;
-		
+	}
+	table tr td input[type="checkbox"] {
+		min-width: 0;
+		width: unset;
 	}
 
 	iframe{
