@@ -9,6 +9,7 @@
 
 <link href="{{ url_for('static', filename='css/preview.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ url_for('static', filename='custom/css/'+title+'.css')}}" rel="stylesheet" type="text/css" />
+<link href="/css/{{ title }}.css" rel="stylesheet" type="text/css" media="screen">
 
 <script>
 	this.ready = new Promise(function ($) {
@@ -121,7 +122,32 @@
 	// });
 
 	ready.then(async function () {
+			let wrapChapters = ( flowText ) => {
+				let template = document.createElement('template');
+				console.log(flowText , flowText.content,flowText.content.childNodes[1])
+				let src = flowText.content.childNodes[1];
+				let chapterWrap = document.createElement('div');
+				chapterWrap.setAttribute('class', 'chapter');
+				for( let i = 0; i < src.childNodes.length; i++ ){
+					let n = src.childNodes[i];
+					console.log(n);
+					if(n.nodeName !== "H1") {
+						chapterWrap.appendChild(n);
+					} else {
+						template.content.appendChild(chapterWrap);
+						chapterWrap = document.createElement('div');
+						chapterWrap.setAttribute('class', 'chapter');
+						chapterWrap.appendChild(n);
+					}
+				}
+				console.log(template, flowText);
+				flowText.childNodes = template.childNodes;
+				return flowText;
+			};
+
       let flowText = document.querySelector("#source");
+			// flowText = wrapChapters(flowText);
+			
 
       let t0 = performance.now();
 			Paged.registerHandlers(MyHandler);
@@ -129,18 +155,14 @@
 
       paged.preview(flowText.content).then((flow) => {
         let t1 = performance.now();
-        console.log("Rendering " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
+        // console.log("Rendering " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
 
 				let pages = document.querySelector(".pagedjs_pages");
-
 				let numChapters = document.querySelectorAll('h1 .mw-headline').length;
 				let currChapter = 0;
 				for(const i in flow.pages){
 					let page = flow.pages[i];
-					console.log(page)
-					
 					let hasH1 = page.area.querySelector("h1")
-					console.log(hasH1)
 					if ( hasH1 ) currChapter++;
 					this.renderSketch(page, parseInt(i)+1, flow.pages.length,numChapters, currChapter)
 				}

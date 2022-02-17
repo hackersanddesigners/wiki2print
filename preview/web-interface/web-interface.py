@@ -1,4 +1,5 @@
 import flask
+from flask import Response
 from api import *
 
 import sys
@@ -22,14 +23,14 @@ def index():
 		SUBJECT_NS
 	)
 	return flask.render_template(
-    'index.html', 
-    title      = PROJECT_NAME,
-    wiki       = WIKI,
-    subject_ns = SUBJECT_NS,
-    styles_ns  = STYLES_NS,
-    pages      = index['pages'],
-    updated    = index['updated'],
-  )
+		'index.html', 
+		title      = PROJECT_NAME,
+		wiki       = WIKI,
+		subject_ns = SUBJECT_NS,
+		styles_ns  = STYLES_NS,
+		pages      = index['pages'],
+		updated    = index['updated'],
+	)
 
 @APP.route('/inspect/<string:pagename>', methods=['GET', 'POST'])
 def inspect(pagename):
@@ -58,10 +59,26 @@ def pagedjs(pagename):
 	template = customTemplate(pagename) or 'pagedjs.html'
 	print( "using template: ", template)
 	return flask.render_template(
-    template, 
+		template, 
 		title = pagename,
 		html = publication['html'],
-  )
+	)
+ 
+ 
+@APP.route('/css/<string:pagename>.css', methods=['GET', 'POST'])
+def css(pagename):	
+	publication = get_publication(
+		WIKI,
+		SUBJECT_NS,
+		STYLES_NS,
+		pagename
+	)
+	templ = flask.render_template(
+		"dynamic_css.css", 
+		title = pagename,
+		css = publication['css'],
+	)
+	return Response(templ, mimetype='text/css')
 
 @APP.route('/update/<string:pagename>', methods=['GET', 'POST'])
 def update(pagename):

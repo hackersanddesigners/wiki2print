@@ -88,6 +88,14 @@ h2::before {
   content: "Chapter "counter(countChapter, upper-roman) " : ";
 }
 
+.chapter-bodies p{
+	--color-main: red;
+}
+
+.chapter {
+	color: var(--color-main);
+}
+
 /* 
 @page:left {
   margin-right: 0mm;

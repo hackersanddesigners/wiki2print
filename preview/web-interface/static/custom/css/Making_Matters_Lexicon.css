@@ -21,6 +21,15 @@ Styles can be overwritten from the CSS view in the wiki
   font-family: Ortica, serif;
 }
 
+@font-face {
+  font-family: "Combine";
+  src: url("../fonts/Combine/Combine.otf") format("otf");
+  font-weight: 300;
+}
+.font-ortica {
+  font-family: Combine, serif;
+}
+
 /* Paged and print specific styles are collected in paged.css */
 /* Pagedjs/paged media specific styles */
 @page {
@@ -110,6 +119,14 @@ h2::before {
   content: "Chapter " counter(countChapter, upper-roman) " : ";
 }
 
+.chapter-bodies p {
+  --color-main: red;
+}
+
+.chapter {
+  color: var(--color-main);
+}
+
 /* 
 @page:left {
   margin-right: 0mm;
@@ -152,6 +169,10 @@ h1 {
 
 h2 {
   page-break-before: right;
+}
+
+#cover {
+  page-break-after: always;
 }
 
 .pagedjs_pages p, .pagedjs_pages .note, .pagedjs_pages blockquote {

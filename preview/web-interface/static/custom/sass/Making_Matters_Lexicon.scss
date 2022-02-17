@@ -16,6 +16,8 @@ Styles can be overwritten from the CSS view in the wiki
 /* Fonts */
 @import "font-literata";
 @import "font-ortica";
+@import "font-combine";
+
 /* Paged and print specific styles are collected in paged.css */
 @import "paged";
 
@@ -41,6 +43,10 @@ h1 {
 
 h2 {
 	page-break-before: right;
+}
+
+#cover {
+	page-break-after: always;
 }
 
 .pagedjs_pages {
