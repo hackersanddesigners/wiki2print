@@ -5,6 +5,9 @@
 		margin: 1vh 5vw 2vh 5vw;
 		z-index: 1;
 	}
+	p {
+		max-width: 30em;
+	}
 	div#nav{
 		position: fixed;
 		width: calc(100% - 2em);
@@ -44,13 +47,13 @@
 	table tr th,
 	table tr td {
 		border: 1px solid darkgreen;
-		padding: 0 0.5em;
+		padding: 0.4em 0.8em;
 	}
 	table tr th:first-of-type {
 		text-align: left;
 	}
 	table tr td:first-of-type {
-		min-width: 20em;
+		min-width: 15em;
 	}
 	span.updated {
 		font-family: monospace;
@@ -61,20 +64,8 @@
 		width: unset;
 	}
 
-	iframe{
-		width: 90vw;
-		height: 88vh;
-		margin-top: 4em;
-	}
-	input{
-		min-width: 300px;
-	}
 	div#index{
-		line-height: 2;
-	}
-	div#index img{
-		max-width: 100%;
-		margin: 1em 0;
+		/* line-height: 2; */
 	}
 	div#index ul{
 		padding: 0;
@@ -82,7 +73,6 @@
 		width: 750px;
 	}
 	div#index ul li{
-		margin-bottom: 1em;
 		list-style: none;
 	}
 	div#index ul li::before{

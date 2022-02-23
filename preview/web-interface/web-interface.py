@@ -52,9 +52,9 @@ def inspect(pagename):
 	)
 	return flask.render_template(
 		'inspect.html', 
-		title = pagename,
-		html = publication['html'],
-		css = publication['css']
+    title = pagename,
+    html  = publication['html'],
+    css   = publication['css']
 	)
 
 
@@ -90,8 +90,8 @@ def pagedjs(pagename):
 	print( "using template: ", template)
 	return flask.render_template(
 		template, 
-		title = pagename,
-		html = publication['html'],
+    title = pagename,
+    html  = publication['html'],
 	)
  
  
