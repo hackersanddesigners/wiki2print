@@ -10,7 +10,7 @@
 			<th>
 				title
 			</th>
-			<th colspan="4">
+			<th colspan="5">
 				actions
 			</th>
 			<th>
@@ -30,15 +30,23 @@
 			<td>
 				<a 
 					title="Inspect HTML & CSS"
-					href="{{ '/inspect/'+ page.slug }}"
+					href="{{ '/html/'+ page.slug }}"
 				>
-					inspect
+					html
+				</a>
+			</td>
+			<td>
+				<a 
+					title="Inspect CSS"
+					href="{{ '/css/'+ page.slug }}"
+				>
+					css
 				</a>
 			</td>
 			<td>
 				<a 
 					title="View PDF with PagedJS"
-					href="{{ '/pagedjs/'+ page.slug }}"
+					href="{{ '/pdf/'+ page.slug }}"
 				>
 					pdf
 				</a>

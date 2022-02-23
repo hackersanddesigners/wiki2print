@@ -7,11 +7,13 @@ import jinja2
 import datetime
 from bs4 import BeautifulSoup
 
-STATIC_FOLDER_PATH = './static' # without trailing slash
-PUBLIC_STATIC_FOLDER_PATH = '/static' # without trailing slash
+STATIC_FOLDER_PATH = './static'        # without trailing slash
+PUBLIC_STATIC_FOLDER_PATH = '/static'  # without trailing slash
 TEMPLATES_DIR = None
 
+
 # do API request and return JSON
+
 def do_API_request(url):
 	"""
 		url = API request url (string)
@@ -37,7 +39,13 @@ def do_API_request(url):
 
 
 # Save file to disk
+
 def save_file(pagename, ext, data):
+	"""
+		pagename = string
+		ext = string
+		data = object
+	"""
 	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
 	print(f'Saving { ext }:', path)
 	with open(path, 'w') as out:
@@ -48,8 +56,14 @@ def save_file(pagename, ext, data):
 		out.close()
 	return data
 
+
 # Load file from disk
+
 def load_file(pagename, ext):
+	"""
+		pagename = string
+		ext = string
+	"""
 	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
 	if os.path.exists(path):
 		print(f'Loading { ext }:', path)
@@ -61,8 +75,14 @@ def load_file(pagename, ext):
 			out.close()
 		return data
 
+
 # makes API call to create/update index 
+
 def create_index(wiki, subject_ns):
+	"""
+		wiki = string
+		subject_ns = object
+	"""
 	url  = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ subject_ns["id"] }'
 	data = do_API_request(url)
 	pages = data['query']['allpages']
@@ -80,27 +100,15 @@ def create_index(wiki, subject_ns):
 	save_file('index', 'json', index)
 	return index
 
-# get index of publications in namespace
-def get_index(wiki, subject_ns):
+
+# makes API call to create/update a publication's HTML 
+
+def create_html(wiki, subject_ns, pagename):
 	"""
 		wiki = string
 		subject_ns = object
+		pagename = string
 	"""
-	return load_file('index', 'json') or create_index(
-		wiki,
-		subject_ns	
-	)
-	# return data
-
-def update_publication_date(wiki, subject_ns, pagename, updated):
-	index = get_index(wiki, subject_ns)
-	for page in index['pages']:
-		if page['slug'] == pagename:
-			page['updated'] = updated
-	save_file('index', 'json', index)
-
-# makes API call to create/update a publication 
-def create_publication(wiki, subject_ns, styles_ns, pagename):
 	url = f'{ wiki }/api.php?action=parse&page={ subject_ns["name"] }:{ pagename }&pst=True&format=json'
 	data = do_API_request(url)
 	now = str(datetime.datetime.now())
@@ -127,14 +135,99 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 
 	save_file(pagename, 'html', html)
 
+	return html
+
+
+# makes API call to create/update a publication's CSS 
+
+def create_css(wiki, styles_ns, pagename):
+	"""
+		wiki = string
+		styles_ns = object
+		pagename = string
+	"""
 	css_url = f'{ wiki }/api.php?action=parse&page={ styles_ns["name"] }:{ pagename }&prop=wikitext&pst=True&format=json'
 	css_data = do_API_request(css_url)
 	if css_data and 'parse' in css_data:
 		print(json.dumps(css_data, indent=4))
 		css = css_data['parse']['wikitext']['*']
 		save_file(pagename, 'css', css)
+		return css
 
-	return html
+
+# gets or creates index of publications in namespace
+
+def get_index(wiki, subject_ns):
+	"""
+		wiki = string
+		subject_ns = object
+	"""
+	return load_file('index', 'json') or create_index(
+		wiki,
+		subject_ns	
+	)
+
+
+# gets or creates HTML file for a publication
+
+def get_html(wiki, subject_ns, pagename):
+	"""
+		wiki = string
+		subject_ns = object
+		pagename = string
+	"""
+	return load_file(pagename, 'html') or create_html(
+		wiki,
+		subject_ns,
+		pagename
+	)
+
+
+# gets or creates CSS file for a publication
+
+def get_css(wiki, styles_ns, pagename):
+	"""
+		wiki = string
+		styles_ns = object
+		pagename = string
+	"""
+	return load_file(pagename, 'css') or create_css(
+		wiki,
+		styles_ns,
+		pagename
+	)
+
+
+# gets publication's HTML and CSS
+
+def get_publication(wiki, subject_ns, styles_ns, pagename):
+	"""
+		wiki = string
+		subject_ns = object
+		styles_ns = object
+		pagename = string
+	"""
+	return {
+		'html' : get_html( wiki, subject_ns, pagename ),
+		'css' : get_css( wiki, styles_ns, pagename )
+	}
+
+
+# updates a publication's last updated feild in the index
+
+def update_publication_date(wiki, subject_ns, pagename, updated):
+	"""
+		wiki = string
+		subject_ns = object
+		pagename = string
+		updated = string
+	"""
+	index = get_index(wiki, subject_ns)
+	for page in index['pages']:
+		if page['slug'] == pagename:
+			page['updated'] = updated
+	save_file('index', 'json', index)
+
 
 # inline citation references in the html for pagedjs
 # Turns: <sup class="reference" id="cite_ref-1"><a href="#cite_note-1">[1]</a></sup>
@@ -160,32 +253,6 @@ def inlineCiteRefs(html):
 	html = soup.prettify()
 	return html
 
-# get publication in namespace
-def get_publication(wiki, subject_ns, styles_ns, pagename):
-	"""
-		wiki = string
-		subject_ns = object
-		styles_ns = object
-		pagename = string
-	"""
-	publication = {
-		'html': load_file(pagename, 'html') or create_publication(
-			wiki,
-			subject_ns,
-			styles_ns,
-			pagename
-		),
-		'css': load_file(pagename, 'css')
-	}
-	return publication
-
-def get_css(wiki,styles_ns, pagename):
-	css_url = f'{ wiki }/api.php?action=parse&page={ styles_ns["name"] }:{ pagename }&prop=wikitext&pst=True&format=json'
-	css_data = do_API_request(css_url)
-	if css_data and 'parse' in css_data:
-		print(json.dumps(css_data, indent=4))
-		css = css_data['parse']['wikitext']['*']
-	return css
 
 def customTemplate(name):
 	path = "custom/%s.html" % name
