@@ -9,11 +9,11 @@ from config import config as conf
 
 # We configure our constants
 
-PROJECT_NAME   = conf['project_name']
-PORTNUMBER     = conf['port']
-WIKI           = conf['wiki']['base_url']
-SUBJECT_NS     = conf['wiki']['subject_ns']
-STYLES_NS      = conf['wiki']['styles_ns']
+PROJECT_NAME = conf['project_name']
+PORTNUMBER   = conf['port']
+WIKI         = conf['wiki']['base_url']
+SUBJECT_NS   = conf['wiki']['subject_ns']
+STYLES_NS    = conf['wiki']['styles_ns']
 
 
 # We initiate the Flask app
@@ -95,7 +95,7 @@ def pagedjs(pagename):
 	)
  
  
-# Recreate / update a publication's the HTML and CSS files
+# Recreate / update a publication's HTML and CSS files
 
 @APP.route('/update/<string:pagename>', methods=['GET', 'POST'])
 def update(pagename):
