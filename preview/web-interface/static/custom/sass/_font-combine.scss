@@ -1,10 +1,22 @@
 
 @font-face {
   font-family: "Combine";
-  src: url("../fonts/Combine/Combine.otf") format("otf");
+  src: url("../fonts/Combine/Combine.otf") format("opentype");
   font-weight: 300;
 }
 
-.font-ortica{
-  font-family: Combine, serif;
+$baseline-combine: 0.199;
+
+@mixin font-combine ( $weight: 300, $with-plumber: true ){
+	font-family: "Combine", serif;
+	font-weight: $weight;
+	@if $with-plumber {
+    @include plumber(
+				$baseline: $baseline-combine
+			);
+  }
+}
+
+.font-combine {
+  @include font-combine();
 }

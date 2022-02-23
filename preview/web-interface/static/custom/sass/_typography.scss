@@ -1,0 +1,45 @@
+body {
+	@include font-ortica();
+	@include plumber(
+			$leading-top: 0,
+			$leading-bottom: 0,
+      $baseline: $baseline-ortica
+	);
+	font-size: 7pt;
+}
+
+h1 {
+	@include font-combine();
+	font-size: 24pt;
+}
+
+#toc {
+	ul {
+		list-style: none;
+
+	}
+
+	& > ul > li {
+		& > a span { /* first level */
+			@include font-ortica();
+			font-size: 7pt;
+		}
+		& > ul {
+			li {
+				padding-left: 1cm;
+				@include font-authentic(90);
+				font-size: 7pt;
+			}
+		} 
+	}
+	.tocnumber {
+		display: none;
+	}
+}
+
+.pagedjs_margin {
+	@include font-authentic($weight:130);
+	font-size: 7pt;
+	text-align: center;
+}
+

@@ -3,23 +3,30 @@ This document contains the general styling for the Making Matters book.
 Styles can be overwritten from the CSS view in the wiki 
 */
 
+/* Plumber for baseline grid */
 @import "./vendor/plumber";
 @include plumber-set-defaults(
-    $grid-height: 0.5rem,
-    $baseline: 0.065,
-    $font-size: 2,
-    $line-height: 3,
-    $leading-top: 2,
-    $leading-bottom: 2
+    $grid-height: 12pt,
+    $font-size: 1,
+    $line-height: 1,
+    $leading-top: 0,
+    $leading-bottom: 0
 );
 
 /* Fonts */
-@import "font-literata";
+// @import "font-literata";
 @import "font-ortica";
 @import "font-combine";
+@import "font-authentic";
+
+@include plumber-set-defaults(
+    $baseline: $baseline-ortica,
+);
 
 /* Paged and print specific styles are collected in paged.css */
 @import "paged";
+@import "typography";
+@import "toc";
 
 /* General styling */
 html {
@@ -27,14 +34,7 @@ html {
 }
 
 body {
-  /* font-family: Authentic, sans-serif; */
-  font-family: Literata, serif;
-  font-weight: 200;
   color: var(--color-main);
-}
-
-h1, h2 {
-	font-family: Ortica, serif;
 }
 
 h1 {
@@ -45,26 +45,83 @@ h2 {
 	page-break-before: right;
 }
 
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+.chapter-introduction {
+	page: intro;
+}
+
+#cover {
+	page: toc;
+	list-style: none;
+}
+
+
+
+.pagedjs_first_page {
+	// outline: 5px dotted blue;
+}
+	
+@page toc {
+	--base-color: green;
+}
+
+.pagedjs_toc_page + .pagedjs_blank_page {
+	--base-color: green;
+	outline: 3px dashed green;
+}
+
+@page:nth(1) {
+	--base-color: green;
+}
+
+@page :first {
+	--base-color: green;
+}
+
+@page intro {
+	--base-color: brown;
+}
+
+.pagedjs_intro_page + .pagedjs_blank_page {
+	outline: 4px dotted pink;
+	--base-color: brown;
+}
+
+
+.pagedjs_intro_page {
+	// --base-color: brown;
+	// outline: 10px dotted red;
+	ul li a {
+		outline: 1px dotted red;
+		color: greenyellow;
+	}
+}
+
+
 #cover {
 	page-break-after: always;
 }
 
 .pagedjs_pages {
-  p, .note, blockquote {
-    @include plumber(
-      // $baseline: 0.065,
-      // $font-size: 1,
-    );
-  }
-	ul, li {
-		@include plumber(
-			$line-height: 3,
-			$leading-top: 0,
-			$leading-bottom: 0
-      // $baseline: 0.065,
-      // $font-size: 1,
-    )
-	}
+  // p, .note, blockquote {
+  //   @include plumber(
+  //     // $baseline: 0.065,
+  //     // $font-size: 1,
+  //   );
+  // }
+	// ul, li {
+	// 	@include plumber(
+	// 		$line-height: 3,
+	// 		$leading-top: 0,
+	// 		$leading-bottom: 0
+  //     // $baseline: 0.065,
+  //     // $font-size: 1,
+  //   )
+	// }
 }
 
 /* For placement op p5js sketch relative to the page */
@@ -85,12 +142,6 @@ sup { vertical-align: top; position: relative; top: -0.5em; }
   }
 } */
 
-
-
-h1,h2,h3,h4 {
-  font-family: Authentic, sans-serif;
-  font-weight: 200;
-}
 
 a {
   text-decoration: none;

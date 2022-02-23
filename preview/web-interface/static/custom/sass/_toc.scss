@@ -1,0 +1,24 @@
+#toc {
+	ul {
+		list-style: none;
+
+	}
+
+	.toctitle {
+		display: none;
+	}
+	// & > ul > li {
+	// 	& > a span { /* first level */
+	// 		@include font-ortica();
+	// 	}
+	// 	& > ul {
+	// 		li {
+	// 			padding-left: 1cm;
+	// 			@include font-authentic(90);
+	// 		}
+	// 	} 
+	// }
+	.tocnumber {
+		display: none;
+	}
+}

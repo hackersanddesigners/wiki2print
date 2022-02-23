@@ -2,22 +2,34 @@
 
 @font-face {
   font-family: "Authentic";
-  src: url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-60.woff2") format("woff2"), url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-60.woff") format("woff");
-  font-weight: 100;
+  src: url("../fonts/AUTHENTIC_SANS/woff/AUTHENTICSans-60.woff2") format("woff2"), url("../fonts/AUTHENTIC_SANS/woff/AUTHENTICSans-60.woff") format("woff");
+  font-weight: 60;
 }
 
 @font-face {
   font-family: "Authentic";
-  src: url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-90.woff2") format("woff2"), url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-90.woff") format("woff");
-  font-weight: 200;
+  src: url("../fonts/AUTHENTIC_SANS/woff/AUTHENTICSans-90.woff2") format("woff2"), url("../fonts/AUTHENTIC_SANS/woff/AUTHENTICSans-90.woff") format("woff");
+  font-weight: 90;
 }
 
 @font-face {
   font-family: "Authentic";
-  src: url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-130.woff2") format("woff2"), url("../fonts/AUTHENTIC SANS 210330/woff/AUTHENTICSans-130.woff") format("woff");
-  font-weight: 300;
+  src: url("../fonts/AUTHENTIC_SANS/woff/AUTHENTICSans-130.woff2") format("woff2"), url("../fonts/AUTHENTIC_SANS/woff/AUTHENTICSans-130.woff") format("woff");
+  font-weight: 130;
+}
+
+$baseline-authentic: 0.223;
+
+@mixin font-authentic( $weight: 90, $with-plumber: true) {
+	font-family: Authentic, sans-serif;
+	font-weight: $weight;
+	@if $with-plumber {
+    @include plumber(
+				$baseline: $baseline-authentic
+		);
+  }
 }
 
 .font-authentic {
-  font-family: Authentic, sans-serif;
+	@include font-authentic();
 }

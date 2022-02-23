@@ -4,6 +4,19 @@
   src: url("../fonts/Ortica-Font/Ortica-Light.woff") format("woff");
   font-weight: 300;
 }
-.font-ortica{
-  font-family: Ortica, serif;
+
+$baseline-ortica: 0.119;
+
+@mixin font-ortica ( $weight: 300, $with-plumber: true ){
+	font-family: Ortica, serif;
+	font-weight: $weight;
+	@if $with-plumber {
+    @include plumber(
+				$baseline: $baseline-ortica
+			);
+  }
+}
+
+.font-ortica {
+  @include font-ortica();
 }

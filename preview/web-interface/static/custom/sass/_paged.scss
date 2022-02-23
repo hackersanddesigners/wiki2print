@@ -13,9 +13,9 @@
     /* // content: string(titleBefore) ". " string(title, first); */
     content: string(title, first);
   }
-  @top-left {
+  @top-center {
     content: string(title);
-    text-transform: uppercase;
+    // text-transform: uppercase;
   }
   @footnote {
     float: bottom;
@@ -23,8 +23,8 @@
 }
 
 @page:first {
-  color: white !important;
-  background-color: var(--color-main);
+  // color: white !important;
+  // background-color: var(--color-main);
   @top-left {
     content: "";
   }
@@ -60,7 +60,7 @@
 .pagedjs_page_content {
   /* // background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
   // background-size: auto 1rem; */
-  background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent calc(1rem - 1px), rgba(255,0,0,0.1) calc(1rem - 1px), rgba(255,0,0,0.1) 1rem);
+  background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent calc(12pt - 1px), rgba(255,0,0,0.1) calc(12pt - 1px), rgba(255,0,0,0.1) 12pt);
 }
 
 .pagedjs_footnote_area {
@@ -85,7 +85,7 @@ h2 {
 }
 
 h2::before {
-  content: "Chapter "counter(countChapter, upper-roman) " : ";
+  // content: "Chapter "counter(countChapter, upper-roman) " : ";
 }
 
 .chapter-bodies p{
