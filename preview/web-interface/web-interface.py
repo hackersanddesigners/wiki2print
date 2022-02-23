@@ -105,13 +105,9 @@ def update(pagename):
 			SUBJECT_NS
 		)
 	else:
-		create_html(
+		create_publication(
 			WIKI,
 			SUBJECT_NS,
-			pagename 
-		)
-		create_css(
-			WIKI,
 			STYLES_NS,
 			pagename 
 		)

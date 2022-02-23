@@ -76,7 +76,7 @@ def load_file(pagename, ext):
 		return data
 
 
-# makes API call to create/update index 
+# makes API call to create/update index of publications 
 
 def create_index(wiki, subject_ns):
 	"""
@@ -153,6 +153,21 @@ def create_css(wiki, styles_ns, pagename):
 		css = css_data['parse']['wikitext']['*']
 		save_file(pagename, 'css', css)
 		return css
+
+
+# Creates/updates a publication object
+
+def create_publication(wiki, subject_ns, styles_ns, pagename):
+	"""
+		wiki = string
+		subject_ns = object
+		styles_ns = object
+		pagename = string
+	"""
+	return {
+		'html' : create_html( wiki, subject_ns, pagename ),
+		'css' : create_css( wiki, styles_ns, pagename )
+	}
 
 
 # gets or creates index of publications in namespace
