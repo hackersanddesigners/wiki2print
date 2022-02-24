@@ -21,8 +21,6 @@ STYLES_NS    = conf['wiki']['styles_ns']
 APP = flask.Flask(__name__)
 
 
-# git commit test
-
 # Get the index of publications 
 
 @APP.route('/', methods=['GET'])

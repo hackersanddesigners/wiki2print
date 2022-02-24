@@ -12,71 +12,63 @@ PUBLIC_STATIC_FOLDER_PATH = '/static'  # without trailing slash
 TEMPLATES_DIR = None
 
 
-# do API request and return JSON
+# gets or creates index of publications in namespace
 
-def do_API_request(url):
+def get_index(wiki, subject_ns):
 	"""
-		url = API request url (string)
-		data =  { 'query': 
-					'pages' : 
-						pageid : { 					
-							'links' : {
-								'?' : '?'
-								'title' : 'pagename'
-							}
-						} 
-					}  
-				}
+		wiki = string
+		subject_ns = object
 	"""
-	print('Loading from wiki: ', url)
-	response = urllib.request.urlopen(url)
-	response_type = response.getheader('Content-Type')
-	print(response_type, response.status)
-	if response.status == 200 and "json" in response_type:
-		contents = response.read()
-		data = json.loads(contents)
-		return data
+	return load_file('index', 'json') or create_index(
+		wiki,
+		subject_ns	
+	)
 
 
-# Save file to disk
+# gets publication's HTML and CSS
 
-def save_file(pagename, ext, data):
+def get_publication(wiki, subject_ns, styles_ns, pagename):
 	"""
+		wiki = string
+		subject_ns = object
+		styles_ns = object
 		pagename = string
-		ext = string
-		data = object
 	"""
-	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
-	print(f'Saving { ext }:', path)
-	with open(path, 'w') as out:
-		if ext == 'json':
-			out.write( json.dumps(data, indent = 2) )
-		else:
-			out.write(data)
-		out.close()
-	return data
+	return {
+		'html' : get_html( wiki, subject_ns, pagename ),
+		'css' : get_css( wiki, styles_ns, pagename )
+	}
 
 
-# Load file from disk
+# gets or creates HTML file for a publication
 
-def load_file(pagename, ext):
+def get_html(wiki, subject_ns, pagename):
 	"""
+		wiki = string
+		subject_ns = object
 		pagename = string
-		ext = string
 	"""
-	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
-	if os.path.exists(path):
-		print(f'Loading { ext }:', path)
-		with open(path, 'r') as out:
-			if ext == 'json':
-				data = json.load(out)
-			else:
-				data = out.read()
-			out.close()
-		return data
+	return load_file(pagename, 'html') or create_html(
+		wiki,
+		subject_ns,
+		pagename
+	)
 
 
-# git commit test
+# gets or creates CSS file for a publication
+
+def get_css(wiki, styles_ns, pagename):
+	"""
+		wiki = string
+		styles_ns = object
+		pagename = string
+	"""
+	return load_file(pagename, 'css') or create_css(
+		wiki,
+		styles_ns,
+		pagename
+	)
+
 
 # makes API call to create/update index of publications 
 
@@ -101,6 +93,21 @@ def create_index(wiki, subject_ns):
 	}
 	save_file('index', 'json', index)
 	return index
+
+
+# Creates/updates a publication object
+
+def create_publication(wiki, subject_ns, styles_ns, pagename):
+	"""
+		wiki = string
+		subject_ns = object
+		styles_ns = object
+		pagename = string
+	"""
+	return {
+		'html' : create_html( wiki, subject_ns, pagename ),
+		'css' : create_css( wiki, styles_ns, pagename )
+	}
 
 
 # makes API call to create/update a publication's HTML 
@@ -158,77 +165,68 @@ def create_css(wiki, styles_ns, pagename):
 		return css
 
 
-# Creates/updates a publication object
+# Load file from disk
 
-def create_publication(wiki, subject_ns, styles_ns, pagename):
+def load_file(pagename, ext):
 	"""
-		wiki = string
-		subject_ns = object
-		styles_ns = object
 		pagename = string
+		ext = string
 	"""
-	return {
-		'html' : create_html( wiki, subject_ns, pagename ),
-		'css' : create_css( wiki, styles_ns, pagename )
-	}
+	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
+	if os.path.exists(path):
+		print(f'Loading { ext }:', path)
+		with open(path, 'r') as out:
+			if ext == 'json':
+				data = json.load(out)
+			else:
+				data = out.read()
+			out.close()
+		return data
 
 
-# gets or creates index of publications in namespace
+# Save file to disk
 
-def get_index(wiki, subject_ns):
+def save_file(pagename, ext, data):
 	"""
-		wiki = string
-		subject_ns = object
-	"""
-	return load_file('index', 'json') or create_index(
-		wiki,
-		subject_ns	
-	)
-
-
-# gets or creates HTML file for a publication
-
-def get_html(wiki, subject_ns, pagename):
-	"""
-		wiki = string
-		subject_ns = object
 		pagename = string
+		ext = string
+		data = object
 	"""
-	return load_file(pagename, 'html') or create_html(
-		wiki,
-		subject_ns,
-		pagename
-	)
+	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
+	print(f'Saving { ext }:', path)
+	with open(path, 'w') as out:
+		if ext == 'json':
+			out.write( json.dumps(data, indent = 2) )
+		else:
+			out.write(data)
+		out.close()
+	return data
 
 
-# gets or creates CSS file for a publication
+# do API request and return JSON
 
-def get_css(wiki, styles_ns, pagename):
+def do_API_request(url):
 	"""
-		wiki = string
-		styles_ns = object
-		pagename = string
+		url = API request url (string)
+		data =  { 'query': 
+					'pages' : 
+						pageid : { 					
+							'links' : {
+								'?' : '?'
+								'title' : 'pagename'
+							}
+						} 
+					}  
+				}
 	"""
-	return load_file(pagename, 'css') or create_css(
-		wiki,
-		styles_ns,
-		pagename
-	)
-
-
-# gets publication's HTML and CSS
-
-def get_publication(wiki, subject_ns, styles_ns, pagename):
-	"""
-		wiki = string
-		subject_ns = object
-		styles_ns = object
-		pagename = string
-	"""
-	return {
-		'html' : get_html( wiki, subject_ns, pagename ),
-		'css' : get_css( wiki, styles_ns, pagename )
-	}
+	print('Loading from wiki: ', url)
+	response = urllib.request.urlopen(url)
+	response_type = response.getheader('Content-Type')
+	# print(response_type, response.status)
+	if response.status == 200 and "json" in response_type:
+		contents = response.read()
+		data = json.loads(contents)
+		return data
 
 
 # updates a publication's last updated feild in the index
