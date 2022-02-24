@@ -76,6 +76,8 @@ def load_file(pagename, ext):
 		return data
 
 
+# git commit test
+
 # makes API call to create/update index of publications 
 
 def create_index(wiki, subject_ns):
