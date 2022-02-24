@@ -1,9 +1,10 @@
-const { src, dest, watch, series } = require('gulp');
+const { src, dest, watch, series, parallel } = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const postcss = require('gulp-postcss');
 const cssnano = require('cssnano');
 const terser = require('gulp-terser');
 const browsersync = require('browser-sync').create();
+var exec = require('child_process').exec;
 
 // Sass Task
 function scssTask(){
@@ -38,12 +39,24 @@ function watchTask(){
   watch(['**/*.scss', '**/*.js'], series(scssTask, browsersyncReload));
 }
 
+// Run Flask server
+function runServer () {
+	// 
+  exec('python3 web-interface.py', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+  });
+}
+
 // Default Gulp Task
-exports.default = series(
-  scssTask,
-  // jsTask,
-  browsersyncServe,
-  watchTask
+exports.default = parallel(
+	runServer,
+	series(
+		scssTask,
+		// jsTask,
+		browsersyncServe,
+		watchTask
+	)
 );
 
 
