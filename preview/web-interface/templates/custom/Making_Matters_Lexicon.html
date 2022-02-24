@@ -1,11 +1,12 @@
 {% extends "base.html" %} {% block head %}
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <script src="{{ url_for('static', filename='js/paged.js')}}" type="text/javascript"></script>
+
 <script src="{{ url_for('static', filename='js/p5.js')}}"></script>
-<!-- <script src="{{ url_for('static', filename='js/paged.polyfill.js')}}" type="text/javascript"></script> -->
-<!-- <link href="{{ url_for('static', filename='css/pagedjs.css')}}" rel="stylesheet" type="text/css" media="screen" /> -->
-<!-- <link href="{{ url_for('static', filename='css/print.css')}}" rel="stylesheet" type="text/css" media="print" /> -->
-<!-- <link href="{{ url_for('static', filename='css/baseline.css')}}" rel="stylesheet" type="text/css" media="print" /> -->
+<script src="{{ url_for('static', filename='js/p5.svg.js')}}"></script>
+
+<script src="{{ url_for('static', filename='custom/js/paged_custom.js')}}"></script>
+<script src="{{ url_for('static', filename='custom/js/sketch.js')}}"></script>
 
 <link href="{{ url_for('static', filename='css/preview.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ url_for('static', filename='custom/css/'+title+'.css')}}" rel="stylesheet" type="text/css" />
@@ -17,199 +18,13 @@
 	});
 </script>
 
-<script>
-	class MyHandler extends Paged.Handler {
-		constructor(chunker, polisher, caller) {
-			super(chunker, polisher, caller);
-			this.chunker = chunker;
-			this.polisher = polisher;
-			this.caller = caller;
-		}
-
-		// onAtPage(atPageNode) {
-		// 	console.log(atPageNode);
-		// }
-
-		// afterPageLayout(pageFragment, page) {
-		// 	pageFragment.style.position = "relative";
-		// 	console.log(this.chunker.pages);
-		// 	// this.renderSketch(page)
-		// }
-
-		// onBreakToken(breakToken, overflow, rendered){
-		// 	console.log(breakToken, overflow, rendered);
-		// }
-
-
-		layoutNode(node) {
-			// console.log(node);
-		}
-
-		
-	}
-
-
-	function renderSketch(page, num, total, numChapters, currChapter){
-			let isRight = page.element.classList.contains("pagedjs_right_page");
-
-			const s = (sketch) => {
-				let canvas;
-				sketch.setup = () => {
-					canvas = sketch.createCanvas(page.element.offsetWidth, page.element.offsetHeight);
-					canvas.parent(page.element);
-					canvas.position(0, 0);
-					canvas.style("z-index", "-1");
-					// sketch.background(220);
-					sketch.drawPageBorder();
-				};
-
-				sketch.drawPageBorder = () => {
-					sketch.fill(255, 128, 0);
-					// sketch.noStroke();
-					let step = sketch.height / numChapters;
-					let left = 0;
-					if (isRight) {
-						left = sketch.width;
-					} 
-					// sketch.rect( left, 0, 10, step * ( currChapter - 1 ) );
-					// sketch.rect( left, step * ( currChapter ), 10 , sketch.height );
-					sketch.strokeWeight(20);
-					sketch.stroke(255,128,0);	
-					let t1 = 0;
-					let b1 = step * ( currChapter - 1 );
-					let t2 = step * currChapter;
-					let b2 = sketch.height;
-					sketch.line(left, t1, left, b1 );
-					sketch.line(left, t2, left, b2 );
-				
-					for(let i = 0; i < 4; i++ ){
-						let l = left + i * 3;
-						if (isRight) {
-							l = left - i * 3;
-						}
-						let b = sketch.random(t1,b1);
-						let t = sketch.random(t1,b);
-						sketch.line(l, t, l, b );
-						b = sketch.random(t2,b2);
-						t = sketch.random(t2,b);
-						sketch.line(l, t, l, b );
-					}
-					// Alternatively, convert the sketch to on image and set it as background of the page
-					// let dataurl = canvas.canvas.toDataURL('image/png');
-					// canvas.parent().style.backgroundImage = dataurl;
-					// canvas.style.display = "none";
-				}
-
-				// sketch.draw = () => {};
-			};
-
-			let myp5 = new p5(s); 
-		}
-	// ready.then(async function () {
-	// 	let main = document.querySelector("#main");
-	// 	let polisher, chunker;
-
-	// 	polisher = new Paged.Polisher();
-	// 	chunker = new Paged.Chunker(
-	// 		document.getElementById("source").content,
-	// 		document.body
-	// 	);
-
-	// 	Paged.registerHandlers(MyHandler);
-	// 	Paged.initializeHandlers(chunker, polisher);
-
-	// 	styleText = await polisher.add({ "aurorae/book.css": "" });
-	// });
-
-	ready.then(async function () {
-			let wrapChapters = ( flowText ) => {
-				let template = document.createElement('template');
-				console.log(flowText , flowText.content,flowText.content.childNodes[1])
-				let src = flowText.content.childNodes[1];
-				let chapterWrap = document.createElement('div');
-				chapterWrap.setAttribute('class', 'chapter');
-				for( let i = 0; i < src.childNodes.length; i++ ){
-					let n = src.childNodes[i];
-					console.log(n);
-					if(n.nodeName !== "H1") {
-						chapterWrap.appendChild(n);
-					} else {
-						template.content.appendChild(chapterWrap);
-						chapterWrap = document.createElement('div');
-						chapterWrap.setAttribute('class', 'chapter');
-						chapterWrap.appendChild(n);
-					}
-				}
-				console.log(template, flowText);
-				flowText.childNodes = template.childNodes;
-				return flowText;
-			};
-
-      let flowText = document.querySelector("#source");
-			// flowText = wrapChapters(flowText);
-			
-
-      let t0 = performance.now();
-			Paged.registerHandlers(MyHandler);
-      let paged = new Paged.Previewer()
-
-      paged.preview(flowText.content).then((flow) => {
-        let t1 = performance.now();
-        // console.log("Rendering " + flow.total + " pages took " + (t1 - t0) + " milliseconds.");
-
-				let pages = document.querySelector(".pagedjs_pages");
-				let numChapters = document.querySelectorAll('h1 .mw-headline').length;
-				let currChapter = 0;
-				for(const i in flow.pages){
-					let page = flow.pages[i];
-					let hasH1 = page.area.querySelector("h1")
-					if ( hasH1 ) currChapter++;
-					this.renderSketch(page, parseInt(i)+1, flow.pages.length,numChapters, currChapter)
-				}
-      });
-
-      let resizer = () => {
-        let pages = document.querySelector(".pagedjs_pages");
-
-        if (pages) {
-          let scale = ((window.innerWidth * .9 ) / pages.offsetWidth);
-          if (scale < 1) {
-            pages.style.transform = `scale(${scale}) translate(${(window.innerWidth / 2) - ((pages.offsetWidth * scale / 2) ) }px, 0)`;
-          } else {
-            pages.style.transform = "none";
-          }
-        }
-      };
-      resizer();
-
-      window.addEventListener("resize", resizer, false);
-
-      paged.on("rendering", () => {
-        resizer();
-      });
-
-    });
-</script>
 {{pagename}}
-{% endblock %} {% block content %}
+{% endblock %} 
+
+{% block content %}
 <template id="source"> {{ html | safe }} </template>
 {% endblock %}
 
-<!--
-<script>
-window.addEventListener('load', function () {
-
-        // Add the main.css again to insert the nav css 
-        var cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = '/static/css/main.css';
-	cssLink.media = 'screen';
-        var head = document.getElementsByTagName('head')[0];
-        head.insertBefore(cssLink, head.firstChild);
-
-})
-</script>
--->
 {% block footer %}
 <br />
 {% endblock %}
