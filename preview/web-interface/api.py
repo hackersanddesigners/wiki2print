@@ -130,6 +130,7 @@ def create_html(wiki, subject_ns, pagename):
 		html = add_item_inventory_links(html)
 		html = tweaking(html)
 		html = fast_loader(html)
+		html = inlineCiteRefs(html)
 	else: 
 		html = None
 
@@ -255,16 +256,12 @@ def inlineCiteRefs(html):
 		res = re.findall('[0-9]+', href)
 		if(res):
 			cite = soup.find_all(id="cite_note-"+res[0])
-			text = cite[0].find_all(class_="reference-text")
-			str = ""
-			for s in text[0].stripped_strings:
-				str += s
-			tag = soup.new_tag("span", attrs={"class":"footnote"})
-			# content = NavigableString(s)
-			tag.append(s)
-			ref.replace_with(tag)
+			text = cite[0].find(class_="reference-text")
+			text['class'] = 'footnote'
+			ref.replace_with(text)
 	#remove the  reference from the bottom of the document
-	soup.find_all(class_="references")[0].decompose()
+	for item in soup.find_all(class_="references"):
+		item.decompose()
 	html = soup.prettify()
 	return html
 
