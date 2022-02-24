@@ -18,16 +18,14 @@
   font-weight: 130;
 }
 
-$baseline-authentic: 0.223;
-
 @mixin font-authentic( $weight: 90, $with-plumber: true) {
 	font-family: Authentic, sans-serif;
 	font-weight: $weight;
-	@if $with-plumber {
-    @include plumber(
-				$baseline: $baseline-authentic
-		);
-  }
+	// @if $with-plumber {
+  //   @include plumber(
+	// 			$baseline: $baseline-authentic
+	// 	);
+  // }
 }
 
 .font-authentic {

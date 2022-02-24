@@ -63,10 +63,6 @@
   background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent calc(12pt - 1px), rgba(255,0,0,0.1) calc(12pt - 1px), rgba(255,0,0,0.1) 12pt);
 }
 
-.pagedjs_footnote_area {
-  @include plumber($baseline: 0.065, $font-size: 0.7, $line-height: 1);
-}
-
 .pagedjs_margin-bottom-left-corner,
 .pagedjs_margin-bottom-right-corner {
   font-size: 1.5rem;

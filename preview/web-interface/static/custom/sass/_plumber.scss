@@ -1,0 +1,14 @@
+@import "./vendor/plumber";
+
+$baseline-ortica: 0.569;
+$baseline-combine: 0.349;
+$baseline-authentic: 0.374;
+
+@include plumber-set-defaults(
+    $grid-height: 12pt,
+    $font-size: 1,
+    $line-height: 1,
+    $leading-top: 0,
+    $leading-bottom: 0,
+		$baseline: $baseline-ortica,
+);

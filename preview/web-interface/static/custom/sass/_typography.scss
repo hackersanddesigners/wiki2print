@@ -1,3 +1,13 @@
+/* Fonts & typography & baseline grid 
+the baseline grid is tightly coupled (by Plumber) to 
+the typeface so you find them combined in this file.
+*/
+
+// @import "font-literata";
+@import "font-ortica";
+@import "font-combine";
+@import "font-authentic";
+
 body {
 	@include font-ortica();
 	@include plumber(
@@ -13,6 +23,26 @@ h1 {
 	font-size: 24pt;
 }
 
+.pagedjs_pages {
+  .chapter > p, .note, blockquote {
+    @include plumber(
+			$leading-top: 0,
+			$leading-bottom: 0,
+      $baseline: $baseline-ortica,
+      $font-size: 0.79166667
+    );
+  }
+// ul, li {
+// 	@include plumber(
+// 		$line-height: 3,
+// 		$leading-top: 0,
+// 		$leading-bottom: 0
+//     // $baseline: 0.065,
+//     // $font-size: 1,
+//   )
+// }
+}
+
 #toc {
 	ul {
 		list-style: none;
@@ -20,15 +50,25 @@ h1 {
 	}
 
 	& > ul > li {
-		& > a span { /* first level */
+		& > a .toctext { /* first level */
 			@include font-ortica();
-			font-size: 7pt;
+			@include plumber(
+				$baseline: $baseline-ortica,
+				$font-size: 0.58333333, // 7pt
+				$leading-top: 0,
+				$leading-bottom: 0,
+			);
 		}
 		& > ul {
-			li {
+			li .toctext {
 				padding-left: 1cm;
 				@include font-authentic(90);
-				font-size: 7pt;
+				@include plumber(
+					$baseline: $baseline-authentic,
+					$font-size: 0.58333333, // 7pt
+					$leading-top: 0,
+					$leading-bottom: 0,
+				);
 			}
 		} 
 	}
@@ -41,5 +81,11 @@ h1 {
 	@include font-authentic($weight:130);
 	font-size: 7pt;
 	text-align: center;
+}
+
+span.footnote {
+  @include font-authentic($weight:90);
+	font-size: 7pt;
+	line-height: 8.8pt;
 }
 

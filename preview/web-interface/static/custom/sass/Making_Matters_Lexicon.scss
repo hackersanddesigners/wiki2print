@@ -4,24 +4,7 @@ Styles can be overwritten from the CSS view in the wiki
 */
 
 /* Plumber for baseline grid */
-@import "./vendor/plumber";
-@include plumber-set-defaults(
-    $grid-height: 12pt,
-    $font-size: 1,
-    $line-height: 1,
-    $leading-top: 0,
-    $leading-bottom: 0
-);
-
-/* Fonts */
-// @import "font-literata";
-@import "font-ortica";
-@import "font-combine";
-@import "font-authentic";
-
-@include plumber-set-defaults(
-    $baseline: $baseline-ortica,
-);
+@import "plumber";
 
 /* Paged and print specific styles are collected in paged.css */
 @import "paged";
@@ -106,23 +89,11 @@ img {
 	page-break-after: always;
 }
 
-.pagedjs_pages {
-  // p, .note, blockquote {
-  //   @include plumber(
-  //     // $baseline: 0.065,
-  //     // $font-size: 1,
-  //   );
-  // }
-	// ul, li {
-	// 	@include plumber(
-	// 		$line-height: 3,
-	// 		$leading-top: 0,
-	// 		$leading-bottom: 0
-  //     // $baseline: 0.065,
-  //     // $font-size: 1,
-  //   )
-	// }
+
+span.footnote {
+  float: footnote;
 }
+
 
 /* For placement op p5js sketch relative to the page */
 .pagedjs_page {

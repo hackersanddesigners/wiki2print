@@ -45,11 +45,12 @@ function runServer () {
   exec('python3 web-interface.py', function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
+		process.stdout.write(stdout);
   });
 }
 
 // Default Gulp Task
-exports.default = parallel(
+exports.serve = parallel(
 	runServer,
 	series(
 		scssTask,
@@ -58,6 +59,13 @@ exports.default = parallel(
 		watchTask
 	)
 );
+
+exports.default = series(
+	scssTask,
+	// jsTask,
+	browsersyncServe,
+	watchTask
+)
 
 
 

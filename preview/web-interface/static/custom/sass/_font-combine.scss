@@ -5,16 +5,16 @@
   font-weight: 300;
 }
 
-$baseline-combine: 0.199;
+
 
 @mixin font-combine ( $weight: 300, $with-plumber: true ){
 	font-family: "Combine", serif;
 	font-weight: $weight;
-	@if $with-plumber {
-    @include plumber(
-				$baseline: $baseline-combine
-			);
-  }
+	// @if $with-plumber {
+  //   @include plumber(
+	// 			$baseline: $baseline-combine
+	// 		);
+  // }
 }
 
 .font-combine {
