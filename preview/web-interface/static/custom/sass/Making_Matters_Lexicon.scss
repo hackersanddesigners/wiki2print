@@ -1,6 +1,9 @@
 /* 
 This document contains the general styling for the Making Matters book.
-Styles can be overwritten from the CSS view in the wiki 
+Styles can be overwritten from the CSS view in the wiki.
+
+https://pagedjs.org/documentation/
+https://jamonserrano.github.io/plumber-sass/
 */
 
 /* Plumber for baseline grid */
@@ -10,6 +13,8 @@ Styles can be overwritten from the CSS view in the wiki
 @import "paged";
 @import "typography";
 @import "toc";
+@import "debug";
+@import "pagebreaks";
 
 /* General styling */
 html {
@@ -20,19 +25,16 @@ body {
   color: var(--color-main);
 }
 
-h1 {
-	page-break-before: left;
-}
-
-h2 {
-	page-break-before: right;
-}
-
 img {
 	max-width: 100%;
 	height: auto;
 }
 
+/*
+Setting named-pages
+https://pagedjs.org/documentation/8-named-page/
+*/
+#introduction,
 .chapter-introduction {
 	page: intro;
 }
@@ -42,77 +44,8 @@ img {
 	list-style: none;
 }
 
-
-
-.pagedjs_first_page {
-	// outline: 5px dotted blue;
-}
-	
-@page toc {
-	--base-color: green;
-}
-
-.pagedjs_toc_page + .pagedjs_blank_page {
-	--base-color: green;
-	outline: 3px dashed green;
-}
-
-@page:nth(1) {
-	--base-color: green;
-}
-
-@page :first {
-	--base-color: green;
-}
-
-@page intro {
-	--base-color: brown;
-}
-
-.pagedjs_intro_page + .pagedjs_blank_page {
-	outline: 4px dotted pink;
-	--base-color: brown;
-}
-
-
-.pagedjs_intro_page {
-	// --base-color: brown;
-	// outline: 10px dotted red;
-	ul li a {
-		outline: 1px dotted red;
-		color: greenyellow;
-	}
-}
-
-
-#cover {
-	page-break-after: always;
-}
-
-
-span.footnote {
-  float: footnote;
-}
-
-
-/* For placement op p5js sketch relative to the page */
-.pagedjs_page {
-	position: relative;
-}
-
 /* Prevent superscript from messing up the line-height */
 sup { vertical-align: top; position: relative; top: -0.5em; }
-
-/* 
-.container p,
-.container .note {
-    @include plumber(
-      $baseline: 0.065,
-      $font-size: 1,
-    );
-  }
-} */
-
 
 a {
   text-decoration: none;
@@ -121,29 +54,62 @@ a {
 
 /* Generic css */
 
-.chapter {
-  break-before: right;
-}
-
-
 /* Show url of a tags */
 /* a::after {
 content: " (" attr(href) ")";
 } */
 
-h1 {
-  string-set: title content(text);
-}
-
 img {
   max-width: 100%;
 }
 
+
+
 /* 
-a[rel=author] {
-position: absolute;
-bottom: 0mm;
-color: white;
-text-decoration: none;
-}
+Page margin colors. The color names are specified in sketch.js
+Available color: red, green, brown
 */
+
+@page toc {
+	--base-color: green;
+}
+
+@page intro {
+	--base-color: brown;
+}
+
+.pagedjs_intro_page + .pagedjs_blank_page {
+	--base-color: brown;
+}
+
+.pagedjs_intro_page + div {
+	--base-color: brown;
+}
+
+
+
+/* 
+	Change the display of these margin elements to inline-block
+	so they have a meaningful width for use with the P5js sketch.
+*/
+.pagedjs_pages .pagedjs_margin-top-center .pagedjs_margin-content,
+.pagedjs_pages .pagedjs_margin-bottom-center .pagedjs_margin-content {
+	display: inline-block;
+	width: auto !important;
+	margin: 0 auto;
+}
+
+
+/* For placement op p5js sketch relative to the page */
+.pagedjs_page, .pagedjs_pagebox {
+	position: relative;
+}
+
+
+/* First page */
+
+.book-title {
+	@include font-ortica();
+	font-size: 14pt;
+	line-height: 15pt;
+}

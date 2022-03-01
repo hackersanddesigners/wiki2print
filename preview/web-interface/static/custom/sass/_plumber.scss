@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import "./vendor/plumber";
 
 $baseline-ortica: 0.569;
@@ -12,3 +13,14 @@ $baseline-authentic: 0.374;
     $leading-bottom: 0,
 		$baseline: $baseline-ortica,
 );
+
+
+@function strip-units($number) {
+  @return math.div($number, ($number * 0 + 1));
+}
+
+@function pt($size_in_pt) {
+  $result: strip-units(calc($size_in_pt / 12));
+  @return $result;
+}
+

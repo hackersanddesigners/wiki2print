@@ -11,14 +11,18 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			'default': sketch.color(98,128,148), // #628094
 		};
 		sketch.setup = () => {
-			canvas = sketch.createCanvas(page.element.offsetWidth, page.element.offsetHeight, sketch.SVG);
-			canvas.parent(page.element);
+			let el = page.element.querySelector(".pagedjs_pagebox");
+			canvas = sketch.createCanvas(el.offsetWidth, el.offsetHeight, sketch.SVG);
+			canvas.parent(el);
 			canvas.position(0, 0);
 			canvas.style("z-index", "-1");
 			// sketch.background(220);
+			if(!page.element.querySelector("h1")){
 			let c = getComputedStyle(page.element).getPropertyValue('--base-color').trim() || 'default';
 			let color = colors[c] || colors["default"];
 			sketch.drawPageBorder(color);
+			sketch.drawPageTop(color);
+			}
 		};
 
 		sketch.drawPageBorder = (color) => {
@@ -56,6 +60,29 @@ function renderSketch(page, num, total, numChapters, currChapter){
 			// let dataurl = canvas.canvas.toDataURL('image/png');
 			// canvas.parent().style.backgroundImage = dataurl;
 			// canvas.style.display = "none";
+		}
+
+		sketch.drawPageTop = (color) => {
+			sketch.stroke(color);	
+			if( isRight ) {
+				sketch.borderLine(".pagedjs_margin-top-left", 0);
+				sketch.borderLine(".pagedjs_margin-top-right", 0);
+			} else {
+				// modified the css a bit so the .pagedjs_margin-content is not 100%
+				sketch.borderLine(".pagedjs_margin-top-center .pagedjs_margin-content", 0);
+			}
+			sketch.borderLine(".pagedjs_margin-bottom-center .pagedjs_margin-content", sketch.height);
+		}
+
+		sketch.borderLine = (selector, y) => {
+			/* Feels like I'm going to lose my mind */
+			const tc = page.element.querySelector(selector);
+			if(tc.offsetWidth > 0) {
+				/* You just keep on pushin' my love
+				Over the borderline (borderline) */
+				sketch.line(tc.offsetLeft, y, tc.offsetLeft+tc.offsetWidth, y );
+			}	
+				
 		}
 
 		// sketch.draw = () => {};

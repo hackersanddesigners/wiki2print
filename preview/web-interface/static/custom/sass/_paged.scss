@@ -2,65 +2,49 @@
 
 @page {
   size: 110mm 200mm;
-  /*148mm 210mm;*/
-  margin-top: 20mm;
-  margin-right: 20mm;
+  margin-top: 15mm;
+  margin-right: 10mm;
   margin-bottom: 25mm;
   margin-left: 15mm;
   /* bleed: 6mm;
    marks: crop cross; */
-  @bottom-center {
-    /* // content: string(titleBefore) ". " string(title, first); */
-    content: string(title, first);
-  }
-  @top-center {
-    content: string(title);
-    // text-transform: uppercase;
-  }
   @footnote {
     float: bottom;
   }
+	@bottom-center {
+    content: counter(page);
+  }
 }
 
+@page:left {
+	margin-right: 15mm;
+  margin-left: 10mm;
+	@top-center {
+    content: string(chapterTitle);
+  }
+}
+
+@page:right {
+  @top-left {
+    content: string(articleTitle); 
+  }
+	@top-right {
+		content: string(author);
+	}
+}
+
+
 @page:first {
-  // color: white !important;
-  // background-color: var(--color-main);
   @top-left {
     content: "";
   }
   @bottom-right-corner {
     content: "";
   }
-
-  a {
-    color: white;
-  }
-}
-
-@page:left {
-  @bottom-left-corner {
-    content: counter(page);
-  }
-}
-
-@page:right {
-  @bottom-right-corner {
-    content: counter(page);
-  }
 }
 
 .pagedjs_page {
 	background-color: transparent;
-}
-/* // .pagedjs_page {
-//   background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-//   background-size: auto 1rem;
-// } */
-
-.pagedjs_page_content {
-  /* // background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
-  // background-size: auto 1rem; */
-  background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent calc(12pt - 1px), rgba(255,0,0,0.1) calc(12pt - 1px), rgba(255,0,0,0.1) 12pt);
 }
 
 .pagedjs_margin-bottom-left-corner,
@@ -70,37 +54,28 @@
 }
 
 /* Setting variables */
-h1#title {
-  string-set: title content(text);
-}
 
+h1 {
+  string-set: chapterTitle content(text);
+}
 
 h2 {
   counter-increment: countChapter;
-  string-set: titleBefore content(before), title content(text);
+	string-set: articleTitle content(text);
 }
 
-h2::before {
-  // content: "Chapter "counter(countChapter, upper-roman) " : ";
+span.author {
+	string-set: author content(text);
 }
 
-.chapter-bodies p{
-	--color-main: red;
+/* Move the footnotes to the footer */
+span.footnote {
+  float: footnote;
 }
 
-.chapter {
-	color: var(--color-main);
-}
 
+/* https://gitlab.pagedmedia.org/tools/pagedjs-website/blob/73b38434d0d3395cc6c2a2d11510fa33d1e67fcf/content/posts/2020-05-13-notes-about-notes/index.md */
 /* 
-@page:left {
-  margin-right: 0mm;
-}
-
-@page:right {
-  margin-left: 0mm;
-}
-
 .note {
   position: note(notes);
   outline: 1px dotted red;

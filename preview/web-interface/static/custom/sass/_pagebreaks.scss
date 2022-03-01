@@ -1,0 +1,23 @@
+
+h1 {
+	page-break-before: left;
+	// page-break-before: always;
+}
+
+h2 {
+	page-break-before: right;
+	// page-break-before: always;
+}
+
+
+.chapter {
+  page-break-before: right;
+}
+
+.chapter.chapter-introduction {
+	page-break-before: left !important;
+}
+
+.author {
+	page-break-after: always;
+}

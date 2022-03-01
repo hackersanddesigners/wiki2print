@@ -24,14 +24,52 @@ h1 {
 }
 
 .pagedjs_pages {
-  .chapter > p, .note, blockquote {
+  .chapter > p, .note {
     @include plumber(
 			$leading-top: 0,
 			$leading-bottom: 0,
       $baseline: $baseline-ortica,
-      $font-size: 0.79166667
+      $font-size: pt(9.5pt),
     );
   }
+	.chapter {
+		h2 {
+			@include font-combine();
+			@include plumber(
+				$baseline: $baseline-authentic,
+				$font-size: pt(24pt),
+				$line-height: 3
+			);
+		}
+		.author {
+			@include font-authentic(90);
+			@include plumber(
+				$baseline: $baseline-authentic,
+				$font-size: pt(7pt),
+				$leading-top: 0,
+				$leading-bottom: 0,
+			);
+		}
+		blockquote {
+			@include plumber(
+				$baseline: $baseline-ortica,
+				$font-size: pt(8.5pt),
+				$leading-top: 1,
+				$leading-bottom: 1,	
+			);
+			> p {
+				margin: 0;
+			}
+		}
+	}
+
+	/* we have to disable the baseline grid margin/padding 
+	that Plumber sets above for the first element on a page */
+	.chapter > *:first-child {
+		margin-top: 0;
+		padding-top: 0;
+	}
+
 // ul, li {
 // 	@include plumber(
 // 		$line-height: 3,
@@ -54,18 +92,18 @@ h1 {
 			@include font-ortica();
 			@include plumber(
 				$baseline: $baseline-ortica,
-				$font-size: 0.58333333, // 7pt
+				$font-size: pt(7pt),
 				$leading-top: 0,
 				$leading-bottom: 0,
 			);
 		}
 		& > ul {
 			li .toctext {
-				padding-left: 1cm;
+				// padding-left: 1cm;
 				@include font-authentic(90);
 				@include plumber(
 					$baseline: $baseline-authentic,
-					$font-size: 0.58333333, // 7pt
+					$font-size: pt(7pt),//0.58333333, // 7pt
 					$leading-top: 0,
 					$leading-bottom: 0,
 				);

@@ -1,0 +1,13 @@
+@media screen {
+	/* 
+	For debugging the baseline grid append ?grid to the url 
+	*/
+	.grid .pagedjs_page_content {
+		background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent calc(12pt - 1px), rgba(255,0,0,0.1) calc(12pt - 1px), rgba(255,0,0,0.1) 12pt);
+	}
+
+	// @page {
+	// 	marks: crop cross;
+	// }
+
+}
