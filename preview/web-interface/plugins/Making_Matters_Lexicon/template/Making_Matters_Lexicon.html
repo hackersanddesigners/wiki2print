@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block head %}
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<script src="{{ url_for('static', filename='js/paged.js')}}" type="text/javascript"></script>
+
+<script src="{{ url_for('static', filename='js/p5.js')}}"></script>
+<script src="{{ url_for('static', filename='js/p5.svg.js')}}"></script>
+
+<script src="{{ url_for('static', filename='custom/js/paged_custom.js')}}"></script>
+<script src="{{ url_for('static', filename='custom/js/sketch.js')}}"></script>
+
+<link href="{{ url_for('static', filename='css/preview.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{ url_for('static', filename='custom/css/'+title+'.css')}}" rel="stylesheet" type="text/css" />
+<link href="/css/{{ title }}.css" rel="stylesheet" type="text/css" media="screen">
+
+<script>
+	this.ready = new Promise(function ($) {
+		document.addEventListener("DOMContentLoaded", $, { once: true });
+	});
+</script>
+
+{{pagename}}
+{% endblock %} 
+
+{% block content %}
+<template id="source"> {{ html | safe }} </template>
+{% endblock %}
+
+{% block footer %}
+<br />
+{% endblock %}

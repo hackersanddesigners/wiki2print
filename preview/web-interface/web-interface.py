@@ -5,6 +5,7 @@ from api import *
 import sys
 sys.path.insert(0, '..')
 from config import config as conf
+from flask_plugin import PluginManager
 
 
 # We configure our constants
@@ -19,7 +20,12 @@ STYLES_NS    = conf['wiki']['styles_ns']
 # We initiate the Flask app
 
 APP = flask.Flask(__name__)
+manager = PluginManager(APP)
 
+for plugin in manager.plugins:
+	manager.load(plugin)
+	manager.start(plugin)
+	print(plugin)
 
 # Get the index of publications 
 
@@ -48,13 +54,14 @@ def inspect(pagename):
 		WIKI,
 		SUBJECT_NS,
 		STYLES_NS,
-		pagename
+		pagename,
+		manager
 	)
 	return flask.render_template(
 		'inspect.html', 
-    title = pagename,
-    html  = publication['html'],
-    css   = publication['css']
+		title = pagename,
+		html  = publication['html'],
+		css   = publication['css']
 	)
 
 
@@ -84,14 +91,15 @@ def pagedjs(pagename):
 		WIKI,
 		SUBJECT_NS,
 		STYLES_NS,
-		pagename
+		pagename,
+		manager
 	)
 	template = customTemplate(pagename) or 'pagedjs.html'
 	print( "using template: ", template)
 	return flask.render_template(
 		template, 
-    title = pagename,
-    html  = publication['html'],
+		title = pagename,
+		html  = publication['html'],
 	)
  
  
@@ -109,9 +117,35 @@ def update(pagename):
 			WIKI,
 			SUBJECT_NS,
 			STYLES_NS,
-			pagename 
+			pagename,
+			manager
 		)
 	return flask.redirect(flask.url_for('index'))
+
+
+def has_no_empty_params(rule):
+	defaults = rule.defaults if rule.defaults is not None else ()
+	arguments = rule.arguments if rule.arguments is not None else ()
+	return len(defaults) >= len(arguments)
+
+
+@APP.route("/site-map")
+def site_map():
+	links = []
+	for rule in APP.url_map.iter_rules():
+		# Filter out rules we can't navigate to in a browser
+		# and rules that require parameters
+		print( rule )
+		if "GET" in rule.methods and has_no_empty_params(rule):
+			url = flask.url_for(rule.endpoint, **(rule.defaults or {}))
+			links.append((url, rule.endpoint))
+	# links is now a list of url, endpoint tuples
+	print(links)
+	return ""
+
+def filter_html(html):
+	print(manager)
+	return html
 
 if __name__ == '__main__':
 	APP.debug=True

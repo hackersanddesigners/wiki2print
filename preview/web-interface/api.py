@@ -6,7 +6,8 @@ import json
 import jinja2
 import datetime
 from bs4 import BeautifulSoup
-from soupsieve import match
+#from soupsieve import match
+
 
 STATIC_FOLDER_PATH = './static'        # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static'  # without trailing slash
@@ -28,7 +29,7 @@ def get_index(wiki, subject_ns):
 
 # gets publication's HTML and CSS
 
-def get_publication(wiki, subject_ns, styles_ns, pagename):
+def get_publication(wiki, subject_ns, styles_ns, pagename, manager):
 	"""
 		wiki = string
 		subject_ns = object
@@ -36,14 +37,14 @@ def get_publication(wiki, subject_ns, styles_ns, pagename):
 		pagename = string
 	"""
 	return {
-		'html' : get_html( wiki, subject_ns, pagename ),
+		'html' : get_html( wiki, subject_ns, pagename, manager ),
 		'css' : get_css( wiki, styles_ns, pagename )
 	}
 
 
 # gets or creates HTML file for a publication
 
-def get_html(wiki, subject_ns, pagename):
+def get_html(wiki, subject_ns, pagename, manager):
 	"""
 		wiki = string
 		subject_ns = object
@@ -52,7 +53,8 @@ def get_html(wiki, subject_ns, pagename):
 	return load_file(pagename, 'html') or create_html(
 		wiki,
 		subject_ns,
-		pagename
+		pagename, 
+		manager
 	)
 
 
@@ -98,7 +100,7 @@ def create_index(wiki, subject_ns):
 
 # Creates/updates a publication object
 
-def create_publication(wiki, subject_ns, styles_ns, pagename):
+def create_publication(wiki, subject_ns, styles_ns, pagename, magager):
 	"""
 		wiki = string
 		subject_ns = object
@@ -106,14 +108,14 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		pagename = string
 	"""
 	return {
-		'html' : create_html( wiki, subject_ns, pagename ),
+		'html' : create_html( wiki, subject_ns, pagename, magager ),
 		'css' : create_css( wiki, styles_ns, pagename )
 	}
 
 
 # makes API call to create/update a publication's HTML 
 
-def create_html(wiki, subject_ns, pagename):
+def create_html(wiki, subject_ns, pagename, manager):
 	"""
 		wiki = string
 		subject_ns = object
@@ -133,9 +135,16 @@ def create_html(wiki, subject_ns, pagename):
 	)
 
 	# print(json.dumps(data['parse']['sections'], indent=4))
-
 	if 'parse' in data:
 		html = data['parse']['text']['*']
+		for plugin in manager.plugins:
+			if( plugin.name == pagename ):
+				print("Found plugin for publication " + pagename )
+				try:
+					html = plugin.filter(html)
+				except:
+					print( "No filter found on plugin")
+
 		imgs = data['parse']['images']
 		html = download_media(html, imgs, wiki)
 		html = clean_up(html)
@@ -144,6 +153,7 @@ def create_html(wiki, subject_ns, pagename):
 		html = fast_loader(html)
 		html = inlineCiteRefs(html)
 		html = add_author_names_toc(html)
+
 	else: 
 		html = None
 
