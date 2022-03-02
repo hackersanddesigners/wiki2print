@@ -6,6 +6,7 @@ import json
 import jinja2
 import datetime
 from bs4 import BeautifulSoup
+from soupsieve import match
 
 STATIC_FOLDER_PATH = './static'        # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static'  # without trailing slash
@@ -131,15 +132,18 @@ def create_html(wiki, subject_ns, pagename):
 		now
 	)
 
+	# print(json.dumps(data['parse']['sections'], indent=4))
+
 	if 'parse' in data:
 		html = data['parse']['text']['*']
-		images = data['parse']['images']
-		html = download_media(html, images, wiki)
+		imgs = data['parse']['images']
+		html = download_media(html, imgs, wiki)
 		html = clean_up(html)
 		html = add_item_inventory_links(html)
 		html = tweaking(html)
 		html = fast_loader(html)
 		html = inlineCiteRefs(html)
+		html = add_author_names_toc(html)
 	else: 
 		html = None
 
@@ -376,6 +380,31 @@ def add_item_inventory_links(html):
 	# print(json.dumps(index, indent=4))
 	
 	return new_html
+
+def add_author_names_toc(html):
+	soup = BeautifulSoup(html, 'html.parser')
+	sub_headers = soup.findAll('h2')
+
+	for sub_header in sub_headers:
+		sub_header_headline = sub_header.find('span', class_='mw-headline')
+		if sub_header_headline:
+			sub_header_headline_id = sub_header_headline.get('id')
+			# print(sub_header_headline_id)
+		sibling_tag = sub_header.find_next_sibling('p')
+		if sibling_tag:
+			author_tag = sibling_tag.find('span', class_='author')
+			if author_tag:
+				author_text = author_tag.text
+				# print(author_text)
+				toc_2_item = soup.find(attrs={'href': f'#{ sub_header_headline_id }'})
+				if (toc_2_item):
+					toc_author = soup.new_tag('span', **{'class':'tocauthor'})
+					toc_author.string = author_text
+					toc_2_item.append(toc_author)
+					# print(toc_2_item)
+
+	html = soup.prettify()
+	return html
 
 def tweaking(html):
 	"""
