@@ -136,14 +136,6 @@ def create_html(wiki, subject_ns, pagename, manager):
 	# print(json.dumps(data['parse']['sections'], indent=4))
 	if 'parse' in data:
 		html = data['parse']['text']['*']
-		for plugin in manager.plugins:
-			if( plugin.name == pagename ):
-				print("Found plugin for publication " + pagename )
-				try:
-					html = plugin.filter(html)
-				except:
-					print( "No filter found on plugin")
-
 		imgs = data['parse']['images']
 		html = download_media(html, imgs, wiki)
 		html = clean_up(html)

@@ -94,6 +94,8 @@ def pagedjs(pagename):
 		pagename,
 		manager
 	)
+	if( publication_has_plugin( pagename ) ):
+		return flask.redirect(flask.url_for('plugins.Making_Matters_Lexicon.pagedjs',pagename = pagename))
 	template = customTemplate(pagename) or 'pagedjs.html'
 	print( "using template: ", template)
 	return flask.render_template(
@@ -128,24 +130,12 @@ def has_no_empty_params(rule):
 	arguments = rule.arguments if rule.arguments is not None else ()
 	return len(defaults) >= len(arguments)
 
-
-@APP.route("/site-map")
-def site_map():
-	links = []
-	for rule in APP.url_map.iter_rules():
-		# Filter out rules we can't navigate to in a browser
-		# and rules that require parameters
-		print( rule )
-		if "GET" in rule.methods and has_no_empty_params(rule):
-			url = flask.url_for(rule.endpoint, **(rule.defaults or {}))
-			links.append((url, rule.endpoint))
-	# links is now a list of url, endpoint tuples
-	print(links)
-	return ""
-
-def filter_html(html):
-	print(manager)
-	return html
+def publication_has_plugin(pubname):
+	for plugin in manager.plugins:
+		if( plugin.name == pubname ):
+			print("Found plugin for publication " + pubname )
+			return True
+	return False
 
 if __name__ == '__main__':
 	APP.debug=True
