@@ -5,7 +5,6 @@ import re
 import json
 import jinja2
 import datetime
-from bs4 import BeautifulSoup
 #from soupsieve import match
 
 
@@ -151,8 +150,8 @@ def create_html(wiki, subject_ns, pagename, manager):
 		html = add_item_inventory_links(html)
 		html = tweaking(html)
 		html = fast_loader(html)
-		html = inlineCiteRefs(html)
-		html = add_author_names_toc(html)
+		# # html = inlineCiteRefs(html)
+		# html = add_author_names_toc(html)
 
 	else: 
 		html = None
@@ -257,28 +256,6 @@ def update_publication_date(wiki, subject_ns, pagename, updated):
 		if page['slug'] == pagename:
 			page['updated'] = updated
 	save_file('index', 'json', index)
-
-
-# inline citation references in the html for pagedjs
-# Turns: <sup class="reference" id="cite_ref-1"><a href="#cite_note-1">[1]</a></sup>
-# into: <span class="footnote">The cite text</span>
-def inlineCiteRefs(html):
-	soup = BeautifulSoup(html, 'html.parser')
-	refs = soup.find_all("sup", class_="reference")
-	for ref in refs:
-		href = ref.a['href']
-		res = re.findall('[0-9]+', href)
-		if(res):
-			cite = soup.find_all(id="cite_note-"+res[0])
-			text = cite[0].find(class_="reference-text")
-			text['class'] = 'footnote'
-			ref.replace_with(text)
-	#remove the  reference from the bottom of the document
-	for item in soup.find_all(class_="references"):
-		item.decompose()
-	html = soup.prettify()
-	return html
-
 
 def customTemplate(name):
 	path = "custom/%s.html" % name
@@ -390,31 +367,6 @@ def add_item_inventory_links(html):
 	# print(json.dumps(index, indent=4))
 	
 	return new_html
-
-def add_author_names_toc(html):
-	soup = BeautifulSoup(html, 'html.parser')
-	sub_headers = soup.findAll('h2')
-
-	for sub_header in sub_headers:
-		sub_header_headline = sub_header.find('span', class_='mw-headline')
-		if sub_header_headline:
-			sub_header_headline_id = sub_header_headline.get('id')
-			# print(sub_header_headline_id)
-		sibling_tag = sub_header.find_next_sibling('p')
-		if sibling_tag:
-			author_tag = sibling_tag.find('span', class_='author')
-			if author_tag:
-				author_text = author_tag.text
-				# print(author_text)
-				toc_2_item = soup.find(attrs={'href': f'#{ sub_header_headline_id }'})
-				if (toc_2_item):
-					toc_author = soup.new_tag('span', **{'class':'tocauthor'})
-					toc_author.string = author_text
-					toc_2_item.append(toc_author)
-					# print(toc_2_item)
-
-	html = soup.prettify()
-	return html
 
 def tweaking(html):
 	"""
