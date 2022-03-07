@@ -67,13 +67,15 @@ def inspect(pagename):
 
 # Get a publication's CSS to inspect it closer
 
-@APP.route('/css/<string:pagename>', methods=['GET', 'POST'])
+@APP.route('/css/<string:pagename>.css', methods=['GET', 'POST'])
 def css(pagename):	
-	css = get_css(
+	css = create_css(
 		WIKI, 
 		STYLES_NS, 
 		pagename
 	)
+	print(pagename)
+	print(css)
 	return Response(
 		flask.render_template(
 			"dynamic_css.css", 

@@ -163,6 +163,7 @@ def create_css(wiki, styles_ns, pagename):
 	"""
 	css_url = f'{ wiki }/api.php?action=parse&page={ styles_ns["name"] }:{ pagename }&prop=wikitext&pst=True&format=json'
 	css_data = do_API_request(css_url)
+	print(css_data)
 	if css_data and 'parse' in css_data:
 		print(json.dumps(css_data, indent=4))
 		css = css_data['parse']['wikitext']['*']
