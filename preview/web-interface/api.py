@@ -310,17 +310,17 @@ def download_media(html, images, wiki):
 					time.sleep(3) # do not overload the server
 
 		# replace src link
-		# e_filename = re.escape( filename )  # i commented this out cus it didnt seem to do much..
-		e_filename = filename
+		e_filename = re.escape( filename )  # i commented this out cus it didnt seem to do much..
+		# e_filename = filename
 		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ e_filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
 		# print(image_path)
-		matches = re.findall(rf'src="/wiki/mediawiki/images/.*?px-{ e_filename }"', html) # for debugging
+		matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', html) # for debugging
 		if matches:
-			html = re.sub(rf'src="/wiki/mediawiki/images/.*?px-{ e_filename }"', f'src="{ image_path }"', html)
+			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', f'src=\"{ image_path }\"', html)
 		else:
-			matches = re.findall(rf'src="/wiki/mediawiki/images/.*?{ e_filename }"', html) # for debugging
+			matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', html) # for debugging
 			# print(matches, e_filename, html)
-			html = re.sub(rf'src="/wiki/mediawiki/images/.*?{ e_filename }"', f'src="{ image_path }"', html) 
+			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', f'src=\"{ image_path }\"', html) 
 		# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
 
 	return html
