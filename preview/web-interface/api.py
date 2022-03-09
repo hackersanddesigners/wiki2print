@@ -407,7 +407,7 @@ def clean_up(html):
 	"""
 		html = string (HTML)
 	"""
-	html = re.sub(r'\[.*edit.*\]', '', html) # remove the [edit]
+	# html = re.sub(r'\[.*edit.*\]', '', html) # remove the [edit] # Heerko: this somehow caused problems. Removing it solves it, seeming without side effects...
 	html = re.sub(r'href="/index.php\?title=', 'href="#', html) # remove the internal wiki links
 	html = re.sub(r'&#91;(?=\d)', '', html) # remove left footnote bracket [
 	html = re.sub(r'(?<=\d)&#93;', '', html) # remove right footnote bracket ]
