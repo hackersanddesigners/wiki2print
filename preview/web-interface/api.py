@@ -140,7 +140,6 @@ def create_html(wiki, subject_ns, pagename, manager):
 		html = download_media(html, imgs, wiki)
 		html = clean_up(html)
 		html = add_item_inventory_links(html)
-		html = tweaking(html)
 		html = fast_loader(html)
 		# # html = inlineCiteRefs(html)
 		# html = add_author_names_toc(html)
@@ -310,10 +309,9 @@ def download_media(html, images, wiki):
 					time.sleep(3) # do not overload the server
 
 		# replace src link
-		e_filename = re.escape( filename )  # i commented this out cus it didnt seem to do much..
+		e_filename = re.escape( filename )  # needed for filename with certain characters
 		# e_filename = filename
-		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ e_filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
-		# print(image_path)
+		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
 		matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', html) # for debugging
 		if matches:
 			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', f'src=\"{ image_path }\"', html)
@@ -360,48 +358,6 @@ def add_item_inventory_links(html):
 	# print(json.dumps(index, indent=4))
 	
 	return new_html
-
-def tweaking(html):
-	"""
-		html = string (HTML)
-	"""
-	html = html.replace('<a href="#X,_y,_z_(4_filmstills)"', '<a href="#x,_y,_z_(4_filmstills)"') # change the anchor link in the TOC to lowercase
-	html = html.replace('<a href="#Rehearsal_as_the_%E2%80%98Other%E2%80%99_to_Hypercomputation"', '<a href="#Rehearsal_as_the_‘Other’_to_Hypercomputation"') # change the anchor link in the TOC to lowercase
-	html = html.replace('<a href="#We_hardly_encounter_anything_that_didn%E2%80%99t_really_matter"', '<a href="#We_hardly_encounter_anything_that_didn’t_really_matter"') # change the anchor link in the TOC to lowercase
-	html = re.sub(r'''<h3><span class="mw-headline" id="References.*?">References</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h3>
-<ul>''', '''<h3 class="references"><span class="mw-headline" id="References">References</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h3>
-<ul class="references">''', html) # add id="references" to h3 and ul, so the elements can be selected with CSS
-	html = html.replace('src="./images/Userinfo.jpg"', 'src="./images/Userinfo.svg"') # This image is not on the wiki
-	html = html.replace('src="./images/Topology-typography-1A.png"', 'src="./images/Topology-typography-1A.svg"') # This image is not on the wiki
-	html = html.replace('src="./images/Topology-typography-1B.png"', 'src="./images/Topology-typography-1B.svg"') # This image is not on the wiki
-	html = html.replace('src="./images/Topology-typography-2A.png"', 'src="./images/Topology-typography-2A.svg"') # This image is not on the wiki
-	html = html.replace('src="./images/Topology-typography-2B.png"', 'src="./images/Topology-typography-2B.svg"') # This image is not on the wiki
-	html = html.replace('trans*feminis', 'trans✶feminis') # changing stars
-	html = html.replace('Trans*feminis', 'Trans✶feminis') # changing stars
-	html = html.replace('star (*)', 'star (✶)') # changing stars
-	html = html.replace('Our trans*feminist lens is sharpened by queer and anti-colonial sensibilities, and oriented towards (but not limited to) trans*generational, trans*media, trans*disciplinary, trans*geopolitical, trans*expertise, and trans*genealogical forms of study.', 'Our trans✶feminist lens is sharpened by queer and anti-colonial sensibilities, and oriented towards (but not limited to) trans✶generational, trans✶media, trans✶disciplinary, trans✶geopolitical, trans✶expertise, and trans✶genealogical forms of study.') # changing stars
-	html = html.replace('<h2><span class="mw-headline" id="Invasive_imagination_and_its_agential_cuts">Invasive imagination and its agential cuts</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>', '<h2><span class="mw-headline" id="Invasive_imagination_and_its_agential_cuts">Invasive imagination <br>and its agential cuts</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>') 
-	html = html.replace('<h2><span class="mw-headline" id="Volumetric_Regimes:_Material_cultures_of_quantified_presence">Volumetric Regimes: Material cultures of quantified presence</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>', '<h2><span class="mw-headline" id="Volumetric_Regimes:_Material_cultures_of_quantified_presence">Volumetric Regimes:<br>Material cultures of<br>quantified presence</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>') 
-	html = html.replace('<h2><span id="Somatopologies_(materials_for_a_movie_in_the_making)"></span><span class="mw-headline" id="Somatopologies_.28materials_for_a_movie_in_the_making.29">Somatopologies (materials for a movie in the making)</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>', '<h2><span id="Somatopologies_(materials_for_a_movie_in_the_making)"></span><span class="mw-headline" id="Somatopologies_.28materials_for_a_movie_in_the_making.29">Somatopologies (materials<br> for a movie in the making)</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>') 
-	html = html.replace('<h1><span class="mw-headline" id="Signs_of_clandestine_disorder:_The_continuous_aftermath_of_3D-computationalism"><a href="#Clandestine_disorder" title="Clandestine disorder">Signs of clandestine disorder: The continuous aftermath of 3D-computationalism</a></span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h1>', '<h1><span class="mw-headline" id="Signs_of_clandestine_disorder:_The_continuous_aftermath_of_3D-computationalism"><a href="#Clandestine_disorder" title="Clandestine disorder">Signs of clandestine disorder:<br>The continuous<br>aftermath of 3D-<br>computationalism</a></span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h1>') 
-	html = html.replace('<h2><span class="mw-headline" id="The_Industrial_Continuum_of_3D">The Industrial Continuum of 3D</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>', '<h2><span class="mw-headline" id="The_Industrial_Continuum_of_3D">The Industrial Continuum<br>of 3D</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>') 
-	html = html.replace('src="./images/Continuum_brighton.png"', 'src="./images/Continuum_brighton.svg"') # This image is not on the wiki
-	html = html.replace('<h1><span class="mw-headline" id="Depths_and_Densities:_Accidented_and_dissonant_spacetimes"><a href="#Depths_and_densities" title="Depths and densities">Depths and Densities: Accidented and dissonant spacetimes</a></span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h1>', '<h1><span class="mw-headline" id="Depths_and_Densities:_Accidented_and_dissonant_spacetimes"><a href="#Depths_and_densities" title="Depths and densities">Depths and Densities:<br>Accidented<br>and dissonant<br>spacetimes</a></span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h1>') 
-	html = html.replace('<h2><span class="mw-headline" id="Open_Boundary_Conditions:_a_grid_for_intensive_study">Open Boundary Conditions: a grid for intensive study</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>', '<h2><span class="mw-headline" id="Open_Boundary_Conditions:_a_grid_for_intensive_study">Open Boundary Conditions:<br>a grid for intensive study</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>') 
-	html = html.replace('<h2><span class="mw-headline" id="Depths_and_Densities:_A_Bugged_Report">Depths and Densities: A Bugged Report</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>', '<h2><span class="mw-headline" id="Depths_and_Densities:_A_Bugged_Report">Depths and Densities:<br>A Bugged Report</span><span class="mw-editsection"><span class="mw-editsection-bracket"></span></span></h2>') 
-	html = html.replace('trans*generational, trans*media, trans*disciplinary, trans*geopolitical, trans*expertise, and trans*genealogical concerns', 'trans✶generational, trans✶media, trans✶disciplinary, trans✶geopolitical, trans✶expertise, and trans✶genealogical concerns') 
-	html = html.replace('(*) all intersectional and ''intra-sectional ''aspects that are possibly needed.<ref name="ftn23">“The asterisk hold off the certainty of diagnosis.” Jack Halberstam, ''Trans*: A Quick and Quirky Account of Gender Variability'' (Berkeley: University of California Press, 2018), 4.</ref> Our trans*feminist lens is sharpened by queer and anti-colonial sensibilities, and oriented towards (but not limited to) trans*generational, trans*media, trans*disciplinary, trans*geopolitical, trans*expertise, and trans*genealogical forms of study.', '(✶) all intersectional and ''intra-sectional ''aspects that are possibly needed.<ref name="ftn23">“The asterisk hold off the certainty of diagnosis.” Jack Halberstam, ''Trans✶: A Quick and Quirky Account of Gender Variability'' (Berkeley: University of California Press, 2018), 4.</ref>') 
-	html = html.replace('trans*generational', 'trans*generational') 
-	html = html.replace('trans*media', 'trans✶media') 
-	html = html.replace('trans*disciplinary', 'trans✶disciplinary') 
-	html = html.replace('trans*geopolitical', 'trans✶geopolitical') 
-	html = html.replace('trans*expertise', 'trans✶expertise') 
-	html = html.replace('trans*genealogical', 'trans✶genealogical') 
-	html = html.replace('✶', '<span class="star">✶</span>') 
-	html = html.replace('<p><a href="#File', '<p class="image"><a href="#File') # give <p>'s that contain an non-thumb image a .image class
-	# html = html.replace('', '') 
-	
-	return html
 
 def clean_up(html):
 	"""
