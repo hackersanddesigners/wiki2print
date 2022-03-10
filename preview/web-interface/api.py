@@ -5,8 +5,7 @@ import re
 import json
 import jinja2
 import datetime
-#from soupsieve import match
-
+from bs4 import BeautifulSoup
 
 STATIC_FOLDER_PATH = './static'        # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static'  # without trailing slash
@@ -137,11 +136,17 @@ def create_html(wiki, subject_ns, pagename, manager):
 	if 'parse' in data:
 		html = data['parse']['text']['*']
 		imgs = data['parse']['images']
+		html = remove_comments(html)
 		html = download_media(html, imgs, wiki)
 		html = clean_up(html)
 		html = add_item_inventory_links(html)
 		html = fast_loader(html)
-		# # html = inlineCiteRefs(html)
+
+		soup = BeautifulSoup(html, 'html.parser')
+		soup = remove_edit(soup)
+		soup = inlineCiteRefs(soup)
+		html = soup.prettify()
+		# html = inlineCiteRefs(html)
 		# html = add_author_names_toc(html)
 
 	else: 
@@ -150,7 +155,6 @@ def create_html(wiki, subject_ns, pagename, manager):
 	save_file(pagename, 'html', html)
 
 	return html
-
 
 # makes API call to create/update a publication's CSS 
 
@@ -368,6 +372,47 @@ def clean_up(html):
 	html = re.sub(r'&#91;(?=\d)', '', html) # remove left footnote bracket [
 	html = re.sub(r'(?<=\d)&#93;', '', html) # remove right footnote bracket ]
 	return html
+
+# Beautiful soup seems to have a problem with some comments, 
+# so lets remove them before parsing.
+def remove_comments( html ):
+	"""
+		html = string (HTML)
+	"""
+	pattern = r'(<!--.*?-->)|(<!--[\S\s]+?-->)|(<!--[\S\s]*?$)'
+	return re.sub(pattern, "", html)
+
+def remove_edit(soup):
+	"""
+		soup = BeautifSoup (HTML)
+	"""
+	es = soup.find_all(class_="mw-editsection")
+	for s in es:
+		s.decompose()
+	return soup
+
+
+# inline citation references in the html for pagedjs
+# Turns: <sup class="reference" id="cite_ref-1"><a href="#cite_note-1">[1]</a></sup>
+# into: <span class="footnote">The cite text</span>
+def inlineCiteRefs(soup):
+	"""
+		soup = BeautifSoup (HTML)
+	"""
+	refs = soup.find_all("sup", class_="reference")
+	for ref in refs:
+		href = ref.a['href']
+		res = re.findall('[0-9]+', href)
+		if(res):
+			cite = soup.find_all(id="cite_note-"+res[0])
+			text = cite[0].find(class_="reference-text")
+			text['class'] = 'footnote'
+			ref.replace_with(text)
+	#remove the  reference from the bottom of the document
+	for item in soup.find_all(class_="references"):
+		item.decompose()
+	return soup
+
 
 def fast_loader(html):
 	"""
