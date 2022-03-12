@@ -1,4 +1,3 @@
 flask
-ntlk
 supervisor
 bs4
