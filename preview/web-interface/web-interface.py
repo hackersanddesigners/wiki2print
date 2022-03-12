@@ -55,7 +55,6 @@ def inspect(pagename):
 		SUBJECT_NS,
 		STYLES_NS,
 		pagename,
-		manager
 	)
 	return flask.render_template(
 		'inspect.html', 
@@ -94,7 +93,6 @@ def pagedjs(pagename):
 		SUBJECT_NS,
 		STYLES_NS,
 		pagename,
-		manager
 	)
 	if( publication_has_plugin( pagename ) ):
 		return flask.redirect(flask.url_for('plugins.Making_Matters_Lexicon.pagedjs',pagename = pagename))
@@ -122,7 +120,6 @@ def update(pagename):
 			SUBJECT_NS,
 			STYLES_NS,
 			pagename,
-			manager
 		)
 	return flask.redirect(flask.url_for('index'))
 

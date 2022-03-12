@@ -27,7 +27,7 @@ def get_index(wiki, subject_ns):
 
 # gets publication's HTML and CSS
 
-def get_publication(wiki, subject_ns, styles_ns, pagename, manager):
+def get_publication(wiki, subject_ns, styles_ns, pagename):
 	"""
 		wiki = string
 		subject_ns = object
@@ -35,14 +35,14 @@ def get_publication(wiki, subject_ns, styles_ns, pagename, manager):
 		pagename = string
 	"""
 	return {
-		'html' : get_html( wiki, subject_ns, pagename, manager ),
+		'html' : get_html( wiki, subject_ns, pagename ),
 		'css' : get_css( wiki, styles_ns, pagename )
 	}
 
 
 # gets or creates HTML file for a publication
 
-def get_html(wiki, subject_ns, pagename, manager):
+def get_html(wiki, subject_ns, pagename):
 	"""
 		wiki = string
 		subject_ns = object
@@ -52,7 +52,6 @@ def get_html(wiki, subject_ns, pagename, manager):
 		wiki,
 		subject_ns,
 		pagename, 
-		manager
 	)
 
 
@@ -113,7 +112,7 @@ def create_publication(wiki, subject_ns, styles_ns, pagename, magager):
 
 # makes API call to create/update a publication's HTML 
 
-def create_html(wiki, subject_ns, pagename, manager):
+def create_html(wiki, subject_ns, pagename):
 	"""
 		wiki = string
 		subject_ns = object
