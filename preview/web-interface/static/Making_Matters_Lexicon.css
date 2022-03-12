@@ -1,19 +1,16 @@
-sup.reference {
-	animation: rotate 5s linear infinite;
+.page-break {
+	page-break-before: always;
+	page-break-after: always;
 }
 
-@keyframes rotate {
-	from { transform: rotate(0deg); }	
-	to { transform: rotate(360deg); }
+.pagedjs_pages .chapter .no-indent p {
+	text-indent: 0;
 }
 
-.toc ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+.tocsection-6 {
+	page-break-before: always;
+	margin-top: 0 !important;
 }
-
-.toc li {
-	padding: 0;
-	margin: 0;
+.chapter .chapter-acknowledgements h2 #acknowledgements {
+	margin-left: -1em;
 }
