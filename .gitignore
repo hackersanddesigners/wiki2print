@@ -3,4 +3,4 @@ wiki/mediawiki
 preview/web-interface/static/images
 __pycache__
 Icon*
-	
+plugins/*

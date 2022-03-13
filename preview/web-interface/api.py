@@ -97,7 +97,7 @@ def create_index(wiki, subject_ns):
 
 # Creates/updates a publication object
 
-def create_publication(wiki, subject_ns, styles_ns, pagename, magager):
+def create_publication(wiki, subject_ns, styles_ns, pagename):
 	"""
 		wiki = string
 		subject_ns = object
@@ -105,7 +105,7 @@ def create_publication(wiki, subject_ns, styles_ns, pagename, magager):
 		pagename = string
 	"""
 	return {
-		'html' : create_html( wiki, subject_ns, pagename, magager ),
+		'html' : create_html( wiki, subject_ns, pagename ),
 		'css' : create_css( wiki, styles_ns, pagename )
 	}
 
