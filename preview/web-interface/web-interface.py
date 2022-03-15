@@ -95,7 +95,7 @@ def pagedjs(pagename):
 		pagename,
 	)
 	if( publication_has_plugin( pagename ) ):
-		return flask.redirect(flask.url_for('plugins.Making_Matters_Lexicon.pagedjs',pagename = pagename))
+		return flask.redirect(flask.url_for('plugins.'+pagename+'.pagedjs',pagename = pagename))
 	template = customTemplate(pagename) or 'pagedjs.html'
 	print( "using template: ", template)
 	return flask.render_template(
