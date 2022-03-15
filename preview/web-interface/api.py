@@ -144,7 +144,7 @@ def create_html(wiki, subject_ns, pagename):
 		soup = BeautifulSoup(html, 'html.parser')
 		soup = remove_edit(soup)
 		soup = inlineCiteRefs(soup)
-		html = soup.prettify()
+		html = str(soup)
 		# html = inlineCiteRefs(html)
 		# html = add_author_names_toc(html)
 
