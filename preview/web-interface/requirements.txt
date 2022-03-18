@@ -1,3 +1,5 @@
-flask
 supervisor
+flask
+flask_plugin
 bs4
+nltk

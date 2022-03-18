@@ -14,3 +14,22 @@
 .chapter .chapter-acknowledgements h2 #acknowledgements {
 	margin-left: -1em;
 }
+
+.chapter-end {
+	page: chapter-end;
+}
+
+@page chapter-end {
+	@top-center {
+    content: "";
+  }
+	/*@bottom-center {*/
+	/*	content: "";*/
+	/*}*/
+	@top-left {
+    content: "";
+  }
+	@top-right {
+    content: "";
+  }
+}

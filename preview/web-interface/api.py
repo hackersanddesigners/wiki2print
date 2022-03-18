@@ -11,6 +11,13 @@ STATIC_FOLDER_PATH = './static'        # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static'  # without trailing slash
 TEMPLATES_DIR = None
 
+# This uses a low quality copy of all the images 
+# (using a folder with the name "images-small",
+# which stores a copy of all the images generated with:
+# $ mogrify -quality 5% -adaptive-resize 25% -remap pattern:gray50 * )
+
+fast = False
+
 
 # gets or creates index of publications in namespace
 
@@ -36,7 +43,7 @@ def get_publication(wiki, subject_ns, styles_ns, pagename):
 	"""
 	return {
 		'html' : get_html( wiki, subject_ns, pagename ),
-		'css' : get_css( wiki, styles_ns, pagename )
+		'css'  : get_css( wiki, styles_ns, pagename )
 	}
 
 
@@ -77,19 +84,19 @@ def create_index(wiki, subject_ns):
 		wiki = string
 		subject_ns = object
 	"""
-	url  = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ subject_ns["id"] }'
+	url = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ subject_ns["id"] }'
 	data = do_API_request(url)
 	pages = data['query']['allpages']
-	pages = [ page for page in pages if '/' not in page['title'] ]
+	pages = [ page for page in pages if '/' not in page['title'] ] # exclude subpages
 	for page in pages:
-		page['title'] = page['title'].replace(subject_ns['name'] + ':' , '')
-		page['slug'] = page['title'].replace(' ' , '_')
+		page['title'] = page['title'].replace(subject_ns['name'] + ':' , '') # removing the namespace from title
+		page['slug'] = page['title'].replace(' ' , '_') # slugifying title
 		pageJSON = load_file(page['slug'], 'json')
 		page['updated'] = pageJSON and pageJSON['updated'] or '--'
-	updated =  str(datetime.datetime.now())
+	now = str(datetime.datetime.now())
 	index = {
 		'pages': pages,
-		'updated': updated
+		'updated': now
 	}
 	save_file('index', 'json', index)
 	return index
@@ -106,7 +113,7 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 	"""
 	return {
 		'html' : create_html( wiki, subject_ns, pagename ),
-		'css' : create_css( wiki, styles_ns, pagename )
+		'css'  : create_css( wiki, styles_ns, pagename )
 	}
 
 
@@ -124,22 +131,25 @@ def create_html(wiki, subject_ns, pagename):
 	data['updated'] = now
 	save_file(pagename, 'json', data)
 	
-	update_publication_date(
+	update_publication_date(   # we add the last updated of the publication to our index
 		wiki,
 		subject_ns, 
 		pagename, 
 		now
 	)
 
-	# print(json.dumps(data['parse']['sections'], indent=4))
 	if 'parse' in data:
+
 		html = data['parse']['text']['*']
 		imgs = data['parse']['images']
+
 		html = remove_comments(html)
 		html = download_media(html, imgs, wiki)
 		html = clean_up(html)
 		html = add_item_inventory_links(html)
-		html = fast_loader(html)
+
+		if fast == True:
+			html = fast_loader(html)
 
 		soup = BeautifulSoup(html, 'html.parser')
 		soup = remove_edit(soup)
@@ -154,6 +164,7 @@ def create_html(wiki, subject_ns, pagename):
 	save_file(pagename, 'html', html)
 
 	return html
+
 
 # makes API call to create/update a publication's CSS 
 
@@ -206,7 +217,7 @@ def save_file(pagename, ext, data):
 		if ext == 'json':
 			out.write( json.dumps(data, indent = 2) )
 		else:
-			out.write(data)
+			out.write( data )
 		out.close()
 	return data
 
@@ -261,11 +272,19 @@ def customTemplate(name):
 
 
 
-# This uses a low quality copy of all the images 
-# (using a folder with the name "images-small",
-# which stores a copy of all the images generated with:
-# $ mogrify -quality 5% -adaptive-resize 25% -remap pattern:gray50 * )
-fast = False
+
+# Beautiful soup seems to have a problem with some comments, 
+# so lets remove them before parsing.
+
+def remove_comments( html ):
+	"""
+		html = string (HTML)
+	"""
+	pattern = r'(<!--.*?-->)|(<!--[\S\s]+?-->)|(<!--[\S\s]*?$)'
+	return re.sub(pattern, "", html)
+
+
+# Downloading images referenced in the html
 
 def download_media(html, images, wiki):
 	"""
@@ -275,6 +294,8 @@ def download_media(html, images, wiki):
 	# check if 'images/' already exists
 	if not os.path.exists(f'{ STATIC_FOLDER_PATH }/images'):
 		os.makedirs(f'{ STATIC_FOLDER_PATH }/images')
+
+	print(images)
 	
 	# download media files
 	for filename in images:
@@ -311,9 +332,8 @@ def download_media(html, images, wiki):
 					import time
 					time.sleep(3) # do not overload the server
 
-		# replace src link
+		# replace src links
 		e_filename = re.escape( filename )  # needed for filename with certain characters
-		# e_filename = filename
 		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
 		matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', html) # for debugging
 		if matches:
@@ -325,6 +345,9 @@ def download_media(html, images, wiki):
 		# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
 
 	return html
+
+
+
 
 def add_item_inventory_links(html):
 	"""
@@ -362,6 +385,7 @@ def add_item_inventory_links(html):
 	
 	return new_html
 
+
 def clean_up(html):
 	"""
 		html = string (HTML)
@@ -371,15 +395,6 @@ def clean_up(html):
 	html = re.sub(r'&#91;(?=\d)', '', html) # remove left footnote bracket [
 	html = re.sub(r'(?<=\d)&#93;', '', html) # remove right footnote bracket ]
 	return html
-
-# Beautiful soup seems to have a problem with some comments, 
-# so lets remove them before parsing.
-def remove_comments( html ):
-	"""
-		html = string (HTML)
-	"""
-	pattern = r'(<!--.*?-->)|(<!--[\S\s]+?-->)|(<!--[\S\s]*?$)'
-	return re.sub(pattern, "", html)
 
 def remove_edit(soup):
 	"""
@@ -394,6 +409,7 @@ def remove_edit(soup):
 # inline citation references in the html for pagedjs
 # Turns: <sup class="reference" id="cite_ref-1"><a href="#cite_note-1">[1]</a></sup>
 # into: <span class="footnote">The cite text</span>
+
 def inlineCiteRefs(soup):
 	"""
 		soup = BeautifSoup (HTML)
@@ -417,9 +433,8 @@ def fast_loader(html):
 	"""
 		html = string (HTML)
 	"""
-	if fast == True:
-		html = html.replace('/images/', '/images-small/')
-		print('--- rendered in FAST mode ---')
+	html = html.replace('/images/', '/images-small/')
+	print('--- rendered in FAST mode ---')
 
 	return html
 
