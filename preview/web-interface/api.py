@@ -130,6 +130,8 @@ def create_html(wiki, subject_ns, pagename):
 	now = str(datetime.datetime.now())
 	data['updated'] = now
 	
+	save_file(pagename, 'json', data)
+
 	update_publication_date(   # we add the last updated of the publication to our index
 		wiki,
 		subject_ns, 
@@ -160,7 +162,6 @@ def create_html(wiki, subject_ns, pagename):
 	else: 
 		html = None
 
-	save_file(pagename, 'json', data)
 	save_file(pagename, 'html', html)
 
 	return html
