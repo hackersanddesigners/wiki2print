@@ -129,7 +129,6 @@ def create_html(wiki, subject_ns, pagename):
 	data = do_API_request(url)
 	now = str(datetime.datetime.now())
 	data['updated'] = now
-	save_file(pagename, 'json', data)
 	
 	update_publication_date(   # we add the last updated of the publication to our index
 		wiki,
@@ -161,6 +160,7 @@ def create_html(wiki, subject_ns, pagename):
 	else: 
 		html = None
 
+	save_file(pagename, 'json', data)
 	save_file(pagename, 'html', html)
 
 	return html
@@ -176,9 +176,7 @@ def create_css(wiki, styles_ns, pagename):
 	"""
 	css_url = f'{ wiki }/api.php?action=parse&page={ styles_ns["name"] }:{ pagename }&prop=wikitext&pst=True&format=json'
 	css_data = do_API_request(css_url)
-	print(css_data)
 	if css_data and 'parse' in css_data:
-		print(json.dumps(css_data, indent=4))
 		css = css_data['parse']['wikitext']['*']
 		save_file(pagename, 'css', css)
 		return css
@@ -295,8 +293,6 @@ def download_media(html, images, wiki):
 	if not os.path.exists(f'{ STATIC_FOLDER_PATH }/images'):
 		os.makedirs(f'{ STATIC_FOLDER_PATH }/images')
 
-	print(images)
-	
 	# download media files
 	for filename in images:
 		filename = filename.replace(' ', '_') # safe filenames
@@ -307,7 +303,11 @@ def download_media(html, images, wiki):
 
 			# first we search for the full filename of the image
 			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
+			# url = f'{ wiki }/api.php?action=query&titles=File:{ filename }&format=json'
 			data = do_API_request(url)
+			# timestamp = data.query.pages.
+
+			print(json.dumps(data, indent=2))
 
 			if data and data['query']['allimages']:
 
