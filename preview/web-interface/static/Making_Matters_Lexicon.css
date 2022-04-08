@@ -1,3 +1,9 @@
+@page {
+	bleed: 4mm;
+	marks: crop;
+}
+
+
 .page-break {
 	page-break-before: always;
 	page-break-after: always;
@@ -15,21 +21,82 @@
 	margin-left: -1em;
 }
 
-.chapter-end {
-	page: chapter-end;
-}
+/*.chapter-end {*/
+/*	page: chapter-end;*/
+/*}*/
 
-@page chapter-end {
-	@top-center {
-    content: "";
-  }
+/*@page chapter-end {*/
+/*	@top-center {*/
+/*    content: "";*/
+/*  }*/
 	/*@bottom-center {*/
 	/*	content: "";*/
 	/*}*/
-	@top-left {
-    content: "";
+/*	@top-left {*/
+/*    content: "";*/
+/*  }*/
+/*	@top-right {*/
+/*    content: "";*/
+/*  }*/
+/*}*/
+.hi1 {
+background-color: #F0F0F0;
   }
-	@top-right {
-    content: "";
+
+.hi2 {
+background-color: #DCDCDC;
   }
+  
+.hi3 {
+background-color: #BEBEBE;
+  }
+  
+.colophon-h3 {  
+    margin-top: -12pt;
+}
+
+.referencing {
+    font-family: Authentic,sans-serif;
+    font-size: 7pt;
+    text-indent: 0;
+    font-weight: 90;
+    line-height: 12pt;
+    text-align: left;
+    
+}
+
+.tighter {
+	letter-spacing: -0.1pt;
+}
+
+.tighter2 {
+letter-spacing: -0.15pt;
+}
+
+.tighter3 {
+letter-spacing: -0.2pt;
+}
+
+.colophon-titles {
+	font-family: Authentic,sans-serif;
+    font-size: 18pt;
+    line-height: 18pt;
+    margin-top: -12pt;
+   
+}
+
+.intro-page {
+	font-family: Authentic,sans-serif;
+    font-size: 10pt;
+    line-height: 18pt;
+    margin-top: 10pt;
+    margin-bottom: -14pt;
+}
+
+
+.colophon-list ul li {
+    font-family: Authentic,sans-serif;
+    font-size: 7pt;
+    font-weight: 90;
+    line-height: 12pt;
 }
