@@ -72,4 +72,10 @@ Please refer to the user documentation produced here: [docs](docs).
 ## Authors
 
 Heerko, Karl, Anja & Juliette
-building from the work of xxxxx on xxxxx, xxxxx on xxxxx, xxxxx on xxxxx, xxxxx on xxxxx and xxxxx on xxxxx.
+
+Building from the work of:
+-   [TiTiPi](http://titipi.org/)'s [Infrastructural Interactions](http://titipi.org/wiki-to-pdf/unfold/Infrastructural_Interactions)
+-   [Manetta](https://git.vvvvvvaria.org/mb)'s work on [Volumetric Regimes](https://volumetricregimes.xyz/index.php?title=Volumetric_Regimes)
+-   [Constant](https://constantvzw.org/site/)'s [Diversions](https://diversions.constantvzw.org/wiki/index.php?title=Main_Page)
+-   [many more...](https://constantvzw.org/wefts/webpublications.en.html)
+
