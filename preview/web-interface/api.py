@@ -147,7 +147,7 @@ def create_html(wiki, subject_ns, pagename):
 		html = remove_comments(html)
 		html = download_media(html, imgs, wiki)
 		html = clean_up(html)
-		html = add_item_inventory_links(html)
+		# html = add_item_inventory_links(html)
 
 		if fast == True:
 			html = fast_loader(html)
@@ -350,41 +350,41 @@ def download_media(html, images, wiki):
 
 
 
-def add_item_inventory_links(html):
-	"""
-		html = string (HTML)
-	"""
-	# Find all references in the text to the item index
-	pattern = r'Item \d\d\d'
-	matches = re.findall(pattern, html)
-	index = {}
-	new_html = ''
-	from nltk.tokenize import sent_tokenize
-	for line in sent_tokenize(html):
-		for match in matches:
-			if match in line:
-				number = match.replace('Item ', '').strip()
-				if not number in index:
-					index[number] = []
-					count = 1
-				else:
-					count = index[number][-1] + 1
-				index[number].append(count)
-				item_id = f'ii-{ number }-{ index[number][-1] }'
-				line = line.replace(match, f'Item <a id="{ item_id }" href="#Item_Index">{ number }</a>')
+# def add_item_inventory_links(html):
+# 	"""
+# 		html = string (HTML)
+# 	"""
+# 	# Find all references in the text to the item index
+# 	pattern = r'Item \d\d\d'
+# 	matches = re.findall(pattern, html)
+# 	index = {}
+# 	new_html = ''
+# 	from nltk.tokenize import sent_tokenize
+# 	for line in sent_tokenize(html):
+# 		for match in matches:
+# 			if match in line:
+# 				number = match.replace('Item ', '').strip()
+# 				if not number in index:
+# 					index[number] = []
+# 					count = 1
+# 				else:
+# 					count = index[number][-1] + 1
+# 				index[number].append(count)
+# 				item_id = f'ii-{ number }-{ index[number][-1] }'
+# 				line = line.replace(match, f'Item <a id="{ item_id }" href="#Item_Index">{ number }</a>')
 
-		# the line is pushed back to the new_html
-		new_html += line + ' '
+# 		# the line is pushed back to the new_html
+# 		new_html += line + ' '
 		
-	# Also add a <span> around the index nr to style it
-	matches = re.findall(r'<li>\d\d\d', new_html)
-	for match in matches:
-		new_html = new_html.replace(match, f'<li><span class="item_nr">{ match }</span>')
+# 	# Also add a <span> around the index nr to style it
+# 	matches = re.findall(r'<li>\d\d\d', new_html)
+# 	for match in matches:
+# 		new_html = new_html.replace(match, f'<li><span class="item_nr">{ match }</span>')
 
-	# import json
-	# print(json.dumps(index, indent=4))
+# 	# import json
+# 	# print(json.dumps(index, indent=4))
 	
-	return new_html
+# 	return new_html
 
 
 def clean_up(html):

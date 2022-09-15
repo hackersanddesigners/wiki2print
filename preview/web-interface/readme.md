@@ -1,0 +1,1 @@
+flask_plugin PluginManager only works with Flask 2.0.3 so we're suck with that version.
