@@ -4,3 +4,7 @@ preview/web-interface/static/images
 __pycache__
 Icon*
 plugins/*
+preview/web-interface/.vscode/configurationCache.log
+preview/web-interface/.vscode/dryrun.log
+preview/web-interface/.vscode/settings.json
+preview/web-interface/.vscode/targets.log
