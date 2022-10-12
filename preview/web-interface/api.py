@@ -1,3 +1,4 @@
+from pprint import pprint
 import urllib.request
 import urllib.error
 import os
@@ -104,7 +105,7 @@ def create_index(wiki, subject_ns):
 
 # Creates/updates a publication object
 
-def create_publication(wiki, subject_ns, styles_ns, pagename):
+def create_publication(wiki, subject_ns, styles_ns, pagename, full_update):
 	"""
 		wiki = string
 		subject_ns = object
@@ -112,21 +113,23 @@ def create_publication(wiki, subject_ns, styles_ns, pagename):
 		pagename = string
 	"""
 	return {
-		'html' : create_html( wiki, subject_ns, pagename ),
+		'html' : create_html( wiki, subject_ns, pagename,full_update ),
 		'css'  : create_css( wiki, styles_ns, pagename )
 	}
 
 
 # makes API call to create/update a publication's HTML 
 
-def create_html(wiki, subject_ns, pagename):
+def create_html(wiki, subject_ns, pagename, full_update):
 	"""
 		wiki = string
 		subject_ns = object
 		pagename = string
+		full_update = None or string. Full update when not None
 	"""
 	url = f'{ wiki }/api.php?action=parse&page={ subject_ns["name"] }:{ pagename }&pst=True&format=json'
 	data = do_API_request(url)
+	# pprint(data)
 	now = str(datetime.datetime.now())
 	data['updated'] = now
 	
@@ -143,9 +146,9 @@ def create_html(wiki, subject_ns, pagename):
 
 		html = data['parse']['text']['*']
 		imgs = data['parse']['images']
-
+		pprint(imgs)
 		html = remove_comments(html)
-		html = download_media(html, imgs, wiki)
+		html = download_media(html, imgs, wiki, full_update)
 		html = clean_up(html)
 		# html = add_item_inventory_links(html)
 
@@ -285,7 +288,7 @@ def remove_comments( html ):
 
 # Downloading images referenced in the html
 
-def download_media(html, images, wiki):
+def download_media(html, images, wiki, full_update):
 	"""
 		html = string (HTML)
 		images = list of filenames (str)
@@ -297,11 +300,9 @@ def download_media(html, images, wiki):
 	# download media files
 	for filename in images:
 		filename = filename.replace(' ', '_') # safe filenames
-		
 		# check if the image is already downloaded
 		# if not, then download the file
-		if not os.path.isfile(f'{ STATIC_FOLDER_PATH }/images/{ filename }'):
-
+		if not os.path.isfile(f'{ STATIC_FOLDER_PATH }/images/{ filename }') or full_update:
 			# first we search for the full filename of the image
 			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
 			# url = f'{ wiki }/api.php?action=query&titles=File:{ filename }&format=json'
@@ -336,14 +337,15 @@ def download_media(html, images, wiki):
 		# replace src links
 		e_filename = re.escape( filename )  # needed for filename with certain characters
 		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
-		matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', html) # for debugging
+		matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', html) # for debugging	
+		# pprint(matches)
 		if matches:
 			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', f'src=\"{ image_path }\"', html)
 		else:
 			matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', html) # for debugging
 			# print(matches, e_filename, html)
 			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', f'src=\"{ image_path }\"', html) 
-		# print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
+		print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
 
 	return html
 

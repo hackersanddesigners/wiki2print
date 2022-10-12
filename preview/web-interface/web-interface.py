@@ -1,6 +1,7 @@
 import flask
 from flask import Response
 from api import *
+from flask import request
 
 import sys
 sys.path.insert(0, '..')
@@ -109,6 +110,7 @@ def pagedjs(pagename):
 
 @APP.route('/update/<string:pagename>', methods=['GET', 'POST'])
 def update(pagename):
+	full_update = request.args.get("full", default=None, type=str)
 	if pagename == 'index':
 		create_index(
 			WIKI,
@@ -120,6 +122,7 @@ def update(pagename):
 			SUBJECT_NS,
 			STYLES_NS,
 			pagename,
+			full_update
 		)
 	return flask.redirect(flask.url_for('index'))
 

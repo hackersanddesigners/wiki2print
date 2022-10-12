@@ -64,6 +64,15 @@
 				</a>
 			</td>
 			<td>
+				<a 
+					title="Full update"
+					href="{{ '/update/'+ page.slug + '?full=true'}}"
+					onclick="return confirm('This will redownload all images from the wiki. This will take a while. Are you sure?')"
+				>
+					full update
+				</a>
+			</td>
+			<td>
 				<span class="updated">
 					{{ page.updated }}
 				</span>
