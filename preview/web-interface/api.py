@@ -240,7 +240,7 @@ def do_API_request(url, filename="", wiki=""):
 					}  
 				}
 	"""
- 
+	purge(filename, wiki)
 	print('Loading from wiki: ', url)
 	response = urllib.request.urlopen(url)
 	response_type = response.getheader('Content-Type')
