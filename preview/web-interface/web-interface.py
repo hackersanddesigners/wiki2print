@@ -74,8 +74,8 @@ def css(pagename):
 		STYLES_NS, 
 		pagename
 	)
-	print(pagename)
-	print(css)
+	# print(pagename)
+	# print(css)
 	return Response(
 		flask.render_template(
 			"dynamic_css.css", 

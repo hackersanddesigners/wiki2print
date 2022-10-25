@@ -128,7 +128,7 @@ def create_html(wiki, subject_ns, pagename, full_update):
 		full_update = None or string. Full update when not None
 	"""
 	url = f'{ wiki }/api.php?action=parse&page={ subject_ns["name"] }:{ pagename }&pst=True&format=json'
-	data = do_API_request(url)
+	data = do_API_request(url, subject_ns["name"]+":"+pagename, wiki)
 	# pprint(data)
 	now = str(datetime.datetime.now())
 	data['updated'] = now
@@ -143,10 +143,10 @@ def create_html(wiki, subject_ns, pagename, full_update):
 	)
 
 	if 'parse' in data:
-
 		html = data['parse']['text']['*']
+		# pprint(html)
 		imgs = data['parse']['images']
-		pprint(imgs)
+		
 		html = remove_comments(html)
 		html = download_media(html, imgs, wiki, full_update)
 		html = clean_up(html)
@@ -226,7 +226,7 @@ def save_file(pagename, ext, data):
 
 # do API request and return JSON
 
-def do_API_request(url):
+def do_API_request(url, filename="", wiki=""):
 	"""
 		url = API request url (string)
 		data =  { 'query': 
@@ -240,16 +240,33 @@ def do_API_request(url):
 					}  
 				}
 	"""
+ 
 	print('Loading from wiki: ', url)
 	response = urllib.request.urlopen(url)
 	response_type = response.getheader('Content-Type')
-	# print(response_type, response.status)
+ 
 	if response.status == 200 and "json" in response_type:
 		contents = response.read()
 		data = json.loads(contents)
 		return data
 
-
+def purge(filename, wiki):
+	if(filename=="" or wiki==""): return
+	print("purge " + filename )
+ 
+	import requests
+	S = requests.Session()
+	URL = f'{ wiki }/api.php'
+	#url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
+	PARAMS = {
+			"action": "purge",
+			"titles": filename,
+			"format": "json",
+			"generator": "alltransclusions",
+	}
+	R = S.post(url=URL, params=PARAMS)
+	# DATA = R.text
+	
 # updates a publication's last updated feild in the index
 
 def update_publication_date(wiki, subject_ns, pagename, updated):
@@ -302,14 +319,14 @@ def download_media(html, images, wiki, full_update):
 		filename = filename.replace(' ', '_') # safe filenames
 		# check if the image is already downloaded
 		# if not, then download the file
-		if not os.path.isfile(f'{ STATIC_FOLDER_PATH }/images/{ filename }') or full_update:
+		if (not os.path.isfile(f'{ STATIC_FOLDER_PATH }/images/{ filename }')) or full_update:
 			# first we search for the full filename of the image
 			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
 			# url = f'{ wiki }/api.php?action=query&titles=File:{ filename }&format=json'
 			data = do_API_request(url)
 			# timestamp = data.query.pages.
 
-			print(json.dumps(data, indent=2))
+			# print(json.dumps(data, indent=2))
 
 			if data and data['query']['allimages']:
 
