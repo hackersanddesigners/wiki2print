@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% block content %}
 <div id="index">
@@ -10,7 +10,7 @@
 			<th>
 				title
 			</th>
-			<th colspan="5">
+			<th colspan="6">
 				actions
 			</th>
 			<th>
@@ -20,7 +20,7 @@
 		<tr {% for page in pages %}>
 			<td>{{ page.title }}</td>
 			<td>
-				<a 
+				<a
 					title="Edit in MediaWiki"
 					target="_blank"
 					href="{{ wiki + '/../' + subject_ns['name'] + ':' + page.slug }}"
@@ -29,7 +29,7 @@
 				</a>
 			</td>
 			<td>
-				<a 
+				<a
 					title="Inspect HTML & CSS"
 					target="_blank"
 					href="{{ '/html/'+ page.slug }}"
@@ -38,7 +38,7 @@
 				</a>
 			</td>
 			<td>
-				<a 
+				<a
 					title="Inspect CSS"
 					target="_blank"
 					href="{{ '/css/'+ page.slug +'.css' }}"
@@ -47,7 +47,7 @@
 				</a>
 			</td>
 			<td>
-				<a 
+				<a
 					title="View PDF with PagedJS"
 					target="_blank"
 					href="{{ '/pdf/'+ page.slug }}"
@@ -56,7 +56,7 @@
 				</a>
 			</td>
 			<td>
-				<a 
+				<a
 					title="Update publication"
 					href="{{ '/update/'+ page.slug }}"
 				>
@@ -64,7 +64,7 @@
 				</a>
 			</td>
 			<td>
-				<a 
+				<a
 					title="Full update"
 					href="{{ '/update/'+ page.slug + '?full=true'}}"
 					onclick="return confirm('This will redownload all images from the wiki. This will take a while. Are you sure?')"
@@ -80,10 +80,10 @@
 		</tr {% endfor %}>
 	</table>
 	<br><br>
-	<p>Index was last updated on 
+	<p>Index was last updated on
 		<span class="updated">{{ updated }}</span>
-		<a 
-			id="update" 
+		<a
+			id="update"
 			href="/update/index"
 			title="Update index of publications"
 		>update</a>.
@@ -107,6 +107,6 @@
 				<a href="https://constantvzw.org/wefts/webpublications.en.html">many more...</a>
 			</li>
 		</uL>
-		
+
 	</p>
 {% endblock %}
