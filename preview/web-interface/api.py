@@ -1,4 +1,5 @@
 from pprint import pprint
+import sys
 import urllib.request
 import urllib.error
 import os
@@ -12,7 +13,7 @@ STATIC_FOLDER_PATH = './static'        # without trailing slash
 PUBLIC_STATIC_FOLDER_PATH = '/static'  # without trailing slash
 TEMPLATES_DIR = None
 
-# This uses a low quality copy of all the images 
+# This uses a low quality copy of all the images
 # (using a folder with the name "images-small",
 # which stores a copy of all the images generated with:
 # $ mogrify -quality 5% -adaptive-resize 25% -remap pattern:gray50 * )
@@ -29,7 +30,7 @@ def get_index(wiki, subject_ns):
 	"""
 	return load_file('index', 'json') or create_index(
 		wiki,
-		subject_ns	
+		subject_ns
 	)
 
 
@@ -43,8 +44,8 @@ def get_publication(wiki, subject_ns, styles_ns, pagename):
 		pagename = string
 	"""
 	return {
-		'html' : get_html( wiki, subject_ns, pagename ),
-		'css'  : get_css( wiki, styles_ns, pagename )
+		'html': get_html(wiki, subject_ns, pagename),
+		'css': get_css(wiki, styles_ns, pagename)
 	}
 
 
@@ -59,7 +60,7 @@ def get_html(wiki, subject_ns, pagename):
 	return load_file(pagename, 'html') or create_html(
 		wiki,
 		subject_ns,
-		pagename, 
+		pagename,
 	)
 
 
@@ -78,7 +79,7 @@ def get_css(wiki, styles_ns, pagename):
 	)
 
 
-# makes API call to create/update index of publications 
+# makes API call to create/update index of publications
 
 def create_index(wiki, subject_ns):
 	"""
@@ -88,10 +89,12 @@ def create_index(wiki, subject_ns):
 	url = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ subject_ns["id"] }'
 	data = do_API_request(url)
 	pages = data['query']['allpages']
-	pages = [ page for page in pages if '/' not in page['title'] ] # exclude subpages
+	# exclude subpages
+	pages = [page for page in pages if '/' not in page['title']]
 	for page in pages:
-		page['title'] = page['title'].replace(subject_ns['name'] + ':' , '') # removing the namespace from title
-		page['slug'] = page['title'].replace(' ' , '_') # slugifying title
+		# removing the namespace from title
+		page['title'] = page['title'].replace(subject_ns['name'] + ':', '')
+		page['slug'] = page['title'].replace(' ', '_')  # slugifying title
 		pageJSON = load_file(page['slug'], 'json')
 		page['updated'] = pageJSON and pageJSON['updated'] or '--'
 	now = str(datetime.datetime.now())
@@ -113,12 +116,12 @@ def create_publication(wiki, subject_ns, styles_ns, pagename, full_update):
 		pagename = string
 	"""
 	return {
-		'html' : create_html( wiki, subject_ns, pagename,full_update ),
-		'css'  : create_css( wiki, styles_ns, pagename )
+		'html': create_html(wiki, subject_ns, pagename, full_update),
+		'css': create_css(wiki, styles_ns, pagename)
 	}
 
 
-# makes API call to create/update a publication's HTML 
+# makes API call to create/update a publication's HTML
 
 def create_html(wiki, subject_ns, pagename, full_update):
 	"""
@@ -132,13 +135,13 @@ def create_html(wiki, subject_ns, pagename, full_update):
 	# pprint(data)
 	now = str(datetime.datetime.now())
 	data['updated'] = now
-	
+
 	save_file(pagename, 'json', data)
 
 	update_publication_date(   # we add the last updated of the publication to our index
 		wiki,
-		subject_ns, 
-		pagename, 
+		subject_ns,
+		pagename,
 		now
 	)
 
@@ -146,7 +149,7 @@ def create_html(wiki, subject_ns, pagename, full_update):
 		html = data['parse']['text']['*']
 		# pprint(html)
 		imgs = data['parse']['images']
-		
+
 		html = remove_comments(html)
 		html = download_media(html, imgs, wiki, full_update)
 		html = clean_up(html)
@@ -162,7 +165,7 @@ def create_html(wiki, subject_ns, pagename, full_update):
 		# html = inlineCiteRefs(html)
 		# html = add_author_names_toc(html)
 
-	else: 
+	else:
 		html = None
 
 	save_file(pagename, 'html', html)
@@ -170,7 +173,7 @@ def create_html(wiki, subject_ns, pagename, full_update):
 	return html
 
 
-# makes API call to create/update a publication's CSS 
+# makes API call to create/update a publication's CSS
 
 def create_css(wiki, styles_ns, pagename):
 	"""
@@ -215,7 +218,13 @@ def save_file(pagename, ext, data):
 	"""
 	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
 	print(f'Saving { ext }:', path)
-	with open(path, 'w') as out:
+	try:
+		out = open(path, 'w')
+	except OSError:
+			print("Could not open/write file:", path)
+			sys.exit()
+	
+	with out: #open(path, 'w') as out:
 		if ext == 'json':
 			out.write( json.dumps(data, indent = 2) )
 		else:
@@ -250,6 +259,9 @@ def do_API_request(url, filename="", wiki=""):
 		data = json.loads(contents)
 		return data
 
+# api calls seem to be cached even when called with maxage 
+# So call purge before doing the api call.
+# https://www.mediawiki.org/wiki/API:Purge
 def purge(filename, wiki):
 	if(filename=="" or wiki==""): return
 	print("purge " + filename )
@@ -257,7 +269,7 @@ def purge(filename, wiki):
 	import requests
 	S = requests.Session()
 	URL = f'{ wiki }/api.php'
-	#url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
+	# url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
 	PARAMS = {
 			"action": "purge",
 			"titles": filename,
@@ -443,7 +455,7 @@ def inlineCiteRefs(soup):
 			text = cite[0].find(class_="reference-text")
 			text['class'] = 'footnote'
 			ref.replace_with(text)
-	#remove the  reference from the bottom of the document
+	# remove the  reference from the bottom of the document
 	for item in soup.find_all(class_="references"):
 		item.decompose()
 	return soup
