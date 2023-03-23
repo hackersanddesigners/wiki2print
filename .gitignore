@@ -2,6 +2,7 @@ wiki/mediawiki
 .DS_Store
 preview/web-interface/static/images
 __pycache__
+venv
 Icon*
 plugins/*
 preview/web-interface/.vscode/configurationCache.log
