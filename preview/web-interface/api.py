@@ -86,7 +86,7 @@ def create_index(wiki, subject_ns):
 		wiki = string
 		subject_ns = object
 	"""
-	url = f'{ wiki }/api.php?action=query&format=json&list=allpages&apnamespace={ subject_ns["id"] }'
+	url = f'{ wiki }/api.php?action=query&format=json&list=allpages&aplimit=100&apnamespace={ subject_ns["id"] }'
 	data = do_API_request(url)
 	pages = data['query']['allpages']
 	# exclude subpages
@@ -223,7 +223,7 @@ def save_file(pagename, ext, data):
 	except OSError:
 			print("Could not open/write file:", path)
 			sys.exit()
-	
+
 	with out: #open(path, 'w') as out:
 		if ext == 'json':
 			out.write( json.dumps(data, indent = 2) )
@@ -238,34 +238,34 @@ def save_file(pagename, ext, data):
 def do_API_request(url, filename="", wiki=""):
 	"""
 		url = API request url (string)
-		data =  { 'query': 
-					'pages' : 
-						pageid : { 					
+		data =  { 'query':
+					'pages' :
+						pageid : {
 							'links' : {
 								'?' : '?'
 								'title' : 'pagename'
 							}
-						} 
-					}  
+						}
+					}
 				}
 	"""
 	purge(filename, wiki)
 	print('Loading from wiki: ', url)
 	response = urllib.request.urlopen(url)
 	response_type = response.getheader('Content-Type')
- 
+
 	if response.status == 200 and "json" in response_type:
 		contents = response.read()
 		data = json.loads(contents)
 		return data
 
-# api calls seem to be cached even when called with maxage 
+# api calls seem to be cached even when called with maxage
 # So call purge before doing the api call.
 # https://www.mediawiki.org/wiki/API:Purge
 def purge(filename, wiki):
 	if(filename=="" or wiki==""): return
 	print("purge " + filename )
- 
+
 	import requests
 	S = requests.Session()
 	URL = f'{ wiki }/api.php'
@@ -278,7 +278,7 @@ def purge(filename, wiki):
 	}
 	R = S.post(url=URL, params=PARAMS)
 	# DATA = R.text
-	
+
 # updates a publication's last updated feild in the index
 
 def update_publication_date(wiki, subject_ns, pagename, updated):
@@ -297,14 +297,14 @@ def update_publication_date(wiki, subject_ns, pagename, updated):
 def customTemplate(name):
 	path = "custom/%s.html" % name
 	if os.path.isfile(os.path.join(os.path.dirname(__file__), "templates/", path)):
-		return path 
+		return path
 	else:
 		return None
 
 
 
 
-# Beautiful soup seems to have a problem with some comments, 
+# Beautiful soup seems to have a problem with some comments,
 # so lets remove them before parsing.
 
 def remove_comments( html ):
@@ -344,7 +344,7 @@ def download_media(html, images, wiki, full_update):
 
 			# we select the first search result
 			# (assuming that this is the image we are looking for)
-				image = data['query']['allimages'][0] 
+				image = data['query']['allimages'][0]
 
 				if image:
 					# then we download the image
@@ -355,7 +355,7 @@ def download_media(html, images, wiki, full_update):
 
 					# and we save it as a file
 					image_path = f'{ STATIC_FOLDER_PATH }/images/{ image_filename }'
-					out = open(image_path, 'wb') 
+					out = open(image_path, 'wb')
 					out.write(image_response)
 					out.close()
 					print(image_path)
@@ -366,14 +366,14 @@ def download_media(html, images, wiki, full_update):
 		# replace src links
 		e_filename = re.escape( filename )  # needed for filename with certain characters
 		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
-		matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', html) # for debugging	
+		matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', html) # for debugging
 		# pprint(matches)
 		if matches:
 			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', f'src=\"{ image_path }\"', html)
 		else:
 			matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', html) # for debugging
 			# print(matches, e_filename, html)
-			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', f'src=\"{ image_path }\"', html) 
+			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', f'src=\"{ image_path }\"', html)
 		print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
 
 	return html
@@ -406,7 +406,7 @@ def download_media(html, images, wiki, full_update):
 
 # 		# the line is pushed back to the new_html
 # 		new_html += line + ' '
-		
+
 # 	# Also add a <span> around the index nr to style it
 # 	matches = re.findall(r'<li>\d\d\d', new_html)
 # 	for match in matches:
@@ -414,7 +414,7 @@ def download_media(html, images, wiki, full_update):
 
 # 	# import json
 # 	# print(json.dumps(index, indent=4))
-	
+
 # 	return new_html
 
 
@@ -478,6 +478,6 @@ def fast_loader(html):
 
 	# wiki = 'https://volumetricregimes.xyz' # remove tail slash '/'
 	# pagename = 'Unfolded'
-	
+
 	# publication_unfolded = update_material_now(pagename, wiki) # download the latest version of the page
 	# save(publication_unfolded, pagename) # save the page to file

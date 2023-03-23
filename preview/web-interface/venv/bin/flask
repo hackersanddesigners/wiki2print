@@ -1,4 +1,4 @@
-#!/Users/km/Desktop/MAKINGMATTERS/web-interface/venv/bin/python3.9
+#!/home/km/Desktop/WIKI2PRINT/preview/web-interface/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
