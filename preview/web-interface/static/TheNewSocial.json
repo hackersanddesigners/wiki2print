@@ -1,10 +1,15 @@
 {
+  "warnings": {
+    "main": {
+      "*": "Unrecognized parameter: parsoid."
+    }
+  },
   "parse": {
     "title": "Publishing:TheNewSocial",
     "pageid": 470,
-    "revid": 4752,
+    "revid": 4794,
     "text": {
-      "*": "<div class=\"mw-parser-output\"><style data-mw-deduplicate=\"TemplateStyles:r257\">.mw-parser-output .toclimit-2 .toclevel-1 ul,.mw-parser-output .toclimit-3 .toclevel-2 ul,.mw-parser-output .toclimit-4 .toclevel-3 ul,.mw-parser-output .toclimit-5 .toclevel-4 ul,.mw-parser-output .toclimit-6 .toclevel-5 ul,.mw-parser-output .toclimit-7 .toclevel-6 ul{display:none}</style><div style=\"margin-bottom: .5em; float: none; width: auto;\" class=\"toclimit-3\"><div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\"><h2 id=\"mw-toc-heading\">Contents</h2><span class=\"toctogglespan\"><label class=\"toctogglelabel\" for=\"toctogglecheckbox\"></label></span></div>\n<ul>\n<li class=\"toclevel-1 tocsection-1\"><a href=\"#Introduction_by_H&amp;D,_FF,_Impakt_to_the_New_Social_research_project\"><span class=\"tocnumber\">1</span> <span class=\"toctext\">Introduction by H&amp;D, FF, Impakt to the New Social research project</span></a>\n<ul>\n<li class=\"toclevel-2 tocsection-2\"><a href=\"#Contribution_of_Framer_Framed\"><span class=\"tocnumber\">1.1</span> <span class=\"toctext\">Contribution of Framer Framed</span></a></li>\n<li class=\"toclevel-2 tocsection-3\"><a href=\"#Contribution_of_H&amp;D\"><span class=\"tocnumber\">1.2</span> <span class=\"toctext\">Contribution of H&amp;D</span></a>\n<ul>\n<li class=\"toclevel-3 tocsection-4\"><a href=\"#/Tooling\"><span class=\"tocnumber\">1.2.1</span> <span class=\"toctext\">/Tooling</span></a></li>\n<li class=\"toclevel-3 tocsection-5\"><a href=\"#ChattyPub:_A_hybrid_publishing_infrastructure\"><span class=\"tocnumber\">1.2.2</span> <span class=\"toctext\">ChattyPub: A hybrid publishing infrastructure</span></a></li>\n<li class=\"toclevel-3 tocsection-6\"><a href=\"#Cross-media_publishing_with_MediaWiki\"><span class=\"tocnumber\">1.2.3</span> <span class=\"toctext\">Cross-media publishing with MediaWiki</span></a></li>\n<li class=\"toclevel-3 tocsection-7\"><a href=\"#Workshop_scripts_in_practice\"><span class=\"tocnumber\">1.2.4</span> <span class=\"toctext\">Workshop scripts in practice</span></a></li>\n<li class=\"toclevel-3 tocsection-8\"><a href=\"#Connecting_Otherwise\"><span class=\"tocnumber\">1.2.5</span> <span class=\"toctext\">Connecting Otherwise</span></a></li>\n<li class=\"toclevel-3 tocsection-9\"><a href=\"#Livestreaming_experiments_with_The_Hmm\"><span class=\"tocnumber\">1.2.6</span> <span class=\"toctext\">Livestreaming experiments with The Hmm</span></a></li>\n<li class=\"toclevel-3 tocsection-10\"><a href=\"#Live_networking_experiments_in_hybrid_cultural_events\"><span class=\"tocnumber\">1.2.7</span> <span class=\"toctext\">Live networking experiments in hybrid cultural events</span></a></li>\n<li class=\"toclevel-3 tocsection-11\"><a href=\"#Where_is_Every_Body?\"><span class=\"tocnumber\">1.2.8</span> <span class=\"toctext\">Where is Every Body?</span></a></li>\n<li class=\"toclevel-3 tocsection-12\"><a href=\"#H&amp;D&#39;s_Code_of_Conduct\"><span class=\"tocnumber\">1.2.9</span> <span class=\"toctext\">H&amp;D's Code of Conduct</span></a></li>\n</ul>\n</li>\n<li class=\"toclevel-2 tocsection-13\"><a href=\"#Contribution_of_IMPAKT\"><span class=\"tocnumber\">1.3</span> <span class=\"toctext\">Contribution of IMPAKT</span></a></li>\n<li class=\"toclevel-2 tocsection-14\"><a href=\"#To_Do&#39;s\"><span class=\"tocnumber\">1.4</span> <span class=\"toctext\">To Do's</span></a></li>\n</ul>\n</li>\n</ul>\n</div>\n</div>\n<p><br />\n{{#network:}}\n</p><p><br />\n</p>\n<h2><span id=\"Introduction_by_H.26D.2C_FF.2C_Impakt_to_the_New_Social_research_project\"></span><span class=\"mw-headline\" id=\"Introduction_by_H&amp;D,_FF,_Impakt_to_the_New_Social_research_project\">Introduction by H&amp;D, FF, Impakt to the New Social research project</span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=1\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Introduction by H&amp;D, FF, Impakt to the New Social research project\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=1\" title=\"Edit section: Introduction by H&amp;D, FF, Impakt to the New Social research project\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h2>\n<h3><span class=\"mw-headline\" id=\"Contribution_of_Framer_Framed\">Contribution of Framer Framed</span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=2\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Contribution of Framer Framed\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=2\" title=\"Edit section: Contribution of Framer Framed\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h3>\n<ul><li>...</li>\n<li>...</li>\n<li>...</li></ul>\n<h3><span id=\"Contribution_of_H.26D\"></span><span class=\"mw-headline\" id=\"Contribution_of_H&amp;D\">Contribution of H&amp;D</span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=3\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Contribution of H&amp;D\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=3\" title=\"Edit section: Contribution of H&amp;D\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h3>\n<h4><span id=\".2FTooling\"></span><span class=\"mw-headline\" id=\"/Tooling\"><a href=\"/wiki/Publishing:TheNewSocial/Tooling\" title=\"Publishing:TheNewSocial/Tooling\">/Tooling</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=4\" class=\"mw-editsection-visualeditor\" title=\"Edit section: /Tooling\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=4\" title=\"Edit section: /Tooling\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<p><i>A short introduction that contextualizes the meaning of 'tool' within the context of H&amp;D's collective practice, and interlinks all of H&amp;D's contributions to this toolkit. This article could be standing on its own or be merged later into the overall introduction</i>\n</p>\n<h4><span class=\"mw-headline\" id=\"ChattyPub:_A_hybrid_publishing_infrastructure\"><a href=\"/wiki/ChattyPub:_A_hybrid_publishing_infrastructure\" title=\"ChattyPub: A hybrid publishing infrastructure\">ChattyPub: A hybrid publishing infrastructure</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=5\" class=\"mw-editsection-visualeditor\" title=\"Edit section: ChattyPub: A hybrid publishing infrastructure\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=5\" title=\"Edit section: ChattyPub: A hybrid publishing infrastructure\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<p><i>About the journey of repurposing the open source chat software Zulip and turning it into a hybrid publishing infrastructure</i>\n</p>\n<h4><span class=\"mw-headline\" id=\"Cross-media_publishing_with_MediaWiki\"><a href=\"/wiki/Cross-media_publishing_with_MediaWiki\" title=\"Cross-media publishing with MediaWiki\">Cross-media publishing with MediaWiki</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=6\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Cross-media publishing with MediaWiki\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=6\" title=\"Edit section: Cross-media publishing with MediaWiki\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<p><i>Reflections on 3 publications, 2 of which finalized, 1 (this toolkit) in-the-making</i> \n</p>\n<h4><span class=\"mw-headline\" id=\"Workshop_scripts_in_practice\"><a href=\"/wiki/Workshop_scripts_in_practice\" title=\"Workshop scripts in practice\">Workshop scripts in practice</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=7\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Workshop scripts in practice\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=7\" title=\"Edit section: Workshop scripts in practice\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<p><i>About workshop scripts \u2013 a pedagogical document format that H&amp;D has been experimenting with for several years and that has allowed us to organize distributed hybrid workshops across continents.</i>\n</p>\n<h4><span class=\"mw-headline\" id=\"Connecting_Otherwise\"><a href=\"/wiki/Connecting_Otherwise\" title=\"Connecting Otherwise\">Connecting Otherwise</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=8\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Connecting Otherwise\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=8\" title=\"Edit section: Connecting Otherwise\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<p>About organizing the distributed H&amp;D Summer Academy of 2022, and and offline, across 4 countries and 3 continents\n</p>\n<h4><span class=\"mw-headline\" id=\"Livestreaming_experiments_with_The_Hmm\"><a href=\"/wiki/Livestreaming_experiments_with_The_Hmm\" title=\"Livestreaming experiments with The Hmm\">Livestreaming experiments with The Hmm</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=9\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Livestreaming experiments with The Hmm\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=9\" title=\"Edit section: Livestreaming experiments with The Hmm\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<h4><span class=\"mw-headline\" id=\"Live_networking_experiments_in_hybrid_cultural_events\"><a href=\"/wiki/Live_networking_experiments_in_hybrid_cultural_events\" title=\"Live networking experiments in hybrid cultural events\">Live networking experiments in hybrid cultural events</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=10\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Live networking experiments in hybrid cultural events\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=10\" title=\"Edit section: Live networking experiments in hybrid cultural events\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<h4><span id=\"Where_is_Every_Body.3F\"></span><span class=\"mw-headline\" id=\"Where_is_Every_Body?\"><a href=\"/wiki/Where_is_Every_Body%3F\" title=\"Where is Every Body?\">Where is Every Body?</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=11\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Where is Every Body?\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=11\" title=\"Edit section: Where is Every Body?\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<p><i>Reflection on organizing hybrid (on and offline) activities in a manner that is accessible for people with disability and chronic illnesses</i>\n</p>\n<h4><span id=\"H.26D.27s_Code_of_Conduct\"></span><span class=\"mw-headline\" id=\"H&amp;D's_Code_of_Conduct\"><a href=\"/wiki/H%26D%27s_Code_of_Conduct\" title=\"H&amp;D&#39;s Code of Conduct\">H&amp;D's Code of Conduct</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=12\" class=\"mw-editsection-visualeditor\" title=\"Edit section: H&amp;D&#039;s Code of Conduct\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=12\" title=\"Edit section: H&amp;D&#039;s Code of Conduct\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h4>\n<h3><span class=\"mw-headline\" id=\"Contribution_of_IMPAKT\">Contribution of <a href=\"/wiki/IMPAKT\" title=\"IMPAKT\">IMPAKT</a></span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=13\" class=\"mw-editsection-visualeditor\" title=\"Edit section: Contribution of IMPAKT\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=13\" title=\"Edit section: Contribution of IMPAKT\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h3>\n<ul><li class=\"mw-empty-elt\"></li></ul>\n<p><b><u>Hypotheses: Our Starting Point</u></b> \n</p>\n<ol><li>Do less and keep it simple</li>\n<li>Make it personal</li></ol>\n<p><i>Hypothesis at start of the project:</i>\n</p><p>Online audiences are too often given a second-class ticket to the events they attend. At IMPAKT our aim has been to develop tools that create&#160; an equally high quality event for both in-venue and online guests. \n</p><p>It is easy to overlook how alienated an online guest can feel in a hybrid event. We have found that the biggest&#160; challenge is to create environments with a low threshold for online participation. \n</p><p>Over the past year we have been testing different strategies to blend these audiences and curate experiences that make the best of both in-person and digital environments. We took the following 9 principles as a framework to test different strategies and tools.\n</p><p>Click through to see what we mean by each term, and to browse how we implemented each one in related event case studies. \n</p><p>Check out our &lt;Tips &amp; Tools&gt; page if&#160; you want a more global overview of our take-aways.\n</p><p>We can create low thresholds via\n</p>\n<ol><li>Activation \u2013 make everyone a participant</li>\n<li><a href=\"/wiki/Collectivity\" title=\"Collectivity\">Collectivity</a> \u2013 share across the divide</li>\n<li>Setup \u2013 playful approaches</li>\n<li>Awareness \u2013 presence through avatars, names \u2026</li>\n<li>Mimicry \u2013 spaces that look and feel \u2018familiar\u2019</li>\n<li>Context \u2013 existing modes of engagement</li>\n<li>Atmosphere \u2013 informal, safe, comfortable</li>\n<li>Initiative \u2013 interactions, questions, prompts</li></ol>\n<p>Visibility \u2013 privacy, interaction thresholds\n</p><p><br />\n</p>\n<h3><span id=\"To_Do.27s\"></span><span class=\"mw-headline\" id=\"To_Do's\">To Do's</span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;veaction=edit&amp;section=14\" class=\"mw-editsection-visualeditor\" title=\"Edit section: To Do&#039;s\">edit</a><span class=\"mw-editsection-divider\"> | </span><a href=\"/wiki/mediawiki/index.php?title=Publishing:TheNewSocial&amp;action=edit&amp;section=14\" title=\"Edit section: To Do&#039;s\">edit source</a><span class=\"mw-editsection-bracket\">]</span></span></h3>\n<ul><li>Fix image upload</li>\n<li>Upload images to all articles</li>\n<li>Add image descriptions</li></ul>\n<!-- \nNewPP limit report\nCached time: 20230323121114\nCache expiry: 86400\nReduced expiry: false\nComplications: []\nCPU time usage: 0.026 seconds\nReal time usage: 0.031 seconds\nPreprocessor visited node count: 79/1000000\nPost\u2010expand include size: 1673/2097152 bytes\nTemplate argument size: 3/2097152 bytes\nHighest expansion depth: 6/40\nExpensive parser function count: 0/100\nUnstrip recursion depth: 0/20\nUnstrip post\u2010expand size: 382/5000000 bytes\n-->\n<!--\nTransclusion expansion time report (%,ms,calls,template)\n100.00%   15.865      1 -total\n 71.69%   11.373      1 Template:TOC\n 14.60%    2.317      1 IMPAKT\n-->\n\n<!-- Saved in parser cache with key wiki2printDB:pcache:idhash:470-0!canonical and timestamp 20230323121114 and revision id 4752. Serialized with JSON.\n -->\n</div>"
+      "*": "<div class=\"mw-parser-output\"><style data-mw-deduplicate=\"TemplateStyles:r257\">.mw-parser-output .toclimit-2 .toclevel-1 ul,.mw-parser-output .toclimit-3 .toclevel-2 ul,.mw-parser-output .toclimit-4 .toclevel-3 ul,.mw-parser-output .toclimit-5 .toclevel-4 ul,.mw-parser-output .toclimit-6 .toclevel-5 ul,.mw-parser-output .toclimit-7 .toclevel-6 ul{display:none}</style><div style=\"margin-bottom: .5em; float: none; width: auto;\" class=\"toclimit-3\"><div id=\"toc\" class=\"toc\" role=\"navigation\" aria-labelledby=\"mw-toc-heading\"><input type=\"checkbox\" role=\"button\" id=\"toctogglecheckbox\" class=\"toctogglecheckbox\" style=\"display:none\" /><div class=\"toctitle\" lang=\"en\" dir=\"ltr\"><h2 id=\"mw-toc-heading\">Contents</h2><span class=\"toctogglespan\"><label class=\"toctogglelabel\" for=\"toctogglecheckbox\"></label></span></div>\n<ul>\n<li class=\"toclevel-1 tocsection-1\"><a href=\"#Introduction_by_H&amp;D,_FF,_Impakt_to_the_New_Social_research_project\"><span class=\"tocnumber\">1</span> <span class=\"toctext\">Introduction by H&amp;D, FF, Impakt to the New Social research project</span></a></li>\n<li class=\"toclevel-1 tocsection-2\"><a href=\"#Contributions\"><span class=\"tocnumber\">2</span> <span class=\"toctext\">Contributions</span></a>\n<ul>\n<li class=\"toclevel-2 tocsection-3\"><a href=\"#Contribution_of_Framer_Framed\"><span class=\"tocnumber\">2.1</span> <span class=\"toctext\">Contribution of Framer Framed</span></a></li>\n<li class=\"toclevel-2 tocsection-4\"><a href=\"#Contribution_of_H&amp;D\"><span class=\"tocnumber\">2.2</span> <span class=\"toctext\">Contribution of H&amp;D</span></a>\n<ul>\n<li class=\"toclevel-3 tocsection-5\"><a href=\"#/Tooling\"><span class=\"tocnumber\">2.2.1</span> <span class=\"toctext\">/Tooling</span></a></li>\n<li class=\"toclevel-3 tocsection-6\"><a href=\"#ChattyPub:_A_hybrid_publishing_infrastructure\"><span class=\"tocnumber\">2.2.2</span> <span class=\"toctext\">ChattyPub: A hybrid publishing infrastructure</span></a></li>\n<li class=\"toclevel-3 tocsection-7\"><a href=\"#Cross-media_publishing_with_MediaWiki\"><span class=\"tocnumber\">2.2.3</span> <span class=\"toctext\">Cross-media publishing with MediaWiki</span></a></li>\n<li class=\"toclevel-3 tocsection-8\"><a href=\"#Workshop_scripts_in_practice\"><span class=\"tocnumber\">2.2.4</span> <span class=\"toctext\">Workshop scripts in practice</span></a></li>\n<li class=\"toclevel-3 tocsection-9\"><a href=\"#Connecting_Otherwise\"><span class=\"tocnumber\">2.2.5</span> <span class=\"toctext\">Connecting Otherwise</span></a></li>\n<li class=\"toclevel-3 tocsection-10\"><a href=\"#Livestreaming_experiments_with_The_Hmm\"><span class=\"tocnumber\">2.2.6</span> <span class=\"toctext\">Livestreaming experiments with The Hmm</span></a></li>\n<li class=\"toclevel-3 tocsection-11\"><a href=\"#Live_networking_experiments_in_hybrid_cultural_events\"><span class=\"tocnumber\">2.2.7</span> <span class=\"toctext\">Live networking experiments in hybrid cultural events</span></a></li>\n<li class=\"toclevel-3 tocsection-12\"><a href=\"#Where_is_Every_Body?\"><span class=\"tocnumber\">2.2.8</span> <span class=\"toctext\">Where is Every Body?</span></a></li>\n<li class=\"toclevel-3 tocsection-13\"><a href=\"#H&amp;D&#39;s_Code_of_Conduct\"><span class=\"tocnumber\">2.2.9</span> <span class=\"toctext\">H&amp;D's Code of Conduct</span></a></li>\n</ul>\n</li>\n<li class=\"toclevel-2 tocsection-14\"><a href=\"#Contribution_of_IMPAKT\"><span class=\"tocnumber\">2.3</span> <span class=\"toctext\">Contribution of IMPAKT</span></a>\n<ul>\n<li class=\"toclevel-3 tocsection-15\"><a href=\"#Hypotheses\"><span class=\"tocnumber\">2.3.1</span> <span class=\"toctext\">Hypotheses</span></a></li>\n<li class=\"toclevel-3 tocsection-16\"><a href=\"#IMPAKT_Case_Studies\"><span class=\"tocnumber\">2.3.2</span> <span class=\"toctext\">IMPAKT Case Studies</span></a></li>\n<li class=\"toclevel-3 tocsection-17\"><a href=\"#Additional_Research\"><span class=\"tocnumber\">2.3.3</span> <span class=\"toctext\">Additional Research</span></a></li>\n<li class=\"toclevel-3 tocsection-18\"><a href=\"#Tips_&amp;_Tools\"><span class=\"tocnumber\">2.3.4</span> <span class=\"toctext\">Tips &amp; Tools</span></a></li>\n</ul>\n</li>\n</ul>\n</li>\n<li class=\"toclevel-1 tocsection-19\"><a href=\"#Another_Section_1\"><span class=\"tocnumber\">3</span> <span class=\"toctext\">Another Section 1</span></a></li>\n<li class=\"toclevel-1 tocsection-20\"><a href=\"#Another_Section_2\"><span class=\"tocnumber\">4</span> <span class=\"toctext\">Another Section 2</span></a></li>\n<li class=\"toclevel-1 tocsection-21\"><a href=\"#Closing_Remarks\"><span class=\"tocnumber\">5</span> <span class=\"toctext\">Closing Remarks</span></a>\n<ul>\n<li class=\"toclevel-2 tocsection-22\"><a href=\"#To_Do&#39;s\"><span class=\"tocnumber\">5.1</span> <span class=\"toctext\">To Do's</span></a></li>\n</ul>\n</li>\n</ul>\n</div>\n</div>\n<p><br />\n{{#network:}}\n</p><p><br />\n</p>\n<div class=\"thumb tright\"><div class=\"thumbinner\" style=\"width:302px;\"><a href=\"/wiki/File:Screenshot_from_2023-03-21_13-55-31.png\" class=\"image\"><img alt=\"Screenshot from 2023-03-21 13-55-31.png\" src=\"/wiki/mediawiki/images/thumb/8/82/Screenshot_from_2023-03-21_13-55-31.png/300px-Screenshot_from_2023-03-21_13-55-31.png\" decoding=\"async\" width=\"300\" height=\"267\" class=\"thumbimage\" srcset=\"/wiki/mediawiki/images/thumb/8/82/Screenshot_from_2023-03-21_13-55-31.png/450px-Screenshot_from_2023-03-21_13-55-31.png 1.5x, /wiki/mediawiki/images/thumb/8/82/Screenshot_from_2023-03-21_13-55-31.png/600px-Screenshot_from_2023-03-21_13-55-31.png 2x\" /></a>  <div class=\"thumbcaption\"><div class=\"magnify\"><a href=\"/wiki/File:Screenshot_from_2023-03-21_13-55-31.png\" class=\"internal\" title=\"Enlarge\"></a></div></div></div></div>\n<h2><span id=\"Introduction_by_H.26D.2C_FF.2C_Impakt_to_the_New_Social_research_project\"></span><span class=\"mw-headline\" id=\"Introduction_by_H&amp;D,_FF,_Impakt_to_the_New_Social_research_project\">Introduction by H&amp;D, FF, Impakt to the New Social research project</span></h2>\n<h2><span class=\"mw-headline\" id=\"Contributions\">Contributions</span></h2>\n<h3><span class=\"mw-headline\" id=\"Contribution_of_Framer_Framed\">Contribution of Framer Framed</span></h3>\n<ul><li>...</li>\n<li>...</li>\n<li>...</li></ul>\n<h3><span id=\"Contribution_of_H.26D\"></span><span class=\"mw-headline\" id=\"Contribution_of_H&amp;D\">Contribution of H&amp;D</span></h3>\n<h4><span id=\".2FTooling\"></span><span class=\"mw-headline\" id=\"/Tooling\"><a href=\"/wiki/Publishing:TheNewSocial/Tooling\" title=\"Publishing:TheNewSocial/Tooling\">/Tooling</a></span></h4>\n<p><i>A short introduction that contextualizes the meaning of 'tool' within the context of H&amp;D's collective practice, and interlinks all of H&amp;D's contributions to this toolkit. This article could be standing on its own or be merged later into the overall introduction</i>\n</p>\n<h4><span class=\"mw-headline\" id=\"ChattyPub:_A_hybrid_publishing_infrastructure\"><a href=\"/wiki/ChattyPub:_A_hybrid_publishing_infrastructure\" title=\"ChattyPub: A hybrid publishing infrastructure\">ChattyPub: A hybrid publishing infrastructure</a></span></h4>\n<p><i>About the journey of repurposing the open source chat software Zulip and turning it into a hybrid publishing infrastructure</i>\n</p>\n<h4><span class=\"mw-headline\" id=\"Cross-media_publishing_with_MediaWiki\"><a href=\"/wiki/Cross-media_publishing_with_MediaWiki\" title=\"Cross-media publishing with MediaWiki\">Cross-media publishing with MediaWiki</a></span></h4>\n<p><i>Reflections on 3 publications, 2 of which finalized, 1 (this toolkit) in-the-making</i> \n</p>\n<h4><span class=\"mw-headline\" id=\"Workshop_scripts_in_practice\"><a href=\"/wiki/Workshop_scripts_in_practice\" title=\"Workshop scripts in practice\">Workshop scripts in practice</a></span></h4>\n<p><i>About workshop scripts \u2013 a pedagogical document format that H&amp;D has been experimenting with for several years and that has allowed us to organize distributed hybrid workshops across continents.</i>\n</p>\n<h4><span class=\"mw-headline\" id=\"Connecting_Otherwise\"><a href=\"/wiki/Connecting_Otherwise\" title=\"Connecting Otherwise\">Connecting Otherwise</a></span></h4>\n<p>About organizing the distributed H&amp;D Summer Academy of 2022, and and offline, across 4 countries and 3 continents\n</p>\n<h4><span class=\"mw-headline\" id=\"Livestreaming_experiments_with_The_Hmm\"><a href=\"/wiki/Livestreaming_experiments_with_The_Hmm\" title=\"Livestreaming experiments with The Hmm\">Livestreaming experiments with The Hmm</a></span></h4>\n<h4><span class=\"mw-headline\" id=\"Live_networking_experiments_in_hybrid_cultural_events\"><a href=\"/wiki/Live_networking_experiments_in_hybrid_cultural_events\" title=\"Live networking experiments in hybrid cultural events\">Live networking experiments in hybrid cultural events</a></span></h4>\n<h4><span id=\"Where_is_Every_Body.3F\"></span><span class=\"mw-headline\" id=\"Where_is_Every_Body?\"><a href=\"/wiki/Where_is_Every_Body%3F\" title=\"Where is Every Body?\">Where is Every Body?</a></span></h4>\n<p><i>Reflection on organizing hybrid (on and offline) activities in a manner that is accessible for people with disability and chronic illnesses</i>\n</p>\n<h4><span id=\"H.26D.27s_Code_of_Conduct\"></span><span class=\"mw-headline\" id=\"H&amp;D's_Code_of_Conduct\"><a href=\"/wiki/H%26D%27s_Code_of_Conduct\" title=\"H&amp;D&#39;s Code of Conduct\">H&amp;D's Code of Conduct</a></span></h4>\n<h3><span class=\"mw-headline\" id=\"Contribution_of_IMPAKT\">Contribution of IMPAKT</span></h3>\n<h4><span class=\"mw-headline\" id=\"Hypotheses\"><a href=\"/wiki/Hypotheses\" title=\"Hypotheses\">Hypotheses</a></span></h4>\n<p><i>Our starting points for thinking about online/offline hybrid event design.</i>\n</p>\n<ol><li>Keep it simple</li>\n<li>Make it participatory</li>\n<li><a href=\"/wiki/Collectivity\" title=\"Collectivity\">Cultivate collectivity</a></li>\n<li><a href=\"/wiki/Category:Atmosphere\" title=\"Category:Atmosphere\">Create an atmosphere</a></li>\n<li>Mimic the familiar</li>\n<li>Contextualise</li>\n<li>Consider Fair Tech</li></ol>\n<h4><span class=\"mw-headline\" id=\"IMPAKT_Case_Studies\"><a href=\"/wiki/IMPAKT_Case_Studies\" title=\"IMPAKT Case Studies\">IMPAKT Case Studies</a></span></h4>\n<p><i>Browse the case studies and view descriptions through the link above, or navigate directly to the deep-dive recap below.</i>\n</p>\n<ul><li><a href=\"/wiki/Wine_tasting\" title=\"Wine tasting\">Wine Tasting</a></li>\n<li><a href=\"/wiki/Rooftop_Bar\" title=\"Rooftop Bar\">Rooftop Bar</a></li>\n<li>Festival Portal</li>\n<li class=\"mw-empty-elt\"></li></ul>\n<h4><span class=\"mw-headline\" id=\"Additional_Research\"><a href=\"/wiki/Additional_Research\" title=\"Additional Research\">Additional Research</a></span></h4>\n<p><i>Trains of thought we followed when developing the designs, and helpful background information you may want to explore.</i>\n</p>\n<h4><span id=\"Tips_.26_Tools\"></span><span class=\"mw-headline\" id=\"Tips_&amp;_Tools\"><a href=\"/wiki/Tips_%26_Tools\" title=\"Tips &amp; Tools\">Tips &amp; Tools</a></span></h4>\n<p><i>Practical information we advise from past experience.</i>\n</p>\n<h2><span class=\"mw-headline\" id=\"Another_Section_1\">Another Section 1</span></h2>\n<p>asfklgbnsektgjbns\nd;lgbnjsald;gnb\n</p><p>sa'dogj\nas\n</p>\n<h2><span class=\"mw-headline\" id=\"Another_Section_2\">Another Section 2</span></h2>\n<h2><span class=\"mw-headline\" id=\"Closing_Remarks\">Closing Remarks</span></h2>\n<h3><span id=\"To_Do.27s\"></span><span class=\"mw-headline\" id=\"To_Do's\">To Do's</span></h3>\n<ul><li>Fix image upload</li>\n<li>Upload images to all articles</li>\n<li>Add image descriptions</li></ul>\n<!-- \nNewPP limit report\nCached time: 20230330111330\nCache expiry: 86400\nReduced expiry: false\nComplications: [show\u2010toc]\nCPU time usage: 0.038 seconds\nReal time usage: 0.046 seconds\nPreprocessor visited node count: 104/1000000\nPost\u2010expand include size: 197/2097152 bytes\nTemplate argument size: 3/2097152 bytes\nHighest expansion depth: 6/100\nExpensive parser function count: 0/100\nUnstrip recursion depth: 0/20\nUnstrip post\u2010expand size: 382/5000000 bytes\n-->\n<!--\nTransclusion expansion time report (%,ms,calls,template)\n100.00%   15.606      1 Template:TOC\n100.00%   15.606      1 -total\n-->\n\n<!-- Saved in parser cache with key wiki2printDB:pcache:idhash:470-0!canonical and timestamp 20230330111330 and revision id 4794.\n -->\n</div>"
     },
     "langlinks": [],
     "categories": [],
@@ -12,7 +17,7 @@
       {
         "ns": 0,
         "exists": "",
-        "*": "IMPAKT"
+        "*": "Additional Research"
       },
       {
         "ns": 0,
@@ -42,6 +47,16 @@
       {
         "ns": 0,
         "exists": "",
+        "*": "Hypotheses"
+      },
+      {
+        "ns": 0,
+        "exists": "",
+        "*": "IMPAKT Case Studies"
+      },
+      {
+        "ns": 0,
+        "exists": "",
         "*": "Live networking experiments in hybrid cultural events"
       },
       {
@@ -52,12 +67,32 @@
       {
         "ns": 0,
         "exists": "",
+        "*": "Rooftop Bar"
+      },
+      {
+        "ns": 0,
+        "exists": "",
+        "*": "Tips & Tools"
+      },
+      {
+        "ns": 0,
+        "exists": "",
         "*": "Where is Every Body?"
       },
       {
         "ns": 0,
         "exists": "",
+        "*": "Wine tasting"
+      },
+      {
+        "ns": 0,
+        "exists": "",
         "*": "Workshop scripts in practice"
+      },
+      {
+        "ns": 14,
+        "exists": "",
+        "*": "Category:Atmosphere"
       },
       {
         "ns": 3000,
@@ -75,14 +110,11 @@
         "ns": 10,
         "exists": "",
         "*": "Template:TOC/limit-styles.css"
-      },
-      {
-        "ns": 0,
-        "exists": "",
-        "*": "IMPAKT"
       }
     ],
-    "images": [],
+    "images": [
+      "Screenshot_from_2023-03-21_13-55-31.png"
+    ],
     "externallinks": [],
     "sections": [
       {
@@ -92,144 +124,225 @@
         "number": "1",
         "index": "1",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 33,
+        "byteoffset": 89,
         "anchor": "Introduction_by_H&D,_FF,_Impakt_to_the_New_Social_research_project"
+      },
+      {
+        "toclevel": 1,
+        "level": "2",
+        "line": "Contributions",
+        "number": "2",
+        "index": "2",
+        "fromtitle": "Publishing:TheNewSocial",
+        "byteoffset": 163,
+        "anchor": "Contributions"
       },
       {
         "toclevel": 2,
         "level": "3",
         "line": "Contribution of Framer Framed",
-        "number": "1.1",
-        "index": "2",
+        "number": "2.1",
+        "index": "3",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 107,
+        "byteoffset": 184,
         "anchor": "Contribution_of_Framer_Framed"
       },
       {
         "toclevel": 2,
         "level": "3",
         "line": "Contribution of H&D",
-        "number": "1.2",
-        "index": "3",
+        "number": "2.2",
+        "index": "4",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 164,
+        "byteoffset": 241,
         "anchor": "Contribution_of_H&D"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "/Tooling",
-        "number": "1.2.1",
-        "index": "4",
+        "number": "2.2.1",
+        "index": "5",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 193,
+        "byteoffset": 269,
         "anchor": "/Tooling"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "ChattyPub: A hybrid publishing infrastructure",
-        "number": "1.2.2",
-        "index": "5",
+        "number": "2.2.2",
+        "index": "6",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 485,
+        "byteoffset": 560,
         "anchor": "ChattyPub:_A_hybrid_publishing_infrastructure"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "Cross-media publishing with MediaWiki",
-        "number": "1.2.3",
-        "index": "6",
+        "number": "2.2.3",
+        "index": "7",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 674,
+        "byteoffset": 748,
         "anchor": "Cross-media_publishing_with_MediaWiki"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "Workshop scripts in practice",
-        "number": "1.2.4",
-        "index": "7",
+        "number": "2.2.4",
+        "index": "8",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 817,
+        "byteoffset": 891,
         "anchor": "Workshop_scripts_in_practice"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "Connecting Otherwise",
-        "number": "1.2.5",
-        "index": "8",
+        "number": "2.2.5",
+        "index": "9",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 1060,
+        "byteoffset": 1134,
         "anchor": "Connecting_Otherwise"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "Livestreaming experiments with The Hmm",
-        "number": "1.2.6",
-        "index": "9",
+        "number": "2.2.6",
+        "index": "10",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 1210,
+        "byteoffset": 1284,
         "anchor": "Livestreaming_experiments_with_The_Hmm"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "Live networking experiments in hybrid cultural events",
-        "number": "1.2.7",
-        "index": "10",
+        "number": "2.2.7",
+        "index": "11",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 1264,
+        "byteoffset": 1338,
         "anchor": "Live_networking_experiments_in_hybrid_cultural_events"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "Where is Every Body?",
-        "number": "1.2.8",
-        "index": "11",
+        "number": "2.2.8",
+        "index": "12",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 1333,
+        "byteoffset": 1407,
         "anchor": "Where_is_Every_Body?"
       },
       {
         "toclevel": 3,
         "level": "4",
         "line": "H&D's Code of Conduct",
-        "number": "1.2.9",
-        "index": "12",
+        "number": "2.2.9",
+        "index": "13",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 1514,
+        "byteoffset": 1588,
         "anchor": "H&D's_Code_of_Conduct"
       },
       {
         "toclevel": 2,
         "level": "3",
         "line": "Contribution of IMPAKT",
-        "number": "1.3",
-        "index": "13",
+        "number": "2.3",
+        "index": "14",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 1554,
+        "byteoffset": 1628,
         "anchor": "Contribution_of_IMPAKT"
+      },
+      {
+        "toclevel": 3,
+        "level": "4",
+        "line": "Hypotheses",
+        "number": "2.3.1",
+        "index": "15",
+        "fromtitle": "Publishing:TheNewSocial",
+        "byteoffset": 1660,
+        "anchor": "Hypotheses"
+      },
+      {
+        "toclevel": 3,
+        "level": "4",
+        "line": "IMPAKT Case Studies",
+        "number": "2.3.2",
+        "index": "16",
+        "fromtitle": "Publishing:TheNewSocial",
+        "byteoffset": 1955,
+        "anchor": "IMPAKT_Case_Studies"
+      },
+      {
+        "toclevel": 3,
+        "level": "4",
+        "line": "Additional Research",
+        "number": "2.3.3",
+        "index": "17",
+        "fromtitle": "Publishing:TheNewSocial",
+        "byteoffset": 2187,
+        "anchor": "Additional_Research"
+      },
+      {
+        "toclevel": 3,
+        "level": "4",
+        "line": "Tips & Tools",
+        "number": "2.3.4",
+        "index": "18",
+        "fromtitle": "Publishing:TheNewSocial",
+        "byteoffset": 2345,
+        "anchor": "Tips_&_Tools"
+      },
+      {
+        "toclevel": 1,
+        "level": "2",
+        "line": "Another Section 1",
+        "number": "3",
+        "index": "19",
+        "fromtitle": "Publishing:TheNewSocial",
+        "byteoffset": 2432,
+        "anchor": "Another_Section_1"
+      },
+      {
+        "toclevel": 1,
+        "level": "2",
+        "line": "Another Section 2",
+        "number": "4",
+        "index": "20",
+        "fromtitle": "Publishing:TheNewSocial",
+        "byteoffset": 2504,
+        "anchor": "Another_Section_2"
+      },
+      {
+        "toclevel": 1,
+        "level": "2",
+        "line": "Closing Remarks",
+        "number": "5",
+        "index": "21",
+        "fromtitle": "Publishing:TheNewSocial",
+        "byteoffset": 2529,
+        "anchor": "Closing_Remarks"
       },
       {
         "toclevel": 2,
         "level": "3",
         "line": "To Do's",
-        "number": "1.4",
-        "index": "14",
+        "number": "5.1",
+        "index": "22",
         "fromtitle": "Publishing:TheNewSocial",
-        "byteoffset": 1607,
+        "byteoffset": 2553,
         "anchor": "To_Do's"
       }
     ],
+    "showtoc": "",
     "parsewarnings": [],
-    "displaytitle": "Publishing:TheNewSocial",
+    "displaytitle": "<span class=\"mw-page-title-namespace\">Publishing</span><span class=\"mw-page-title-separator\">:</span><span class=\"mw-page-title-main\">TheNewSocial</span>",
     "iwlinks": [],
     "properties": []
   },
-  "updated": "2023-03-23 13:51:30.851688"
+  "updated": "2023-03-30 13:15:04.068787"
 }

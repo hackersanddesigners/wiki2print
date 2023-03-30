@@ -1,24 +1,49 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% block head %}
 <title> {{ title }} </title>
+<link href="{{ url_for('static', filename='css/html.css') }}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ url_for('static', filename='css/print.css') }}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ url_for('static', filename=title + '.css') }}" rel="stylesheet" type="text/css" media="screen">
-<style>
-  main#inspect {
-		display: flex;
-	}
-  main#inspect div.content {
-    flex-basis: 70%;
-		max-width: 70%;
-  }
-  main#inspect div.styles {
-    flex-basis: 30%;
-  }
-</style>
 {% endblock %}
 
 {% block content %}
+
+<header>
+  <fieldset class="options">
+    <legend>Options</legend>
+    <div class="option">
+      <label for="display-as">
+        Display publication as
+      </label>
+      <select name="display-as" id="display-as">
+        <option value="single">Single Page Book</option>
+        <option value="multi" default>Multi Page Book</option>
+      </select>
+    </div>
+    <div class="option">
+      <input
+        name="fix-css"
+        id="fix-css"
+        type="checkbox"
+        checked
+      />
+      <label for="fix-css">
+        Fix the CSS column
+      </label>
+    </div>
+    <div class="option">
+      <input
+        name="print"
+        id="print"
+        type="button"
+        value="print"
+        onclick="window.print()"
+      />
+    </div>
+  </fieldset>
+</header>
+
 <main id="inspect">
   <div class="content">
     {{ html | safe }}
