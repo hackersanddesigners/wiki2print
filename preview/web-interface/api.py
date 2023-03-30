@@ -130,7 +130,7 @@ def create_html(wiki, subject_ns, pagename, full_update):
 		pagename = string
 		full_update = None or string. Full update when not None
 	"""
-	url = f'{ wiki }/api.php?action=parse&page={ subject_ns["name"] }:{ pagename }&pst=True&format=json'
+	url = f'{ wiki }/api.php?action=parse&page={ subject_ns["name"] }:{ pagename }&pst=True&format=json&disableeditsection'
 	data = do_API_request(url, subject_ns["name"]+":"+pagename, wiki)
 	# pprint(data)
 	now = str(datetime.datetime.now())
@@ -159,7 +159,7 @@ def create_html(wiki, subject_ns, pagename, full_update):
 			html = fast_loader(html)
 
 		soup = BeautifulSoup(html, 'html.parser')
-		soup = remove_edit(soup)
+		# soup = remove_edit(soup)
 		soup = inlineCiteRefs(soup)
 		html = str(soup)
 		# html = inlineCiteRefs(html)
