@@ -1,20 +1,22 @@
-main {
+
+
+/* main {
   display: flex;
-}
+} */
 
 
 
 /* Display content as single page by default */
 
-main .content {
+/* main .content {
 
-}
+} */
 
 /* paginate content upon request */
 /* body:has( option[value=single]:checked ) main .content */
 
 /* hidden styles column by default */
-main .styles {
+/* main .styles {
   position: fixed;
   right: calc( -1 * ( 30%  - 4rem ) );
   box-sizing: border-box;
@@ -25,15 +27,15 @@ main .styles {
   padding: 1rem;
   padding-left: 3rem;
   transition: right 0.2s linear;
-}
+} */
 
 /* float to the left on hover */
-main .styles:hover {
+/* main .styles:hover {
   right: calc( 0% );
-}
+} */
 
 /* stay fixed upon request */
-body:has( input[name=fix-css]:checked ) main .styles {
+/* body:has( input[name=fix-css]:checked ) main .styles {
   position: relative;
   right: 0;
 }
@@ -45,4 +47,4 @@ main .styles > * {
   box-shadow: 0 0 1rem 0 fuchsia;
   padding: 1rem;
   margin: 0;
-}
+} */
