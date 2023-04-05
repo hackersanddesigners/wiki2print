@@ -10,8 +10,8 @@
 			<th>
 				title
 			</th>
-			<th>
-				edit
+			<th colspan="2">
+				wiki
 			</th>
 			<th colspan="3">
 				view
@@ -31,7 +31,16 @@
 					target="_blank"
 					href="{{ wiki + '/../' + subject_ns['name'] + ':' + page.slug }}"
 				>
-					wiki
+					text
+				</a>
+			</td>
+			<td>
+				<a
+					title="Edit CSS in MediaWiki"
+					target="_blank"
+					href="{{ wiki + '/../' + styles_ns['name'] + ':' + page.slug }}"
+				>
+					css
 				</a>
 			</td>
 			<td>
