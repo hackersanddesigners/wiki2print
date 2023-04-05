@@ -110,8 +110,8 @@ def pagedjs(pagename):
 
 @APP.route('/update/<string:pagename>', methods=['GET', 'POST'])
 def update(pagename):
-	full_update =  request.form.get('full_update')
-	parsoid =  request.form.get('parsoid')
+	full_update = request.form.get('full_update')
+	parsoid = request.form.get('parsoid')
 	if pagename == 'index':
 		create_index(
 			WIKI,
