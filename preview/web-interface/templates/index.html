@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+
+<script>
+	function check_sumbit( id ) {
+		if ( document.querySelector( `#${ id } input[name="full_update"]` ).checked ) {
+			return confirm('This will redownload all images from the wiki. This will take a while. Are you sure?')
+		}
+	}
+</script>
+
 <div id="index">
 	<br>
 	<h1>{{ title }}</h1>
 	<p>Publications are in namespaces <em>{{ subject_ns["name"] }}</em> and <em>{{ styles_ns["name"] }}</em>.</p>
 	<table>
+
 		<tr>
 			<th>
 				title
@@ -16,15 +27,19 @@
 			<th colspan="3">
 				view
 			</th>
-			<th colspan="3">
+			<th colspan="1">
 				update
 			</th>
 			<th>
 				last updated
 			</th>
 		</tr>
+
+
 		<tr {% for page in pages %}>
+
 			<td>{{ page.title }}</td>
+
 			<td>
 				<a
 					title="Edit in MediaWiki"
@@ -43,6 +58,7 @@
 					css
 				</a>
 			</td>
+
 			<td>
 				<a
 					title="Inspect HTML & CSS"
@@ -70,38 +86,48 @@
 					pdf
 				</a>
 			</td>
+
 			<td>
-				<a
-					title="Update publication"
-					href="{{ '/update/'+ page.slug }}"
+				<form
+					id="{{ page.slug }}"
+					action="{{ '/update/'+ page.slug }}"
+					method="POST"
+					onsubmit="check_sumbit( '{{ page.slug  }}' )"
 				>
-					regular
-				</a>
+					<label>
+						<input
+							type="checkbox"
+							name="full_update"
+						/>
+						overwrite images
+					</label>
+					<label>
+						<input
+							type="checkbox"
+							name="parsoid"
+						/>
+						use Parsoid
+					</label>
+					<input
+						type="submit"
+						value="update"
+					/>
+				</form>
 			</td>
-			<td>
-				<a
-					title="Full update"
-					href="{{ '/update/'+ page.slug + '?full=true'}}"
-					onclick="return confirm('This will redownload all images from the wiki. This will take a while. Are you sure?')"
-				>
-					with images
-				</a>
-			</td>
-			<td>
-				<a
-					title="Parsoid update"
-					href="{{ '/update/'+ page.slug + '?parsoid=true'}}"
-				>
-					with Parsoid
-				</a>
-			</td>
+
+
 			<td>
 				<span class="updated">
 					{{ page.updated }}
 				</span>
 			</td>
+
 		</tr {% endfor %}>
+
 	</table>
+
+
+
 	<br><br>
 	<p>Index was last updated on
 		<span class="updated">{{ updated }}</span>
