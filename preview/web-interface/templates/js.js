@@ -1,3 +1,3 @@
 {% block content %}
-  {{ css | safe }}
+  {{ js | safe }}
 {% endblock %}

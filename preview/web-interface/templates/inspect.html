@@ -5,6 +5,7 @@
 <link href="{{ url_for('static', filename='css/html.css') }}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ url_for('static', filename='css/print.css') }}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ url_for('static', filename='publications/' + title + '.css') }}" rel="stylesheet" type="text/css" media="screen">
+<script src="{{ url_for('static', filename='publications/' + title + '.js') }}" type="text/javascript" ></script>
 {% endblock %}
 
 {% block content %}
@@ -49,9 +50,7 @@
     {{ html | safe }}
   </div>
   <div class="styles">
-    <pre>
-      {{ css | safe }}
-    </pre>
+    <pre>{{ css | safe }}</pre>
   </div>
 </main>
 {% endblock %}

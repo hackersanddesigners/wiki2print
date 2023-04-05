@@ -56,13 +56,13 @@ $wgSMTP = [
   'host'     => 'ssl://smtp.migadu.com',       ## hostname of the email server
   'IDHost'   => 'smtp.migadu.com',             ## these options could all
   'port'     => 465,                           ## be different for you
-  'auth'     => true,                          ## especially these ones: 
+  'auth'     => true,                          ## especially these ones:
   'username' => 'karl@hackersanddesigners.nl', ## use your own email account
   'password' => 'flick-granular-spiritual'     ## @andre @hrk ignore :/
 ];
 
-$wgEnotifUserTalk      = true; 
-$wgEnotifWatchlist     = true; 
+$wgEnotifUserTalk      = true;
+$wgEnotifWatchlist     = true;
 $wgEmailAuthentication = true;
 $wgEmailConfirmToEdit  = true;
 
@@ -189,8 +189,8 @@ $wgConfirmAccountRequestFormItems = [
  	'Links'           => [ 'enabled' => false ],
 	'TermsOfService'  => [ 'enabled' => true ],
 ];
-$wgConfirmAccountContact = 'karl@hackersanddesigners.nl'; ## use your own email address 
-$wgGroupPermissions['bureaucrat']['confirmaccount-notify'] = true; 
+$wgConfirmAccountContact = 'karl@hackersanddesigners.nl'; ## use your own email address
+$wgGroupPermissions['bureaucrat']['confirmaccount-notify'] = true;
 
 # UserMerge: merging ('deleting') users
 
@@ -199,16 +199,22 @@ $wgGroupPermissions['bureaucrat']['usermerge'] = true;
 
 # Custom publishing namespace
 
-define("NS_Publishing", 3000); 
-define("NS_PublishingCSS", 3001); 
+define("NS_Publishing", 3000);
+define("NS_PublishingCSS", 3001); # bad practice!
+define("NS_PublishingJS", 3002); # bad practice!
 $wgExtraNamespaces[NS_Publishing] = "Publishing";
 $wgExtraNamespaces[NS_PublishingCSS] = "PublishingCSS";
+$wgExtraNamespaces[NS_PublishingJS] = "PublishingJS";
 $wgNamespacesWithSubpages[NS_Publishing] = true;
 $wgNamespacesWithSubpages[NS_PublishingCSS] = true;
+$wgNamespacesWithSubpages[NS_PublishingJS] = true;
 
-# We change the content model of the CSS namespace from the default WIKITEXT.
+
+# We change the content model of the CSS and JS namespaces from the default WIKITEXT.
 # The forces the CodeEditor to replace the VisualEditor for better legibility.
 $wgNamespaceContentModels[NS_PublishingCSS] = CONTENT_MODEL_CSS;
+$wgNamespaceContentModels[NS_PublishingJS] = CONTENT_MODEL_JAVASCRIPT;
+
 
 # We need to force the VisualEditor to exist in our Publishing namespace.
 $wgVisualEditorAvailableNamespaces = [
@@ -219,4 +225,3 @@ $wgVisualEditorAvailableNamespaces = [
 
 wfLoadSkin( 'Citizen' );
 $wgDefaultSkin = "citizen";
-

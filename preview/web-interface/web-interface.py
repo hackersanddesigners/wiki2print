@@ -16,6 +16,7 @@ PORTNUMBER   = conf['port']
 WIKI         = conf['wiki']['base_url']
 SUBJECT_NS   = conf['wiki']['subject_ns']
 STYLES_NS    = conf['wiki']['styles_ns']
+SCRIPTS_NS   = conf['wiki']['scripts_ns']
 
 
 # We initiate the Flask app
@@ -42,6 +43,7 @@ def index():
 		wiki       = WIKI,
 		subject_ns = SUBJECT_NS,
 		styles_ns  = STYLES_NS,
+		scripts_ns = SCRIPTS_NS,
 		pages      = index['pages'],
 		updated    = index['updated'],
 	)
@@ -55,13 +57,15 @@ def inspect(pagename):
 		WIKI,
 		SUBJECT_NS,
 		STYLES_NS,
+		SCRIPTS_NS,
 		pagename,
 	)
 	return flask.render_template(
 		'inspect.html',
 		title = pagename,
 		html  = publication['html'],
-		css   = publication['css']
+		css   = publication['css'],
+		js    = publication['js']
 	)
 
 
@@ -84,6 +88,25 @@ def css(pagename):
 		mimetype='text/css'
 	)
 
+# Get a publication's CSS to inspect it closer
+
+@APP.route('/js/<string:pagename>.js', methods=['GET', 'POST'])
+def js(pagename):
+	js = create_js(
+		WIKI,
+		SCRIPTS_NS,
+		pagename
+	)
+	# print(pagename)
+	# print(css)
+	return Response(
+		flask.render_template(
+			"js.js",
+			js = js
+		),
+		mimetype='text/javascript'
+	)
+
 
 # Get a publication rendered as a PDF with PagedJS
 
@@ -93,6 +116,7 @@ def pagedjs(pagename):
 		WIKI,
 		SUBJECT_NS,
 		STYLES_NS,
+		SCRIPTS_NS,
 		pagename,
 	)
 	if( publication_has_plugin( pagename ) ):
@@ -122,6 +146,7 @@ def update(pagename):
 			WIKI,
 			SUBJECT_NS,
 			STYLES_NS,
+			SCRIPTS_NS,
 			pagename,
 			full_update,
 			parsoid

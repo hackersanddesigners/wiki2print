@@ -47,7 +47,7 @@ def get_index(wiki, subject_ns):
 
 # gets publication's HTML and CSS
 
-def get_publication(wiki, subject_ns, styles_ns, pagename):
+def get_publication(wiki, subject_ns, styles_ns, scripts_ns, pagename):
 	"""
 		wiki = string
 		subject_ns = object
@@ -56,7 +56,8 @@ def get_publication(wiki, subject_ns, styles_ns, pagename):
 	"""
 	return {
 		'html': get_html(wiki, subject_ns, pagename),
-		'css': get_css(wiki, styles_ns, pagename)
+		'css': get_css(wiki, styles_ns, pagename),
+		'js': get_js(wiki, scripts_ns, pagename)
 	}
 
 
@@ -90,6 +91,20 @@ def get_css(wiki, styles_ns, pagename):
 	)
 
 
+# gets or creates JS file for a publication
+
+def get_js(wiki, scripts_ns, pagename):
+	"""
+		wiki = string
+		scripts_ns = object
+		pagename = string
+	"""
+	return load_file(pagename, 'js') or create_js(
+		wiki,
+		scripts_ns,
+		pagename
+	)
+
 # makes API call to create/update index of publications
 
 def create_index(wiki, subject_ns):
@@ -119,16 +134,20 @@ def create_index(wiki, subject_ns):
 
 # Creates/updates a publication object
 
-def create_publication(wiki, subject_ns, styles_ns, pagename, full_update, parsoid):
+def create_publication(wiki, subject_ns, styles_ns, scripts_ns, pagename, full_update, parsoid):
 	"""
 		wiki = string
 		subject_ns = object
 		styles_ns = object
+		scripts_ns = object
 		pagename = string
+		full_update = None or string. Full update when not None
+		parsoid = Use parsoid parser for html sections
 	"""
 	return {
 		'html': create_html(wiki, subject_ns, pagename, full_update, parsoid),
-		'css': create_css(wiki, styles_ns, pagename)
+		'css': create_css(wiki, styles_ns, pagename),
+		'js': create_js(wiki, scripts_ns, pagename)
 	}
 
 
@@ -234,6 +253,22 @@ def create_css(wiki, styles_ns, pagename):
 		css = css_data['parse']['wikitext']['*']
 		save_file(pagename, 'css', css)
 		return css
+
+
+# makes API call to create/update a publication's JS
+
+def create_js(wiki, scripts_ns, pagename):
+	"""
+		wiki = string
+		scripts_ns = object
+		pagename = string
+	"""
+	js_url = f'{ wiki }/api.php?action=parse&page={ scripts_ns["name"] }:{ pagename }&prop=wikitext&pst=True&format=json'
+	js_data = do_API_request(js_url)
+	if js_data and 'parse' in js_data:
+		js = js_data['parse']['wikitext']['*']
+		save_file(pagename, 'js', js)
+		return js
 
 
 # Load file from disk

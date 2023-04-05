@@ -5,7 +5,8 @@
   "wiki": {
     "base_url": "https://wiki2print.hackersanddesigners.nl/wiki/mediawiki",
     "subject_ns":  { "name": "Publishing", "id": 3000 },
-    "styles_ns": { "name": "PublishingCSS", "id": 3001 }
+    "styles_ns": { "name": "PublishingCSS", "id": 3001 },
+    "scripts_ns": { "name": "PublishingJS", "id": 3002 }
   },
   "pagename": "Making_Matters_Lexicon",
   "stylesheet": "print.css",

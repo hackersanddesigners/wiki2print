@@ -1,20 +1,38 @@
 /* CSS placed here will be applied to all skins */
 
-#p-views #ca-css,
-#p-views #ca-content {
+#ca-css,
+#ca-content,
+#ca-content {
 	order: 100;
 }
 
-#p-views #ca-css > a,
-#p-views #ca-content > a {
-    /*background-color: var(--color-primary);*/
-    background-color: #ff10c3;
+#ca-css > a,
+#ca-content > a,
+#ca-js > a {
+    padding: 0.5rem;
     color: #fff;
 }
 
-#p-views #ca-css > a::after,
-#p-views #ca-content > a::after { 
+#ca-content > a {
+    background-color: green;
+}
+#ca-css > a {
+    background-color: #ff10c3;
+}
+#ca-js > a {
+    background-color: orange;
+}
+
+#ca-css > a::after,
+#ca-content > a::after,
+#ca-js > a::after {
 	margin-right: 0;
 	width: 0;
 	opacity: 0;
+}
+
+#ca-nstab-publishing,
+#ca-talk,
+#ca-nstab-publishingjs {
+	display: none;
 }
