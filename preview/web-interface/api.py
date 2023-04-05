@@ -131,6 +131,7 @@ def create_html(wiki, subject_ns, pagename, full_update):
 		full_update = None or string. Full update when not None
 	"""
 	url = f'{ wiki }/api.php?action=parse&page={ subject_ns["name"] }:{ pagename }&pst=True&format=json&disableeditsection'
+	# or maybe https://wiki2print.hackersanddesigners.nl/wiki/mediawiki/rest.php/v1/page/Publishing:TheNewSocial/html?body=1
 	data = do_API_request(url, subject_ns["name"]+":"+pagename, wiki)
 	# pprint(data)
 	now = str(datetime.datetime.now())
