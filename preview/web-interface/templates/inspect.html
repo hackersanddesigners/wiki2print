@@ -4,7 +4,7 @@
 <title> {{ title }} </title>
 <link href="{{ url_for('static', filename='css/html.css') }}" rel="stylesheet" type="text/css" media="screen">
 <link href="{{ url_for('static', filename='css/print.css') }}" rel="stylesheet" type="text/css" media="screen">
-<link href="{{ url_for('static', filename=title + '.css') }}" rel="stylesheet" type="text/css" media="screen">
+<link href="{{ url_for('static', filename='publications/' + title + '.css') }}" rel="stylesheet" type="text/css" media="screen">
 {% endblock %}
 
 {% block content %}

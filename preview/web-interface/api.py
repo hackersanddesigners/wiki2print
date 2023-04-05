@@ -119,7 +119,7 @@ def create_index(wiki, subject_ns):
 
 # Creates/updates a publication object
 
-def create_publication(wiki, subject_ns, styles_ns, pagename, full_update):
+def create_publication(wiki, subject_ns, styles_ns, pagename, full_update, parsoid):
 	"""
 		wiki = string
 		subject_ns = object
@@ -127,19 +127,20 @@ def create_publication(wiki, subject_ns, styles_ns, pagename, full_update):
 		pagename = string
 	"""
 	return {
-		'html': create_html(wiki, subject_ns, pagename, full_update),
+		'html': create_html(wiki, subject_ns, pagename, full_update, parsoid),
 		'css': create_css(wiki, styles_ns, pagename)
 	}
 
 
 # makes API call to create/update a publication's HTML
 
-def create_html(wiki, subject_ns, pagename, full_update):
+def create_html(wiki, subject_ns, pagename, full_update, parsoid):
 	"""
 		wiki = string
 		subject_ns = object
 		pagename = string
 		full_update = None or string. Full update when not None
+		parsoid = Use parsoid parser for html sections
 	"""
 	url = f'{ wiki }/api.php?action=parse&page={ subject_ns["name"] }:{ pagename }&pst=True&format=json&disableeditsection'
 	# or maybe https://wiki2print.hackersanddesigners.nl/wiki/mediawiki/rest.php/v1/page/Publishing:TheNewSocial/html?body=1
@@ -159,7 +160,6 @@ def create_html(wiki, subject_ns, pagename, full_update):
 
 	if 'parse' in data:
 		html = data['parse']['text']['*']
-		# pprint(html)
 		imgs = data['parse']['images']
 
 		html = remove_comments(html)
@@ -176,6 +176,41 @@ def create_html(wiki, subject_ns, pagename, full_update):
 		html = str(soup)
 		# html = inlineCiteRefs(html)
 		# html = add_author_names_toc(html)
+
+		if ( parsoid ):
+			print( 'DOING A PARSOID PARSE' )
+
+			# get TOC from previous parser soup output since Parsoid doesnt make one
+			toc = get_toc(soup)
+
+			# get html output of parsoid
+			html_url = f'{ wiki }/rest.php/v1/page/{ subject_ns["name"] }:{ pagename }/html'
+			html_data = do_API_request(html_url, subject_ns["name"]+":"+pagename, wiki)
+			html = html_data.decode('utf-8')
+
+			# make new soup
+			soup = BeautifulSoup(html)
+			soup = parsoid_output_cleanup(soup)
+			soup.insert(0, toc)
+
+			html = str(soup)
+
+			# repeat above steps
+
+			html = remove_comments(html)
+			html = download_media(html, imgs, wiki, full_update)
+			html = clean_up(html)
+			# html = add_item_inventory_links(html)
+
+			if fast == True:
+				html = fast_loader(html)
+
+			soup = BeautifulSoup(html, 'html.parser')
+			# soup = remove_edit(soup)
+			soup = inlineCiteRefs(soup)
+			html = str(soup)
+
+		# print(html)
 
 	else:
 		html = None
@@ -266,10 +301,12 @@ def do_API_request(url, filename="", wiki=""):
 	response = urllib.request.urlopen(url)
 	response_type = response.getheader('Content-Type')
 
-	if response.status == 200 and "json" in response_type:
+	if response.status == 200:
 		contents = response.read()
-		data = json.loads(contents)
-		return data
+		if "json" in response_type:
+			return json.loads(contents)
+		else:
+			return contents
 
 # api calls seem to be cached even when called with maxage
 # So call purge before doing the api call.
@@ -468,6 +505,19 @@ def inlineCiteRefs(soup):
 	for item in soup.find_all(class_="references"):
 		item.decompose()
 	return soup
+
+
+def get_toc(soup):
+	"""
+		get TOC from soup
+	"""
+	return soup.find( id="toc" )
+
+
+def parsoid_output_cleanup(soup):
+	body = soup.find('body')
+	body.name = 'div'
+	return body
 
 
 def fast_loader(html):
