@@ -552,12 +552,12 @@ def get_toc(soup):
 def parsoid_output_cleanup(soup):
 	body = soup.find('body')
 	body.name = 'div'
-	# sections = soup.find_all( 'section' )
-	# for section in sections:
-	# 	first_child = section.find([ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ], recursive=False )
-	# 	if first_child and first_child ['id']:
-	# 		section['id'] = first_child['id']
-	# 		first_child['id'] = first_child['id'] + '_header'
+	sections = soup.find_all( 'section' )
+	for section in sections:
+		first_child = section.find([ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ], recursive=False )
+		if first_child and first_child ['id']:
+			section['id'] = first_child['id']
+			first_child['id'] = first_child['id'] + '_header'
 	return body
 
 
