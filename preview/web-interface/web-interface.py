@@ -61,7 +61,7 @@ def inspect(pagename):
 		pagename,
 	)
 	return flask.render_template(
-		'inspect.html',
+		'html.html',
 		title = pagename,
 		html  = publication['html'],
 		css   = publication['css'],
@@ -82,7 +82,7 @@ def css(pagename):
 	# print(css)
 	return Response(
 		flask.render_template(
-			"dynamic_css.css",
+			"css.css",
 			css = css
 		),
 		mimetype='text/css'
@@ -121,7 +121,7 @@ def pagedjs(pagename):
 	)
 	if( publication_has_plugin( pagename ) ):
 		return flask.redirect(flask.url_for('plugins.'+pagename+'.pagedjs',pagename = pagename))
-	template = customTemplate(pagename) or 'pagedjs.html'
+	template = customTemplate(pagename) or 'pdf.html'
 	print( "using template: ", template)
 	return flask.render_template(
 		template,

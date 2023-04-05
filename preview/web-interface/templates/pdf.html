@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% block head %}
 <script src="{{ url_for('static', filename='js/paged.js')}}" type="text/javascript"></script>
@@ -8,6 +8,7 @@
 <link href="{{ url_for('static', filename='css/baseline.css')}}" rel="stylesheet" type="text/css" media="print">
 <!-- <link href="{{ url_for('static', filename=title + '.css') }}" rel="stylesheet" type="text/css" media="screen"> -->
 <link href="/css/{{ title }}.css" rel="stylesheet" type="text/css" media="screen">
+<script src="{{ url_for('static', filename='publications/' + title + '.js') }}" type="text/javascript" ></script>
 <script src="{{ url_for('static', filename='js/p5.js')}}"></script>
 <script src="{{ url_for('static', filename='js/variable-geometry-cover.js')}}"></script>
 
@@ -21,7 +22,7 @@
 <script>
 window.addEventListener('load', function () {
 
-        // Add the main.css again to insert the nav css 
+        // Add the main.css again to insert the nav css
         var cssLink = document.createElement('link');
         cssLink.rel = 'stylesheet';
         cssLink.href = '/static/css/main.css';
