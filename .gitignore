@@ -1,5 +1,6 @@
 wiki/mediawiki
 .DS_Store
+preview/web-interface/static/publications
 preview/web-interface/static/images
 __pycache__
 venv

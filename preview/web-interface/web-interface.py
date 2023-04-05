@@ -28,16 +28,16 @@ for plugin in manager.plugins:
 	manager.start(plugin)
 	print(plugin)
 
-# Get the index of publications 
+# Get the index of publications
 
 @APP.route('/', methods=['GET'])
 def index():
 	index = get_index(
-		WIKI, 
+		WIKI,
 		SUBJECT_NS
 	)
 	return flask.render_template(
-		'index.html', 
+		'index.html',
 		title      = PROJECT_NAME,
 		wiki       = WIKI,
 		subject_ns = SUBJECT_NS,
@@ -58,7 +58,7 @@ def inspect(pagename):
 		pagename,
 	)
 	return flask.render_template(
-		'inspect.html', 
+		'inspect.html',
 		title = pagename,
 		html  = publication['html'],
 		css   = publication['css']
@@ -68,19 +68,19 @@ def inspect(pagename):
 # Get a publication's CSS to inspect it closer
 
 @APP.route('/css/<string:pagename>.css', methods=['GET', 'POST'])
-def css(pagename):	
+def css(pagename):
 	css = create_css(
-		WIKI, 
-		STYLES_NS, 
+		WIKI,
+		STYLES_NS,
 		pagename
 	)
 	# print(pagename)
 	# print(css)
 	return Response(
 		flask.render_template(
-			"dynamic_css.css", 
+			"dynamic_css.css",
 			css = css
-		), 
+		),
 		mimetype='text/css'
 	)
 
@@ -88,7 +88,7 @@ def css(pagename):
 # Get a publication rendered as a PDF with PagedJS
 
 @APP.route('/pdf/<string:pagename>', methods=['GET', 'POST'])
-def pagedjs(pagename):	
+def pagedjs(pagename):
 	publication = get_publication(
 		WIKI,
 		SUBJECT_NS,
@@ -100,12 +100,12 @@ def pagedjs(pagename):
 	template = customTemplate(pagename) or 'pagedjs.html'
 	print( "using template: ", template)
 	return flask.render_template(
-		template, 
+		template,
 		title = pagename,
 		html  = publication['html'],
 	)
- 
- 
+
+
 # Recreate / update a publication's HTML and CSS files
 
 @APP.route('/update/<string:pagename>', methods=['GET', 'POST'])

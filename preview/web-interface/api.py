@@ -10,7 +10,18 @@ import datetime
 from bs4 import BeautifulSoup
 
 STATIC_FOLDER_PATH = './static'        # without trailing slash
-PUBLIC_STATIC_FOLDER_PATH = '/static'  # without trailing slash
+STATIC_IMAGE_FOLDER_PATH = os.path.join( STATIC_FOLDER_PATH, 'images' ) # where to save images
+PUBLIC_IMAGE_FOLDER_PATH = os.path.join( '/static', 'images' ) # what to change <img /> src attribute to
+STATIC_PUBLICATION_FOLDER_PATH = os.path.join( STATIC_FOLDER_PATH, 'publications' )
+
+# check if 'images/' already exists
+if not os.path.exists( STATIC_IMAGE_FOLDER_PATH ):
+	os.makedirs( STATIC_IMAGE_FOLDER_PATH )
+
+# make publications folder
+if not os.path.exists( STATIC_PUBLICATION_FOLDER_PATH ):
+	os.makedirs( STATIC_PUBLICATION_FOLDER_PATH )
+
 TEMPLATES_DIR = None
 
 # This uses a low quality copy of all the images
@@ -197,7 +208,7 @@ def load_file(pagename, ext):
 		pagename = string
 		ext = string
 	"""
-	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
+	path = os.path.join( STATIC_PUBLICATION_FOLDER_PATH, f'{ pagename }.{ ext }' )
 	if os.path.exists(path):
 		print(f'Loading { ext }:', path)
 		with open(path, 'r') as out:
@@ -217,7 +228,7 @@ def save_file(pagename, ext, data):
 		ext = string
 		data = object
 	"""
-	path = f'{ STATIC_FOLDER_PATH }/{ pagename }.{ ext }'
+	path = os.path.join( STATIC_PUBLICATION_FOLDER_PATH,  f'{ pagename }.{ ext }' )
 	print(f'Saving { ext }:', path)
 	try:
 		out = open(path, 'w')
@@ -323,16 +334,13 @@ def download_media(html, images, wiki, full_update):
 		html = string (HTML)
 		images = list of filenames (str)
 	"""
-	# check if 'images/' already exists
-	if not os.path.exists(f'{ STATIC_FOLDER_PATH }/images'):
-		os.makedirs(f'{ STATIC_FOLDER_PATH }/images')
 
 	# download media files
 	for filename in images:
 		filename = filename.replace(' ', '_') # safe filenames
 		# check if the image is already downloaded
 		# if not, then download the file
-		if (not os.path.isfile(f'{ STATIC_FOLDER_PATH }/images/{ filename }')) or full_update:
+		if (not os.path.isfile( os.path.join( STATIC_IMAGE_FOLDER_PATH, filename ) ) ) or full_update:
 			# first we search for the full filename of the image
 			url = f'{ wiki }/api.php?action=query&list=allimages&aifrom={ filename }&format=json'
 			# url = f'{ wiki }/api.php?action=query&titles=File:{ filename }&format=json'
@@ -355,7 +363,7 @@ def download_media(html, images, wiki, full_update):
 					image_response = urllib.request.urlopen(image_url).read()
 
 					# and we save it as a file
-					image_path = f'{ STATIC_FOLDER_PATH }/images/{ image_filename }'
+					image_path = os.path.join( STATIC_IMAGE_FOLDER_PATH, image_filename )
 					out = open(image_path, 'wb')
 					out.write(image_response)
 					out.close()
@@ -366,7 +374,7 @@ def download_media(html, images, wiki, full_update):
 
 		# replace src links
 		e_filename = re.escape( filename )  # needed for filename with certain characters
-		image_path = f'{ PUBLIC_STATIC_FOLDER_PATH }/images/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
+		image_path = f'{ PUBLIC_IMAGE_FOLDER_PATH }/{ filename }' # here the images need to link to the / of the domain, for flask :/// confusing! this breaks the whole idea to still be able to make a local copy of the file
 		matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?px-{ e_filename }\"', html) # for debugging
 		# pprint(matches)
 		if matches:
