@@ -226,7 +226,7 @@ def create_html(wiki, subject_ns, pagename, full_update, parsoid):
 
 			soup = BeautifulSoup(html, 'html.parser')
 			# soup = remove_edit(soup)
-			soup = inlineCiteRefs(soup)
+			# soup = inlineCiteRefs(soup)
 			html = str(soup)
 
 		# print(html)
