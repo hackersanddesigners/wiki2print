@@ -73,6 +73,8 @@ def get_html(wiki, subject_ns, pagename):
 		wiki,
 		subject_ns,
 		pagename,
+		False,
+		False
 	)
 
 
