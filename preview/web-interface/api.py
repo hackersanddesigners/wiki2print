@@ -1,12 +1,13 @@
-from pprint import pprint
-import sys
-import urllib.request
-import urllib.error
+import datetime
+import json
 import os
 import re
-import json
+import sys
+import urllib.error
+import urllib.request
+from pprint import pprint
+
 import jinja2
-import datetime
 from bs4 import BeautifulSoup
 
 STATIC_FOLDER_PATH = './static'        # without trailing slash
@@ -433,18 +434,24 @@ def download_media(html, images, wiki, full_update):
 					# then we download the image
 					image_url = image['url']
 					image_filename = image['name']
-					print('Downloading:', image_filename)
-					image_response = urllib.request.urlopen(image_url).read()
 
-					# and we save it as a file
-					image_path = os.path.join( STATIC_IMAGE_FOLDER_PATH, image_filename )
-					out = open(image_path, 'wb')
-					out.write(image_response)
-					out.close()
-					print(image_path)
+					if image_filename == filename:
+						print('Downloading:', image_filename)
+						image_response = urllib.request.urlopen(image_url).read()
 
-					import time
-					time.sleep(3) # do not overload the server
+						# and we save it as a file
+						image_path = os.path.join( STATIC_IMAGE_FOLDER_PATH, image_filename )
+						out = open(image_path, 'wb')
+						out.write(image_response)
+						out.close()
+						print(image_path)
+
+						import time
+						time.sleep(3) # do not overload the server
+
+					else:
+						print('Not Downloading:', image_filename)
+
 
 		# replace src links
 		e_filename = re.escape( filename )  # needed for filename with certain characters
@@ -457,7 +464,7 @@ def download_media(html, images, wiki, full_update):
 			matches = re.findall(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', html) # for debugging
 			# print(matches, e_filename, html)
 			html = re.sub(rf'src=\"/wiki/mediawiki/images/.*?{ e_filename }\"', f'src=\"{ image_path }\"', html)
-		print(f'{filename}: {matches}\n------') # for debugging: each image should have the correct match!
+		print(f'Debug: {filename}: {matches}\n------') # for debugging: each image should have the correct match!
 
 	return html
 
