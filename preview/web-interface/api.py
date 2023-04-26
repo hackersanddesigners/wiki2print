@@ -509,6 +509,7 @@ def clean_up(html):
 	html = re.sub(r'href="/index.php\?title=', 'href="#', html) # remove the internal wiki links
 	html = re.sub(r'&#91;(?=\d)', '', html) # remove left footnote bracket [
 	html = re.sub(r'(?<=\d)&#93;', '', html) # remove right footnote bracket ]
+	html = re.sub(r"srcset=", "loading=\"lazy\" xsrcset=", html) # lazy loading
 	return html
 
 def remove_edit(soup):
