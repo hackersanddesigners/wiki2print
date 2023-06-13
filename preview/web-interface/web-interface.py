@@ -78,15 +78,28 @@ def css(pagename):
 		STYLES_NS,
 		pagename
 	)
-	# print(pagename)
-	# print(css)
-	return Response(
-		flask.render_template(
-			"css.css",
-			css = css
-		),
-		mimetype='text/css'
-	)
+
+	args = request.args
+	direct = args.get('nocache')
+	if( direct is not None):
+		# return the CSS directly from the wiki
+		css = get_css(
+			WIKI,	
+			STYLES_NS,
+			pagename
+		)
+		return Response(	
+			css,
+			mimetype='text/css'
+		)
+	else:	
+		return Response(
+			flask.render_template(
+				"css.css",
+				css = css
+			),
+			mimetype='text/css'
+		)
 
 # Get a publication's CSS to inspect it closer
 
